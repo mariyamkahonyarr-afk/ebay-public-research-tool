@@ -1,4 +1,3 @@
-```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,46 +6,65 @@
 <title>eBay Product Research Tool</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#eef1f6;color:#111827}
-header{background:linear-gradient(180deg,#0b0f1e,#141a2e);color:#fff;padding:22px 20px 18px}
-.hwrap{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-header h1{margin:0;font-size:30px;letter-spacing:.5px}
-header p{margin:4px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1px}
-.marketpill{background:#0f172a;border:1px solid #475569;color:#fff;padding:10px 16px;border-radius:999px;font-weight:700}
-.tabs{max-width:1240px;margin:-6px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
-.tab{padding:12px 26px;border-radius:999px;border:none;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.5)}
-.tab.active{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff}
-.tab:not(.active){background:linear-gradient(180deg,#9ca3af,#6b7280);color:#fff}
-.layout{max-width:1240px;margin:18px auto;padding:0 20px 40px;display:flex;gap:18px;align-items:flex-start}
-aside{width:200px;flex-shrink:0;background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.12)}
-aside a{display:block;padding:10px 12px;border-radius:10px;color:#334155;text-decoration:none;font-weight:700;font-size:14px}
-aside a.active{background:#dbeafe;color:#1d4ed8}
+:root{--bg1:#050816;--bg2:#0b1230;--glass:rgba(255,255,255,.08);--line:rgba(255,255,255,.14);--text:#eef2ff;--muted:#9aa7d6;--blue:#60a5fa;--green:#4ade80}
+@keyframes aurora{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes floatIn{from{opacity:0;transform:translateY(24px) rotateX(8deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
+@keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shine{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(240%) skewX(-18deg)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.35)}50%{box-shadow:0 0 24px 6px rgba(96,165,250,.25)}}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(900px 500px at 15% -10%,#1e3a8a66,transparent 60%),radial-gradient(800px 500px at 90% 0%,#7c3aed44,transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.03) 50%,transparent 60%);z-index:0}
+header{position:relative;z-index:2;padding:30px 20px 22px;background:linear-gradient(120deg,#0b2a6b,#1e1b4b,#0f766e);background-size:200% 200%;animation:aurora 12s ease infinite;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.3)}
+.hwrap{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+header h1{margin:0;font-size:34px;letter-spacing:1px;text-shadow:0 4px 0 rgba(0,0,0,.4),0 14px 30px rgba(0,0,0,.5);animation:floatIn .7s ease both}
+header p{margin:6px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1.5px}
+.marketpill{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.3);color:#fff;padding:11px 18px;border-radius:999px;font-weight:800;box-shadow:0 8px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);transform:translateZ(20px)}
+.tabs{max-width:1280px;margin:-10px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:3}
+.tab{padding:13px 28px;border-radius:999px;border:none;font-weight:900;font-size:15px;cursor:pointer;transition:transform .18s,box-shadow .18s,filter .18s;box-shadow:0 7px 0 rgba(0,0,0,.3),0 16px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.5)}
+.tab:hover{transform:translateY(-3px) scale(1.03)}
+.tab:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.3)}
+.tab.active{background:linear-gradient(180deg,#7dd3fc,#2563eb);color:#fff;animation:pulseGlow 2.4s ease infinite}
+.tab:not(.active){background:linear-gradient(180deg,#cbd5e1,#64748b);color:#0f172a}
+.layout{max-width:1280px;margin:20px auto;padding:0 20px 50px;display:flex;gap:20px;align-items:flex-start;position:relative;z-index:1;perspective:1200px}
+aside{width:210px;flex-shrink:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);transform:rotateY(-4deg);transform-origin:left center;transition:transform .3s}
+aside:hover{transform:rotateY(0deg)}
+aside a{display:block;padding:11px 12px;border-radius:12px;color:#e2e8f0;text-decoration:none;font-weight:700;font-size:14px;transition:transform .15s,background .15s}
+aside a:hover{transform:translateX(4px);background:rgba(255,255,255,.1)}
+aside a.active{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.5)}
 main{flex:1;min-width:0}
-.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 12px 28px rgba(0,0,0,.12);margin-bottom:18px}
-.card h2{margin:0 0 6px}
-.muted{color:#64748b;font-size:13px}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-input,select{padding:12px 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:14px}
+.card{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 0 rgba(0,0,0,.28),0 30px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22);margin-bottom:20px;animation:floatIn .6s ease both;transform-style:preserve-3d;transition:transform .25s}
+.card::before{content:"";position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-120%) skewX(-18deg);animation:shine 5s ease infinite;pointer-events:none}
+.card:hover{transform:translateY(-3px)}
+.card h2{margin:0 0 6px;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:1}
+input,select{padding:13px 15px;border-radius:13px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.35);color:#fff;font-size:14px;box-shadow:inset 0 3px 10px rgba(0,0,0,.5)}
 input{flex:1;min-width:200px}
-button{padding:12px 20px;border-radius:12px;border:none;background:linear-gradient(180deg,#4ade80,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #15803d}
+input::placeholder{color:#94a3b8}
+button{padding:13px 22px;border-radius:13px;border:none;background:linear-gradient(180deg,#86efac,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #15803d,0 14px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .12s,box-shadow .12s,filter .12s}
+button:hover{filter:brightness(1.08);transform:translateY(-2px)}
 button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
-.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center}
-.stat b{font-size:20px;display:block}
-.stat span{color:#64748b;font-size:12px}
-.tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:820px}
-th{text-align:left;padding:12px;border-bottom:2px solid #e2e8f0;font-size:12px;color:#475569;white-space:nowrap}
-td{padding:12px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:14px}
-td img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:16px;position:relative;z-index:1}
+.stat{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;box-shadow:0 10px 0 rgba(0,0,0,.3),0 18px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .2s}
+.stat:hover{transform:translateY(-5px) rotateX(4deg)}
+.stat b{font-size:22px;display:block}
+.stat span{color:var(--muted);font-size:12px}
+.tablewrap{overflow-x:auto;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:1100px;background:linear-gradient(180deg,rgba(30,41,90,.9),rgba(10,16,40,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden}
+th{position:sticky;top:0;background:linear-gradient(180deg,#24346e,#16224e);padding:13px 12px;text-align:left;font-size:12px;color:#e2e8f0;white-space:nowrap;border-bottom:2px solid rgba(255,255,255,.2)}
+td{padding:13px 12px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle;font-size:14px;animation:rowIn .4s ease both}
+tbody tr{transition:background .15s,transform .15s}
+tbody tr:hover td{background:rgba(255,255,255,.06)}
+td img{width:64px;height:64px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 6px 14px rgba(0,0,0,.5)}
 .title{font-weight:700;line-height:1.35;max-width:320px}
-.price{font-weight:900;color:#15803d;white-space:nowrap}
-a{color:#2563eb;text-decoration:none;font-weight:700}
-.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;font-size:12px;white-space:nowrap}
-.warn{background:#fffbeb;border:1px solid #f59e0b;color:#92400e;padding:14px;border-radius:14px;margin-top:14px}
-.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.price{font-weight:900;color:#4ade80;white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+a{color:#7dd3fc;text-decoration:none;font-weight:700}
+.pill{display:inline-block;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:12px;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.warn{background:linear-gradient(180deg,rgba(245,158,11,.2),rgba(245,158,11,.08));border:1px solid #f59e0b;color:#fde68a;padding:14px;border-radius:14px;margin-top:14px}
+.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px;position:relative;z-index:1}
 .profit input{width:100%}
-@media(max-width:800px){aside{display:none}.layout{flex-direction:column}}
+@media(max-width:800px){aside{display:none}.layout{flex-direction:column}header h1{font-size:26px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -66,7 +84,7 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div id="tab-research">
 <div class="card">
 <h2>Product Research — Live Listings</h2>
-<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate.</p>
+<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate. Chances of Success and Winning / Losing are a transparent tool score, not eBay data — see Notes.</p>
 <div class="row">
 <input id="q" placeholder="Search a product, e.g. wireless earbuds">
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
@@ -88,16 +106,27 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div class="stat"><b id="statSellers">—</b><span>Sellers (rows shown)</span></div>
 </div>
 </div>
-<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SALES (EST.)</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns are only the fields the live search returns for that row, plus sales (est.) from the eBay item-detail call for a single-market search: title (click it — it is also the eBay link), price, sales (est.), seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified.</p></div>
+<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRODUCT TITLE</th><th>PRICE</th><th>SELLER</th><th>TOTAL SALES BY SELLER (EST., IN THIS SEARCH)</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>CHANCES OF SUCCESS (TOOL SCORE)</th><th>WINNING / LOSING</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
+<p class="muted">Columns in order: Product picture, Product Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity for that seller's rows), Feedback Score, Location, Condition, Chances of Success (tool score, see Notes), Winning / Losing (tool rating from that score, not an eBay guarantee), Market, eBay Link.</p></div>
 </div>
 <div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
+<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. Total Sales by Seller is the sum of those estimates for one seller in this search only. Chances of Success is a transparent tool score out of 100, NOT eBay data: Sales (est.) &gt; 0 = 40 points, Feedback &gt;=1000 = 25 / &gt;=100 = 15 / &gt;=10 = 5, Price &lt;= search average = 20 / &lt;= average x 1.2 = 10, Condition New/Ungraded/Factory Sealed = 15. Winning = 70% or more, Watch = 40-69%, Losing = under 40%. Without sales data a row cannot reach Winning, because sales are 40 of the 100 points. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
 <div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
 </main>
 </div>
 <script>
 function showTab(id,btn){var tabs=['research','profit','notes'];tabs.forEach(function(t){document.getElementById('tab-'+t).style.display=(t===id?'block':'none');});document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});if(btn){btn.classList.add('active');}}
+document.addEventListener('mousemove',function(e){
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}
+var cards=document.querySelectorAll('.card');
+cards.forEach(function(card){
+var r=card.getBoundingClientRect();
+if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;
+card.style.transform='translateY(-3px) rotateY('+(x*4)+'deg) rotateX('+(-y*4)+'deg)';
+} else {card.style.transform='';}
+});
+});
 function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
 var marketNames={EBAY_US:'US',EBAY_GB:'UK',EBAY_DE:'Germany',EBAY_AU:'Australia',EBAY_CA:'Canada',EBAY_FR:'France',EBAY_IT:'Italy',EBAY_ES:'Spain'};
@@ -129,18 +158,32 @@ filterNoteEl.textContent='Note: your filters removed every row, so all '+allItem
 filterNoteEl.textContent='Filters applied: '+(pMin!==null?('min $'+pMin+' '):'')+(pMax!==null?('max $'+pMax+' '):'')+(condText?('condition contains "'+condText+'"'):'');
 }
 var prices=[];var sellers={};var html='';
+filtered.forEach(function(row){if(row.item.priceValue!=null){prices.push(row.item.priceValue);} if(row.item.seller){sellers[row.item.seller]=true;}});
+var avgPrice=prices.length?(prices.reduce(function(a,b){return a+b;},0)/prices.length):null;
+var sellerSales={};var sellerHasSales={};
+filtered.forEach(function(row){var it=row.item;if(it.seller&&it.soldQuantity!=null){sellerSales[it.seller]=(sellerSales[it.seller]||0)+Number(it.soldQuantity);sellerHasSales[it.seller]=true;}});
+function chanceScore(it){
+var s=0;
+if(it.soldQuantity!=null&&Number(it.soldQuantity)>0){s+=40;}
+var fb=it.feedbackScore!=null?Number(it.feedbackScore):0;
+if(fb>=1000){s+=25;} else if(fb>=100){s+=15;} else if(fb>=10){s+=5;}
+if(avgPrice!=null&&it.priceValue!=null){if(it.priceValue<=avgPrice){s+=20;} else if(it.priceValue<=avgPrice*1.2){s+=10;}}
+var c=String(it.conditionDescription||it.condition||'').toUpperCase();
+if(c.indexOf('NEW')!==-1||c.indexOf('UNGRADED')!==-1||c.indexOf('FACTORY')!==-1){s+=15;}
+return Math.min(100,s);
+}
 filtered.forEach(function(row){
 var it=row.item;
-if(it.priceValue!=null){prices.push(it.priceValue);}
-if(it.seller){sellers[it.seller]=true;}
 var img=it.image?'<div style="width:64px;height:64px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
 var titleText=esc(it.title);
 var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
 var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
 var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified';
-var sales=it.soldQuantity!=null?Number(it.soldQuantity).toLocaleString()+' (est.)':'Not specified';
+var sellerSalesText=(it.seller&&sellerHasSales[it.seller])?Number(sellerSales[it.seller]).toLocaleString()+' (est.)':'Not specified';
 var cond=it.conditionDescription||it.condition||'Not specified';
-html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+sales+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
+var score=chanceScore(it);
+var verdict=score>=70?'🟢 Winning':(score>=40?'🟡 Watch':'🔴 Losing');
+html+='<tr><td>'+img+'</td><td>'+title+'</td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+sellerSalesText+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td>'+score+'% (tool score)</td><td>'+verdict+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
 });
 document.getElementById('statListings').textContent=total.toLocaleString();
 document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
@@ -148,168 +191,10 @@ document.getElementById('statShown').textContent=filtered.length;
 document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2)):'Not specified';
 document.getElementById('statSellers').textContent=Object.keys(sellers).length;
 document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
-document.getElementById('results').innerHTML=html||'<tr><td colspan="9">No listings returned for this search.</td></tr>';
+document.getElementById('results').innerHTML=html||'<tr><td colspan="12">No listings returned for this search.</td></tr>';
 }catch(e){document.getElementById('status').textContent='Error: '+e.message;}
 }
-function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship)?profit/(cost+ship)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
+function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
 </script>
 </body>
 </html>
-``````
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eBay Product Research Tool</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#eef1f6;color:#111827}
-header{background:linear-gradient(180deg,#0b0f1e,#141a2e);color:#fff;padding:22px 20px 18px}
-.hwrap{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-header h1{margin:0;font-size:30px;letter-spacing:.5px}
-header p{margin:4px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1px}
-.marketpill{background:#0f172a;border:1px solid #475569;color:#fff;padding:10px 16px;border-radius:999px;font-weight:700}
-.tabs{max-width:1240px;margin:-6px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
-.tab{padding:12px 26px;border-radius:999px;border:none;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.5)}
-.tab.active{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff}
-.tab:not(.active){background:linear-gradient(180deg,#9ca3af,#6b7280);color:#fff}
-.layout{max-width:1240px;margin:18px auto;padding:0 20px 40px;display:flex;gap:18px;align-items:flex-start}
-aside{width:200px;flex-shrink:0;background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.12)}
-aside a{display:block;padding:10px 12px;border-radius:10px;color:#334155;text-decoration:none;font-weight:700;font-size:14px}
-aside a.active{background:#dbeafe;color:#1d4ed8}
-main{flex:1;min-width:0}
-.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 12px 28px rgba(0,0,0,.12);margin-bottom:18px}
-.card h2{margin:0 0 6px}
-.muted{color:#64748b;font-size:13px}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-input,select{padding:12px 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:14px}
-input{flex:1;min-width:200px}
-button{padding:12px 20px;border-radius:12px;border:none;background:linear-gradient(180deg,#4ade80,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #15803d}
-button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
-.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center}
-.stat b{font-size:20px;display:block}
-.stat span{color:#64748b;font-size:12px}
-.tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:820px}
-th{text-align:left;padding:12px;border-bottom:2px solid #e2e8f0;font-size:12px;color:#475569;white-space:nowrap}
-td{padding:12px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:14px}
-td img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block}
-.title{font-weight:700;line-height:1.35;max-width:320px}
-.price{font-weight:900;color:#15803d;white-space:nowrap}
-a{color:#2563eb;text-decoration:none;font-weight:700}
-.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;font-size:12px;white-space:nowrap}
-.warn{background:#fffbeb;border:1px solid #f59e0b;color:#92400e;padding:14px;border-radius:14px;margin-top:14px}
-.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
-.profit input{width:100%}
-@media(max-width:800px){aside{display:none}.layout{flex-direction:column}}
-</style>
-</head>
-<body>
-<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div></div></header>
-<div class="tabs">
-<button class="tab active" onclick="showTab('research',this)">Research</button>
-<button class="tab" onclick="showTab('profit',this)">Profit</button>
-<button class="tab" onclick="showTab('notes',this)">Notes</button>
-</div>
-<div class="layout">
-<aside>
-<a href="#" class="active" onclick="showTab('research',document.querySelectorAll('.tab')[0]);return false">Product Research</a>
-<a href="#" onclick="showTab('profit',document.querySelectorAll('.tab')[1]);return false">Profit Calculator</a>
-<a href="#" onclick="showTab('notes',document.querySelectorAll('.tab')[2]);return false">What this tool shows</a>
-</aside>
-<main>
-<div id="tab-research">
-<div class="card">
-<h2>Product Research — Live Listings</h2>
-<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate.</p>
-<div class="row">
-<input id="q" placeholder="Search a product, e.g. wireless earbuds">
-<select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
-<select id="limit"><option value="20">20 listings per market</option><option value="10">10 listings per market</option><option value="25">25 listings per market</option><option value="50">50 listings per market</option></select>
-<button onclick="doSearch()">Search</button>
-</div>
-<div class="row">
-<input id="priceMin" type="number" placeholder="Min price (optional)">
-<input id="priceMax" type="number" placeholder="Max price (optional)">
-<input id="conditionText" placeholder="Condition text filter (optional, e.g. New — leave blank for all)">
-<button onclick="clearFilters()">Clear filters</button>
-</div>
-<div id="status" class="muted" style="margin-top:10px"></div>
-<div id="filterNote" class="muted" style="margin-top:6px"></div><div id="salesNote" class="muted" style="margin-top:6px"></div>
-<div class="stats">
-<div class="stat"><b id="statListings">—</b><span id="statListingsLabel">Listings (total)</span></div>
-<div class="stat"><b id="statShown">—</b><span>Rows shown</span></div>
-<div class="stat"><b id="statAvg">—</b><span>Average Price (rows shown)</span></div>
-<div class="stat"><b id="statSellers">—</b><span>Sellers (rows shown)</span></div>
-</div>
-</div>
-<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SALES (EST.)</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns are only the fields the live search returns for that row, plus sales (est.) from the eBay item-detail call for a single-market search: title (click it — it is also the eBay link), price, sales (est.), seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified.</p></div>
-</div>
-<div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
-<div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
-</main>
-</div>
-<script>
-function showTab(id,btn){var tabs=['research','profit','notes'];tabs.forEach(function(t){document.getElementById('tab-'+t).style.display=(t===id?'block':'none');});document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});if(btn){btn.classList.add('active');}}
-function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
-var marketNames={EBAY_US:'US',EBAY_GB:'UK',EBAY_DE:'Germany',EBAY_AU:'Australia',EBAY_CA:'Canada',EBAY_FR:'France',EBAY_IT:'Italy',EBAY_ES:'Spain'};
-async function doSearch(){
-var q=document.getElementById('q').value.trim();var market=document.getElementById('market').value;var limit=document.getElementById('limit').value;
-if(!q){document.getElementById('status').textContent='Please type a product name first.';return;}
-document.getElementById('status').textContent='Searching live eBay…';document.getElementById('results').innerHTML='';document.getElementById('filterNote').textContent='';
-try{
-var r=await fetch('/api/search?q='+encodeURIComponent(q)+'&market='+market+'&limit='+limit);var d=await r.json();
-if(!d.ok){document.getElementById('status').textContent='Error: '+d.error;return;}
-var total=0;var allItems=[];
-d.results.forEach(function(m){total+=m.total;(m.items||[]).forEach(function(it){allItems.push({item:it,market:m.market});});});
-var pMinRaw=document.getElementById('priceMin').value;var pMaxRaw=document.getElementById('priceMax').value;
-var pMin=pMinRaw==='' ? null : parseFloat(pMinRaw);var pMax=pMaxRaw==='' ? null : parseFloat(pMaxRaw);
-if(pMin!==null&&pMax!==null&&pMin>pMax){var tmp=pMin;pMin=pMax;pMax=tmp;}
-var condText=document.getElementById('conditionText').value.trim().toLowerCase();
-var filtered=allItems.filter(function(row){
-var it=row.item;
-if(pMin!==null&&it.priceValue!=null&&it.priceValue<pMin){return false;}
-if(pMax!==null&&it.priceValue!=null&&it.priceValue>pMax){return false;}
-if(condText){var c=String(it.condition||'').toLowerCase();if(c.indexOf(condText)===-1){return false;}}
-return true;
-});
-var filterNoteEl=document.getElementById('filterNote');
-if(filtered.length===0&&allItems.length>0){
-filtered=allItems;
-filterNoteEl.textContent='Note: your filters removed every row, so all '+allItems.length+' rows are shown instead. Clear the price or condition filter to search normally.';
-} else if(condText||pMin!==null||pMax!==null){
-filterNoteEl.textContent='Filters applied: '+(pMin!==null?('min $'+pMin+' '):'')+(pMax!==null?('max $'+pMax+' '):'')+(condText?('condition contains "'+condText+'"'):'');
-}
-var prices=[];var sellers={};var html='';
-filtered.forEach(function(row){
-var it=row.item;
-if(it.priceValue!=null){prices.push(it.priceValue);}
-if(it.seller){sellers[it.seller]=true;}
-var img=it.image?'<div style="width:64px;height:64px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
-var titleText=esc(it.title);
-var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
-var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
-var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified';
-var sales=it.soldQuantity!=null?Number(it.soldQuantity).toLocaleString()+' (est.)':'Not specified';
-var cond=it.conditionDescription||it.condition||'Not specified';
-html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+sales+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
-});
-document.getElementById('statListings').textContent=total.toLocaleString();
-document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
-document.getElementById('statShown').textContent=filtered.length;
-document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2)):'Not specified';
-document.getElementById('statSellers').textContent=Object.keys(sellers).length;
-document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
-document.getElementById('results').innerHTML=html||'<tr><td colspan="9">No listings returned for this search.</td></tr>';
-}catch(e){document.getElementById('status').textContent='Error: '+e.message;}
-}
-function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship)?profit/(cost+ship)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
-</script>
-</body>
-</html>
-```
