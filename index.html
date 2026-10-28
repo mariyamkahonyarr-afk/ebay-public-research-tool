@@ -35,7 +35,7 @@ button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
 .stat b{font-size:20px;display:block}
 .stat span{color:#64748b;font-size:12px}
 .tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:900px}
+table{width:100%;border-collapse:collapse;min-width:820px}
 th{text-align:left;padding:12px;border-bottom:2px solid #e2e8f0;font-size:12px;color:#475569;white-space:nowrap}
 td{padding:12px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:14px}
 td img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block}
@@ -66,7 +66,7 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div id="tab-research">
 <div class="card">
 <h2>Product Research — Live Listings</h2>
-<p class="muted">This tool shows live eBay listings only. It does not show sold history, sell-through, or successful-listing rates, because the live listings API does not return those figures for a search.</p>
+<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate.</p>
 <div class="row">
 <input id="q" placeholder="Search a product, e.g. wireless earbuds">
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
@@ -80,7 +80,7 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <button onclick="clearFilters()">Clear filters</button>
 </div>
 <div id="status" class="muted" style="margin-top:10px"></div>
-<div id="filterNote" class="muted" style="margin-top:6px"></div>
+<div id="filterNote" class="muted" style="margin-top:6px"></div><div id="salesNote" class="muted" style="margin-top:6px"></div>
 <div class="stats">
 <div class="stat"><b id="statListings">—</b><span id="statListingsLabel">Listings (total)</span></div>
 <div class="stat"><b id="statShown">—</b><span>Rows shown</span></div>
@@ -88,11 +88,11 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div class="stat"><b id="statSellers">—</b><span>Sellers (rows shown)</span></div>
 </div>
 </div>
-<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns are only the fields the live search returns for that row: title, price, seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified. No sold, sell-through, or total-sales column is shown, because no sold source returns those values for this search.</p></div>
+<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SALES (EST.)</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
+<p class="muted">Columns are only the fields the live search returns for that row, plus sales (est.) from the eBay item-detail call for a single-market search: title (click it — it is also the eBay link), price, sales (est.), seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified.</p></div>
 </div>
 <div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sold history is not shown: the sold endpoint failed on the live site, and a failed sold call is never replaced with an invented number or a search total. Two honest options for sold data are: (1) collect live data daily and build sold history over time, or (2) keep running as live listings only.</p></div></div>
+<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
 <div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
 </main>
 </div>
@@ -133,19 +133,22 @@ filtered.forEach(function(row){
 var it=row.item;
 if(it.priceValue!=null){prices.push(it.priceValue);}
 if(it.seller){sellers[it.seller]=true;}
-var img=it.image?'<img src="'+esc(it.image)+'" alt="">':'Not specified';
-var title='<div class="title">'+esc(it.title)+'</div>';
+var img=it.image?'<div style="width:64px;height:64px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
+var titleText=esc(it.title);
+var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
 var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
 var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified';
-html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(it.condition||'Not specified')+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
+var sales=it.soldQuantity!=null?Number(it.soldQuantity).toLocaleString()+' (est.)':'Not specified';
+var cond=it.conditionDescription||it.condition||'Not specified';
+html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+sales+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
 });
 document.getElementById('statListings').textContent=total.toLocaleString();
 document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
 document.getElementById('statShown').textContent=filtered.length;
 document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2)):'Not specified';
 document.getElementById('statSellers').textContent=Object.keys(sellers).length;
-document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';
-document.getElementById('results').innerHTML=html||'<tr><td colspan="8">No listings returned for this search.</td></tr>';
+document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
+document.getElementById('results').innerHTML=html||'<tr><td colspan="9">No listings returned for this search.</td></tr>';
 }catch(e){document.getElementById('status').textContent='Error: '+e.message;}
 }
 function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship)?profit/(cost+ship)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
@@ -189,7 +192,7 @@ button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
 .stat b{font-size:20px;display:block}
 .stat span{color:#64748b;font-size:12px}
 .tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:900px}
+table{width:100%;border-collapse:collapse;min-width:820px}
 th{text-align:left;padding:12px;border-bottom:2px solid #e2e8f0;font-size:12px;color:#475569;white-space:nowrap}
 td{padding:12px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:14px}
 td img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block}
@@ -220,7 +223,7 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div id="tab-research">
 <div class="card">
 <h2>Product Research — Live Listings</h2>
-<p class="muted">This tool shows live eBay listings only. It does not show sold history, sell-through, or successful-listing rates, because the live listings API does not return those figures for a search.</p>
+<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate.</p>
 <div class="row">
 <input id="q" placeholder="Search a product, e.g. wireless earbuds">
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
@@ -234,7 +237,7 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <button onclick="clearFilters()">Clear filters</button>
 </div>
 <div id="status" class="muted" style="margin-top:10px"></div>
-<div id="filterNote" class="muted" style="margin-top:6px"></div>
+<div id="filterNote" class="muted" style="margin-top:6px"></div><div id="salesNote" class="muted" style="margin-top:6px"></div>
 <div class="stats">
 <div class="stat"><b id="statListings">—</b><span id="statListingsLabel">Listings (total)</span></div>
 <div class="stat"><b id="statShown">—</b><span>Rows shown</span></div>
@@ -242,11 +245,11 @@ a{color:#2563eb;text-decoration:none;font-weight:700}
 <div class="stat"><b id="statSellers">—</b><span>Sellers (rows shown)</span></div>
 </div>
 </div>
-<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns are only the fields the live search returns for that row: title, price, seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified. No sold, sell-through, or total-sales column is shown, because no sold source returns those values for this search.</p></div>
+<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SALES (EST.)</th><th>SELLER</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
+<p class="muted">Columns are only the fields the live search returns for that row, plus sales (est.) from the eBay item-detail call for a single-market search: title (click it — it is also the eBay link), price, sales (est.), seller, feedback score, location, condition, market, and the eBay link. A missing field is shown as Not specified.</p></div>
 </div>
 <div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sold history is not shown: the sold endpoint failed on the live site, and a failed sold call is never replaced with an invented number or a search total. Two honest options for sold data are: (1) collect live data daily and build sold history over time, or (2) keep running as live listings only.</p></div></div>
+<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
 <div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
 </main>
 </div>
@@ -287,22 +290,26 @@ filtered.forEach(function(row){
 var it=row.item;
 if(it.priceValue!=null){prices.push(it.priceValue);}
 if(it.seller){sellers[it.seller]=true;}
-var img=it.image?'<img src="'+esc(it.image)+'" alt="">':'Not specified';
-var title='<div class="title">'+esc(it.title)+'</div>';
+var img=it.image?'<div style="width:64px;height:64px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
+var titleText=esc(it.title);
+var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
 var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
 var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified';
-html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(it.condition||'Not specified')+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
+var sales=it.soldQuantity!=null?Number(it.soldQuantity).toLocaleString()+' (est.)':'Not specified';
+var cond=it.conditionDescription||it.condition||'Not specified';
+html+='<tr><td><div style="display:flex;gap:10px;align-items:center">'+img+title+'</div></td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+sales+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
 });
 document.getElementById('statListings').textContent=total.toLocaleString();
 document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
 document.getElementById('statShown').textContent=filtered.length;
 document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2)):'Not specified';
 document.getElementById('statSellers').textContent=Object.keys(sellers).length;
-document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';
-document.getElementById('results').innerHTML=html||'<tr><td colspan="8">No listings returned for this search.</td></tr>';
+document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
+document.getElementById('results').innerHTML=html||'<tr><td colspan="9">No listings returned for this search.</td></tr>';
 }catch(e){document.getElementById('status').textContent='Error: '+e.message;}
 }
 function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship)?profit/(cost+ship)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
 </script>
 </body>
 </html>
+```
