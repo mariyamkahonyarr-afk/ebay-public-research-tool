@@ -49,21 +49,21 @@ button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
 .stat:hover{transform:translateY(-5px) rotateX(4deg)}
 .stat b{font-size:22px;display:block}
 .stat span{color:var(--muted);font-size:12px}
-.tablewrap{overflow-x:auto;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
-table{width:100%;border-collapse:separate;border-spacing:0;min-width:1100px;background:linear-gradient(180deg,rgba(30,41,90,.9),rgba(10,16,40,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden}
-th{position:sticky;top:0;background:linear-gradient(180deg,#24346e,#16224e);padding:13px 12px;text-align:left;font-size:12px;color:#e2e8f0;white-space:nowrap;border-bottom:2px solid rgba(255,255,255,.2)}
-td{padding:13px 12px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle;font-size:14px;animation:rowIn .4s ease both}
+.tablewrap{overflow-x:visible;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
+table{width:100%;table-layout:auto;border-collapse:separate;border-spacing:0;min-width:0;background:linear-gradient(180deg,rgba(30,41,90,.9),rgba(10,16,40,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden}
+th{position:sticky;top:0;background:linear-gradient(180deg,#24346e,#16224e);padding:8px 6px;text-align:left;font-size:11px;line-height:1.3;color:#e2e8f0;white-space:normal;word-break:break-word;border-bottom:2px solid rgba(255,255,255,.2)}
+td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle;font-size:12px;line-height:1.35;word-break:break-word;animation:rowIn .4s ease both}
 tbody tr{transition:background .15s,transform .15s}
 tbody tr:hover td{background:rgba(255,255,255,.06)}
-td img{width:64px;height:64px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 6px 14px rgba(0,0,0,.5)}
-.title{font-weight:700;line-height:1.35;max-width:320px}
-.price{font-weight:900;color:#4ade80;white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+td img{width:48px;height:48px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 6px 14px rgba(0,0,0,.5)}
+.title{font-weight:700;font-size:12px;line-height:1.35;max-width:none}
+.price{font-weight:900;color:#4ade80;white-space:normal;text-shadow:0 2px 8px rgba(0,0,0,.4)}
 a{color:#7dd3fc;text-decoration:none;font-weight:700}
-.pill{display:inline-block;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:12px;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:11px;white-space:normal;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 .warn{background:linear-gradient(180deg,rgba(245,158,11,.2),rgba(245,158,11,.08));border:1px solid #f59e0b;color:#fde68a;padding:14px;border-radius:14px;margin-top:14px}
 .profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px;position:relative;z-index:1}
 .profit input{width:100%}
-@media(max-width:800px){aside{display:none}.layout{flex-direction:column}header h1{font-size:26px}}
+@media(max-width:800px){aside{display:none}.layout{flex-direction:column}header h1{font-size:26px}th{font-size:10px;padding:6px 4px}td{font-size:11px;padding:6px 4px}.title{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -107,10 +107,10 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 </div>
 </div>
 <div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRODUCT TITLE</th><th>PRICE</th><th>SELLER</th><th>TOTAL SALES BY SELLER (EST., IN THIS SEARCH)</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>CHANCES OF SUCCESS (TOOL SCORE)</th><th>WINNING / LOSING</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns in order: Product picture, Product Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity for that seller's rows), Feedback Score, Location, Condition, Chances of Success (tool score, see Notes), Winning / Losing (tool rating from that score, not an eBay guarantee), Market, eBay Link.</p></div>
+<p class="muted">Columns in order: Product picture, Product Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity for that seller's rows), Feedback Score, Location, Condition, Chances of Success (tool score, see Notes), Winning / Losing / Neutral (tool rating from that score, not an eBay guarantee), Market, eBay Link.</p></div>
 </div>
 <div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. Total Sales by Seller is the sum of those estimates for one seller in this search only. Chances of Success is a transparent tool score out of 100, NOT eBay data: Sales (est.) &gt; 0 = 40 points, Feedback &gt;=1000 = 25 / &gt;=100 = 15 / &gt;=10 = 5, Price &lt;= search average = 20 / &lt;= average x 1.2 = 10, Condition New/Ungraded/Factory Sealed = 15. Winning = 70% or more, Watch = 40-69%, Losing = under 40%. Without sales data a row cannot reach Winning, because sales are 40 of the 100 points. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
+<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. Total Sales by Seller is the sum of those estimates for one seller in this search only. Chances of Success is a transparent tool score out of 100, NOT eBay data: Sales (est.) &gt; 0 = 40 points, Feedback &gt;=1000 = 25 / &gt;=100 = 15 / &gt;=10 = 5, Price &lt;= search average = 20 / &lt;= average x 1.2 = 10, Condition New/Ungraded/Factory Sealed = 15. Winning = 70% or more, Neutral = 40-69%, Losing = under 40%. Without sales data a row cannot reach Winning, because sales are 40 of the 100 points. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
 <div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
 </main>
 </div>
@@ -174,7 +174,7 @@ return Math.min(100,s);
 }
 filtered.forEach(function(row){
 var it=row.item;
-var img=it.image?'<div style="width:64px;height:64px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
+var img=it.image?'<div style="width:48px;height:48px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
 var titleText=esc(it.title);
 var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
 var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
@@ -182,7 +182,7 @@ var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'N
 var sellerSalesText=(it.seller&&sellerHasSales[it.seller])?Number(sellerSales[it.seller]).toLocaleString()+' (est.)':'Not specified';
 var cond=it.conditionDescription||it.condition||'Not specified';
 var score=chanceScore(it);
-var verdict=score>=70?'🟢 Winning':(score>=40?'🟡 Watch':'🔴 Losing');
+var verdict=score>=70?'🟢 Winning':(score>=40?'⚪ Neutral':'🔴 Losing');
 html+='<tr><td>'+img+'</td><td>'+title+'</td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+sellerSalesText+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td>'+score+'% (tool score)</td><td>'+verdict+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
 });
 document.getElementById('statListings').textContent=total.toLocaleString();
