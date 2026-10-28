@@ -1,5 +1,3 @@
-```
-<!-- FILE: api/search.js -->
 const MARKETS = {
   US: 'EBAY_US', UK: 'EBAY_GB', DE: 'EBAY_DE', AU: 'EBAY_AU',
   CA: 'EBAY_CA', FR: 'EBAY_FR', IT: 'EBAY_IT', ES: 'EBAY_ES',
@@ -76,4 +74,3 @@ module.exports = async (req, res) => {
     return res.status(500).json({ ok: false, error: err.message });
   }
 };
-```
