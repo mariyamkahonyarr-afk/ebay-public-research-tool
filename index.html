@@ -3,141 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eBay Product Research Tool</title>
+<title>eBay Product Research Tool — ZIK-style</title>
 <style>
-  *{box-sizing:border-box}
-  :root{--bg:#070b1a;--card:#121a38;--card2:#0e1530;--line:#2c3a72;--text:#eef2ff;--muted:#9aa7d6;--green:#22c55e;--blue:#0ea5e9}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:radial-gradient(1200px 500px at 50% -10%,#1e3a8a55,transparent 60%),var(--bg);color:var(--text);min-height:100vh}
-  header{padding:34px 20px 26px;background:linear-gradient(180deg,#1e3a8a 0%,#0b2a6b 55%,#081233 100%);border-bottom:1px solid #3b4f9e;box-shadow:0 18px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.25)}
-  .hero{max-width:1100px;margin:0 auto}
-  .hero h1{margin:0;font-size:34px;letter-spacing:-.5px;text-shadow:0 3px 0 rgba(0,0,0,.45),0 10px 24px rgba(0,0,0,.5)}
-  .hero p{margin:8px 0 0;opacity:.92}
-  .badges{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-  .badge{display:inline-block;padding:8px 14px;border-radius:999px;font-weight:800;font-size:13px;box-shadow:0 6px 0 rgba(0,0,0,.35),0 12px 24px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.35);transform:translateY(-1px)}
-  .badge.green{background:linear-gradient(180deg,#4ade80,#16a34a);color:#04120a}
-  .badge.dark{background:linear-gradient(180deg,#334155,#0f172a);color:#e2e8f0;border:1px solid #475569}
-  main{max-width:1100px;margin:0 auto;padding:22px 20px 40px}
-  .card{background:linear-gradient(180deg,#18224a,#101736);border:1px solid var(--line);border-radius:20px;padding:20px;position:relative;box-shadow:0 14px 0 rgba(0,0,0,.28),0 24px 48px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.18)}
-  .card::before{content:"";position:absolute;inset:0;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.09),transparent 28%);pointer-events:none}
-  .card h2{margin:0 0 8px}
-  .row{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
-  input,select{padding:13px 15px;border-radius:12px;border:1px solid #33407a;background:#0a1128;color:#fff;font-size:15px;box-shadow:inset 0 3px 8px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.08)}
-  input{flex:1;min-width:220px}
-  button{padding:13px 20px;border-radius:12px;border:none;background:linear-gradient(180deg,#4ade80,#16a34a);color:#04120a;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 5px 0 #15803d,0 12px 24px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .08s,box-shadow .08s}
-  button:hover{filter:brightness(1.07)}
-  button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d,0 6px 14px rgba(0,0,0,.4)}
-  .muted{color:var(--muted);font-size:14px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:16px}
-  .stat{background:linear-gradient(180deg,#1b2650,#111a3a);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.3),0 16px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .15s}
-  .stat:hover{transform:translateY(-4px)}
-  .stat b{font-size:22px;display:block}
-  .stat span{color:var(--muted);font-size:13px}
-  .tablewrap{overflow-x:auto;margin-top:18px;border-radius:16px;box-shadow:0 12px 0 rgba(0,0,0,.3),0 22px 40px rgba(0,0,0,.45)}
-  table{width:100%;border-collapse:separate;border-spacing:0;min-width:900px;background:linear-gradient(180deg,#18224a,#0f1730);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  th{position:sticky;top:0;background:linear-gradient(180deg,#24346e,#16224e);padding:13px 12px;text-align:left;font-size:13px;letter-spacing:.3px;border-bottom:2px solid #3b4f9e;white-space:nowrap}
-  td{padding:12px;border-bottom:1px solid #223064;vertical-align:middle;font-size:14px}
-  tr:hover td{background:rgba(255,255,255,.04)}
-  td img{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line);box-shadow:0 4px 10px rgba(0,0,0,.5);display:block}
-  td .title{font-weight:700;line-height:1.35;max-width:340px}
-  td .price{font-weight:900;color:#4ade80;font-size:16px;white-space:nowrap}
-  td a{color:#7dd3fc;text-decoration:none;font-weight:800;white-space:nowrap}
-  .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#1e293b;border:1px solid #475569;font-size:12px;white-space:nowrap}
-  .profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;position:relative;z-index:1}
-  .profit label{font-size:13px;color:var(--muted)}
-  .profit input{width:100%;margin-top:5px}
-  #profitOut{font-weight:900;margin-top:14px;font-size:17px}
-  .warn{background:linear-gradient(180deg,#3a2200,#2a1a00);border:1px solid #f59e0b;color:#fde68a;padding:14px;border-radius:14px;margin-top:18px;box-shadow:0 8px 0 rgba(0,0,0,.3)}
-  @media (prefers-reduced-motion:reduce){.stat,button{transition:none}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#eef1f6;color:#111827}
+header{background:linear-gradient(180deg,#0b0f1e,#141a2e);color:#fff;padding:22px 20px 18px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.hwrap{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+header h1{margin:0;font-size:30px;letter-spacing:.5px}
+header p{margin:4px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1px}
+.marketpill{background:#0f172a;border:1px solid #475569;color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;box-shadow:0 6px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2)}
+.tabs{max-width:1240px;margin:-6px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
+.tab{padding:12px 26px;border-radius:999px;border:none;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25),0 12px 24px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.5)}
+.tab.active{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff}
+.tab:not(.active){background:linear-gradient(180deg,#9ca3af,#6b7280);color:#fff}
+.layout{max-width:1240px;margin:18px auto;padding:0 20px 40px;display:flex;gap:18px;align-items:flex-start}
+aside{width:200px;flex-shrink:0;background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.12)}
+aside a{display:block;padding:10px 12px;border-radius:10px;color:#334155;text-decoration:none;font-weight:700;font-size:14px}
+aside a.active{background:#dbeafe;color:#1d4ed8}
+main{flex:1;min-width:0}
+.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 12px 28px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.8);margin-bottom:18px}
+.card h2{margin:0 0 6px}
+.muted{color:#64748b;font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+input,select{padding:12px 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:14px}
+input{flex:1;min-width:200px}
+button{padding:12px 20px;border-radius:12px;border:none;background:linear-gradient(180deg,#4ade80,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #15803d,0 12px 20px rgba(0,0,0,.25)}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px}
+.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.06)}
+.stat b{font-size:20px;display:block}
+.stat span{color:#64748b;font-size:12px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:920px}
+th{text-align:left;padding:12px;border-bottom:2px solid #e2e8f0;font-size:12px;color:#475569;white-space:nowrap}
+td{padding:12px;border-bottom:1px solid #f1f5f9;vertical-align:middle;font-size:14px}
+td img{width:64px;height:64px;object-fit:cover;border-radius:10px;display:block}
+.title{font-weight:700;line-height:1.35;max-width:320px}
+.price{font-weight:900;color:#15803d;white-space:nowrap}
+a{color:#2563eb;text-decoration:none;font-weight:700}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;font-size:12px;white-space:nowrap}
+.warn{background:#fffbeb;border:1px solid #f59e0b;color:#92400e;padding:14px;border-radius:14px;margin-top:14px}
+.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.profit input{width:100%}
+@media(max-width:800px){aside{display:none}.layout{flex-direction:column}}
 </style>
 </head>
 <body>
-<header>
-  <div class="hero">
-    <h1>eBay Product Research Tool</h1>
-    <p>Live eBay listings across All + 8 markets. Public listings only — no user account data.</p>
-    <div class="badges">
-      <span class="badge green">● LIVE eBay SEARCH</span>
-      <span class="badge dark">MARKET INTELLIGENCE</span>
-      <span class="badge dark">All + 8 eBay markets</span>
-    </div>
-  </div>
-</header>
+<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div></div></header>
+<div class="tabs">
+<button class="tab active" onclick="showTab('research',this)">Research</button>
+<button class="tab" onclick="showTab('suppliers',this)">Suppliers</button>
+<button class="tab" onclick="showTab('profit',this)">Profit</button>
+<button class="tab" onclick="showTab('competitors',this)">Competitors</button>
+<button class="tab" onclick="showTab('watchlist',this)">Watchlist</button>
+</div>
+<div class="layout">
+<aside>
+<a href="#" class="active" onclick="showTab('research',document.querySelectorAll('.tab')[0]);return false">Product Research</a>
+<a href="#" onclick="showTab('competitors',document.querySelectorAll('.tab')[3]);return false">Competitor Research</a>
+<a href="#" onclick="showTab('suppliers',document.querySelectorAll('.tab')[1]);return false">Category Research</a>
+<a href="#" onclick="showTab('profit',document.querySelectorAll('.tab')[2]);return false">Title Builder</a>
+<a href="#" onclick="showTab('profit',document.querySelectorAll('.tab')[2]);return false">Profit Calculator</a>
+</aside>
 <main>
-  <div class="card">
-    <div class="row">
-      <input id="q" placeholder="Search a product, e.g. wireless earbuds">
-      <select id="market">
-        <option value="ALL">All + 8 markets</option>
-        <option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option>
-        <option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option>
-        <option value="IT">Italy</option><option value="ES">Spain</option>
-      </select>
-      <button onclick="doSearch()">Search live</button>
-    </div>
-    <p class="muted">Results come from eBay's live Browse API through this site's backend. Keys are never in this page.</p>
-    <div id="status" class="muted"></div>
-    <div class="stats">
-      <div class="stat"><b id="statTotal">—</b><span>Total listings</span></div>
-      <div class="stat"><b id="statMarkets">8</b><span>Markets</span></div>
-      <div class="stat"><b>LIVE</b><span>eBay Browse API</span></div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:20px">
-    <h2>Profit calculator</h2>
-    <div class="profit">
-      <div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div>
-      <div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div>
-      <div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div>
-      <div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div>
-    </div>
-    <button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button>
-    <div id="profitOut"></div>
-  </div>
-  <div class="tablewrap" id="tablewrap" style="display:none">
-    <table>
-      <thead><tr><th>Picture</th><th>Product</th><th>Total listings<br><span style="font-weight:400;opacity:.8">(this search)</span></th><th>Real-time listing price</th><th>Market</th><th>Condition</th><th>Seller</th><th>eBay link</th></tr></thead>
-      <tbody id="results"></tbody>
-    </table>
-    <p class="muted" style="padding:10px 14px">Note: per-item sold count is not returned by eBay's live Browse API, so Total Sales per item is shown as —. The "Total listings" column shows the live total for this search in that market. Sold-history data needs a separate sold-data step.</p>
-  </div>
-  <div class="warn">Note for the site owner: set EBAY_APP_ID and EBAY_CERT_ID only in your hosting dashboard's Environment Variables. Never put them in this HTML file or in a public Git repo.</div>
+<div id="tab-research">
+<div class="card">
+<h2>Product Research — Top Trending Items</h2>
+<p class="muted" id="subline">Search a keyword. Live listings come from eBay Browse API. Sold listings come from the /api/sold endpoint (eBay Finding API) when it is available.</p>
+<div class="row">
+<input id="q" placeholder="Search a product, e.g. wireless earbuds">
+<select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
+<select id="days"><option value="30">Last 30 days</option><option value="21">Last 21 days</option><option value="14">Last 14 days</option><option value="7">Last 7 days</option></select>
+<select id="limit"><option value="20">20 listings</option><option value="10">10 listings</option><option value="25">25 listings</option><option value="50">50 listings</option></select>
+<button onclick="doSearch()">Search</button>
+</div>
+<div class="row">
+<input id="priceMin" type="number" placeholder="Min price">
+<input id="priceMax" type="number" placeholder="Max price">
+<select id="condition"><option value="">Any condition</option><option value="NEW">New</option><option value="USED">Used</option></select>
+</div>
+<div id="status" class="muted" style="margin-top:10px"></div>
+<div class="stats">
+<div class="stat"><b id="statListings">—</b><span>Listings (total)</span></div>
+<div class="stat"><b id="statShown">—</b><span>Items shown</span></div>
+<div class="stat"><b id="statAvg">—</b><span>Average Price</span></div>
+<div class="stat"><b id="statSellers">—</b><span>Sellers</span></div>
+<div class="stat"><b id="statSold">—</b><span>Sold listings (window)</span></div>
+<div class="stat"><b id="statSoldAvg">—</b><span>Avg Sold Price</span></div>
+</div>
+</div>
+<div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRICE</th><th>SELLER</th><th>FEEDBACK</th><th>LOCATION</th><th>CONDITION</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
+<p class="muted">30-day sales and total/lifetime sales per live listing are not returned by eBay Browse API. The Sold Listings section below shows real sold items for the same keyword when the sold endpoint works — do not read a live listing's sold count from this table.</p></div>
+<div class="card"><h2>Sold Listings — Total Sales for this keyword</h2><div id="soldStatus" class="muted">Search first to load sold listings.</div><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>SOLD PRICE</th><th>SOLD DATE</th><th>SELLER</th><th>eBay LINK</th></tr></thead><tbody id="soldResults"></tbody></table></div></div>
+</div>
+<div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
+<div id="tab-suppliers" style="display:none"><div class="card"><h2>Suppliers — Item Finder</h2><p class="muted">Search a product above, then use the AliExpress search link on each live row in the full version, or search the title on AliExpress / Alibaba / CJ directly. This public version does not auto-import or order from suppliers.</p><div class="warn">Supplier matching in ZIK compares eBay price vs supplier cost and calculates margin/ROI. Here, use the Profit Calculator above with the supplier cost you find.</div></div></div>
+<div id="tab-competitors" style="display:none"><div class="card"><h2>Competitor Research</h2><p class="muted">Type a seller name in the main search? No — in this public version, click a seller name in the Live Listings table and search that seller's other listings by using the same keyword search, then filter by seller in your head. A full seller-page (revenue, sold, active, successful %, sell-through) needs seller-level sold history, which Browse API does not provide.</p></div></div>
+<div id="tab-watchlist" style="display:none"><div class="card"><h2>Watchlist</h2><p class="muted">This public version does not save a watchlist (no login). Use your browser bookmarks for products you want to re-check.</p></div></div>
+<div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
 </main>
+</div>
 <script>
+function showTab(id,btn){['research','suppliers','profit','competitors','watchlist'].forEach(t=>{document.getElementById('tab-'+t).style.display=(t===id?'block':'none')});document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const marketNames={EBAY_US:'US',EBAY_GB:'UK',EBAY_DE:'Germany',EBAY_AU:'Australia',EBAY_CA:'Canada',EBAY_FR:'France',EBAY_IT:'Italy',EBAY_ES:'Spain'};
 async function doSearch(){
-  const q=document.getElementById('q').value.trim();
-  const market=document.getElementById('market').value;
-  if(!q){document.getElementById('status').textContent='Please type a product name first.';return;}
-  document.getElementById('status').textContent='Searching live eBay…';
-  document.getElementById('results').innerHTML='';
-  try{
-    const r=await fetch(`/api/search?q=${encodeURIComponent(q)}&market=${market}&limit=20`);
-    const d=await r.json();
-    if(!d.ok){document.getElementById('status').textContent='Error: '+d.error;return;}
-    let total=0, html='';
-    d.results.forEach(m=>{
-      total+=m.total;
-      m.items.forEach(it=>{
-        const esc=(s)=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-        html+=`<tr><td>${it.image?`<img src="${it.image}" alt="">`:'—'}</td><td><div class="title">${esc(it.title)}</div></td><td>${m.total.toLocaleString()}</td><td class="price">${esc(it.price||'—')}</td><td><span class="pill">${m.market}</span></td><td>${esc(it.condition||'—')}</td><td>${esc(it.seller||'—')}</td><td>${it.url?`<a href="${it.url}" target="_blank" rel="noopener">View on eBay →</a>`:'—'}</td></tr>`;
-      });
-    });
-    document.getElementById('tablewrap').style.display='block';
-    document.getElementById('statTotal').textContent=total.toLocaleString();
-    document.getElementById('status').textContent=`Found ${total.toLocaleString()} listings for "${d.query}" (${d.market}).`;
-    document.getElementById('results').innerHTML=html||'<p class="muted">No listings found.</p>';
-  }catch(e){document.getElementById('status').textContent='Error: '+e.message;}
+const q=document.getElementById('q').value.trim();const market=document.getElementById('market').value;const days=document.getElementById('days').value;const limit=document.getElementById('limit').value;
+if(!q){document.getElementById('status').textContent='Please type a product name first.';return;}
+document.getElementById('status').textContent='Searching live eBay…';document.getElementById('results').innerHTML='';document.getElementById('soldResults').innerHTML='';
+try{
+const r=await fetch(`/api/search?q=${encodeURIComponent(q)}&market=${market}&limit=${limit}`);const d=await r.json();
+if(!d.ok){document.getElementById('status').textContent='Error: '+d.error;return;}
+let total=0,shown=0,prices=[],sellers=new Set(),html='';
+d.results.forEach(m=>{total+=m.total;m.items.forEach(it=>{shown++;if(it.priceValue)prices.push(it.priceValue);if(it.seller)sellers.add(it.seller);
+const pMin=+document.getElementById('priceMin').value||0;const pMax=+document.getElementById('priceMax').value||Infinity;if(it.priceValue&&(it.priceValue<pMin||it.priceValue>pMax))return;
+const cond=document.getElementById('condition').value;if(cond&&it.condition&&it.condition!==cond)return;
+html+=`<tr><td><div style="display:flex;gap:10px;align-items:center">${it.image?`<img src="${it.image}" alt="">`:''}<div class="title">${esc(it.title)}</div></div></td><td class="price">${esc(it.price||'—')}</td><td>${esc(it.seller||'—')}</td><td>${it.feedbackScore!=null?it.feedbackScore.toLocaleString():'—'}</td><td>${esc(it.location||'—')}</td><td>${esc(it.condition||'Not specified')}</td><td><span class="pill">${marketNames[m.market]||m.market}</span></td><td>${it.url?`<a href="${it.url}" target="_blank" rel="noopener">View on eBay →</a>`:'—'}</td></tr>`;});});
+document.getElementById('statListings').textContent=total.toLocaleString();document.getElementById('statShown').textContent=shown;document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce((a,b)=>a+b,0)/prices.length).toFixed(2)):'—';document.getElementById('statSellers').textContent=sellers.size;
+document.getElementById('status').textContent=`Found ${total.toLocaleString()} listings for "${d.query}" (${d.market}).`;document.getElementById('results').innerHTML=html||'<tr><td colspan="8">No listings found for these filters.</td></tr>';
+loadSold(q,days);
+}catch(e){document.getElementById('status').textContent='Error: '+e.message;}
 }
-function calcProfit(){
-  const sell=+document.getElementById('sell').value||0;
-  const cost=+document.getElementById('cost').value||0;
-  const ship=+document.getElementById('ship').value||0;
-  const feePct=+document.getElementById('fee').value||0;
-  const fee=sell*feePct/100;
-  const profit=sell-cost-ship-fee;
-  const margin=sell?profit/sell*100:0;
-  const roi=(cost+ship)?profit/(cost+ship)*100:0;
-  document.getElementById('profitOut').textContent=`Profit: $${profit.toFixed(2)} · Margin: ${margin.toFixed(2)}% · ROI: ${roi.toFixed(2)}% (fee $${fee.toFixed(2)})`;
-}
+async function loadSold(q,days){
+document.getElementById('soldStatus').textContent='Loading sold listings…';
+try{const r=await fetch(`/api/sold?q=${encodeURIComponent(q)}&days=${days}`);const d=await r.json();
+if(!d.ok){document.getElementById('soldStatus').textContent='Sold data unavailable: '+d.error+' — live listings above are still real.';document.getElementById('statSold').textContent='—';return;}
+document.getElementById('statSold').textContent=d.total.toLocaleString();document.getElementById('statSoldAvg').textContent=d.avgSoldPrice?('$'+d.avgSoldPrice):'—';
+document.getElementById('soldStatus').textContent=`Sold listings in last ${days} days: ${d.total.toLocaleString()} (source: eBay Finding API, sold-items-only search).`;
+document.getElementById('soldResults').innerHTML=d.items.map(it=>`<tr><td><div style="display:flex;gap:10px;align-items:center">${it.image?`<img src="${it.image}" alt="">`:''}<div class="title">${esc(it.title)}</div></div></td><td class="price">${esc(it.price||'—')}</td><td>${esc(it.soldDate||'—')}</td><td>${esc(it.seller||'—')}</td><td>${it.url?`<a href="${it.url}" target="_blank" rel="noopener">View on eBay →</a>`:'—'}</td></tr>`).join('')||'<tr><td colspan="5">No sold listings found in this window.</td></tr>';
+}catch(e){document.getElementById('soldStatus').textContent='Sold data unavailable: '+e.message;}}
+function calcProfit(){const sell=+document.getElementById('sell').value||0;const cost=+document.getElementById('cost').value||0;const ship=+document.getElementById('ship').value||0;const feePct=+document.getElementById('fee').value||0;const fee=sell*feePct/100;const profit=sell-cost-ship-fee;const margin=sell?profit/sell*100:0;const roi=(cost+ship)?profit/(cost+ship)*100:0;document.getElementById('profitOut').textContent=`Profit: $${profit.toFixed(2)} · Margin: ${margin.toFixed(2)}% · ROI: ${roi.toFixed(2)}% (fee $${fee.toFixed(2)})`;}
 </script>
 </body>
 </html>
