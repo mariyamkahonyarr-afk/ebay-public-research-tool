@@ -5,7 +5,6 @@ const MARKETS = {
   CA: 'EBAY_CA', FR: 'EBAY_FR', IT: 'EBAY_IT', ES: 'EBAY_ES',
 };
 let tokenCache = { token: null, expiresAt: 0 };
-
 async function getToken() {
   const now = Date.now();
   if (tokenCache.token && now < tokenCache.expiresAt) return tokenCache.token;
@@ -23,7 +22,6 @@ async function getToken() {
   tokenCache = { token: data.access_token, expiresAt: now + (data.expires_in - 60) * 1000 };
   return tokenCache.token;
 }
-
 module.exports = async (req, res) => {
   try {
     const q = (req.query.q || '').trim();
@@ -42,8 +40,13 @@ module.exports = async (req, res) => {
         market: mid, total: d.total || 0,
         items: (d.itemSummaries || []).map((it) => ({
           title: it.title, price: it.price ? `${it.price.value} ${it.price.currency}` : null,
+          priceValue: it.price ? parseFloat(it.price.value) : null,
           image: it.image ? it.image.imageUrl : null, url: it.itemWebUrl,
-          seller: it.seller ? it.seller.username : null, condition: it.condition || null,
+          seller: it.seller ? it.seller.username : null,
+          feedbackScore: it.seller && it.seller.feedbackScore != null ? it.seller.feedbackScore : null,
+          feedbackPercentage: it.seller && it.seller.feedbackPercentage != null ? it.seller.feedbackPercentage : null,
+          location: it.itemLocation ? [it.itemLocation.city, it.itemLocation.country].filter(Boolean).join(', ') : null,
+          condition: it.condition || null,
         })),
       };
     }));
