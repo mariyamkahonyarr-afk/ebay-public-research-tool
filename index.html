@@ -62,6 +62,7 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <button class="tab" onclick="showTab('competitor',this)">Competitor</button>
 <button class="tab" onclick="showTab('category',this)">Category</button>
 <button class="tab" onclick="showTab('market',this)">Market Insights</button>
+<button class="tab" onclick="showTab('trending',this)">Categories &amp; Trending</button>
 <button class="tab" onclick="showTab('title',this)">Title Builder</button>
 <button class="tab" onclick="showTab('bulk',this)">Bulk Scanner</button>
 <button class="tab" onclick="showTab('turbo',this)">Turbo Scanner</button>
@@ -151,6 +152,32 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <p class="muted">ZIK Market Insights shows trending niches (30 days), trending products (24h refresh) and a dropshipper leaderboard from its own database. This tool has no access to that database, so this tab shows the same kind of summary — but only from your last live search, and it says so. No daily trend chart is faked here.</p>
 <button onclick="runMarket()">Build insights from last search</button>
 <div id="marketOut" style="margin-top:12px"></div>
+</div></div>
+
+<!-- TRENDING / CATEGORIES -->
+<div id="tab-trending" style="display:none"><div class="card">
+<h2>Categories &amp; Trending — eBay par ab sab se zyada sell hone wale</h2>
+<p class="muted">Keyword search ki jagah yahan category par click karo. All Categories par click karo to sab categories main se trending products dikhenge — ranking aapki last live search / is tab ki live search se hoti hai, ZIK ki global trending database se nahi. Sales (est.) ke liye single market (US) select karo, ALL market par sales (est.) nahi aati, isliye wahan feedback se ranking hoti hai.</p>
+<div class="row">
+<select id="trendCat"><option value="ALL">All Categories</option><option value="electronics">Electronics</option><option value="fashion">Fashion / Clothing</option><option value="home">Home &amp; Garden</option><option value="toys">Toys &amp; Games</option><option value="beauty">Beauty / Health</option><option value="sports">Sports &amp; Outdoors</option><option value="automotive">Automotive / Car Parts</option><option value="jewellery">Jewellery &amp; Watches</option><option value="collectibles">Collectibles</option></select>
+<select id="trendMarket"><option value="US">US (sales est. ke liye)</option><option value="ALL">All + 8 markets</option><option value="UK">UK</option></select>
+<select id="trendCond"><option value="">Condition: All</option><option value="NEW">New only</option><option value="USED">Used only</option></select>
+<label style="font-size:13px"><input type="checkbox" id="trendBestOnly" style="min-width:0;flex:none"> Best sellers only (sales est. &gt; 0)</label>
+<button onclick="runTrending()">Show Trending</button>
+</div>
+<p class="muted" style="margin-top:10px">Source select karo — in platforms par wahi cheez sasti dhoondne ke liye search links milenge (live price nahi, kyunki in platforms ki koi API key connected nahi hai):</p>
+<div class="row" id="trendSources">
+<label style="font-size:13px"><input type="checkbox" class="trendSrc" value="Amazon" checked style="min-width:0;flex:none"> Amazon</label>
+<label style="font-size:13px"><input type="checkbox" class="trendSrc" value="AliExpress" checked style="min-width:0;flex:none"> AliExpress</label>
+<label style="font-size:13px"><input type="checkbox" class="trendSrc" value="Walmart" checked style="min-width:0;flex:none"> Walmart</label>
+<label style="font-size:13px"><input type="checkbox" class="trendSrc" value="Temu" checked style="min-width:0;flex:none"> Temu</label>
+</div>
+<div id="trendStatus" class="muted" style="margin-top:10px"></div>
+<h3 style="margin-top:16px">Trending Products</h3>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SELLER</th><th>SALES (EST.)</th><th>FEEDBACK</th><th>CONDITION</th><th>MARKET</th><th>CHEAPER SOURCE LINKS</th><th>LINK</th></tr></thead><tbody id="trendResults"></tbody></table></div>
+<h3 style="margin-top:16px">Top Sellers Right Now (is search se)</h3>
+<div id="trendSellers"></div>
+<p class="muted">Top sellers = is live search main sab se zyada sales (est.) / listings wale sellers. Store link par click karke unka eBay store khulta hai.</p>
 </div></div>
 
 <!-- TITLE BUILDER -->
@@ -305,7 +332,8 @@ function supplierLinks(title){
     {name:'Walmart', url:'https://www.walmart.com/search?q='+q},
     {name:'AliExpress', url:'https://www.aliexpress.com/wholesale?SearchText='+q},
     {name:'Alibaba', url:'https://www.alibaba.com/trade/search?SearchText='+q},
-    {name:'CJ Dropshipping', url:'https://cjdropshipping.com/search/'+q}
+    {name:'CJ Dropshipping', url:'https://cjdropshipping.com/search/'+q},
+    {name:'Temu', url:'https://www.temu.com/search_result.html?search_key='+q}
   ];
 }
 function chanceScore(it, avgPrice){
@@ -336,7 +364,7 @@ function simpleTable(tbodyId, rows, withScore){
 }
 /* State + tabs */
 var lastRows=[]; var lastQuery=''; var lastMarket='ALL'; var lastTotal=0;
-var ALL_TABS=['research','explorer','competitor','category','market','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','notes'];
+var ALL_TABS=['research','explorer','competitor','category','market','trending','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','notes'];
 function showTab(id,btn){ALL_TABS.forEach(function(t){var el=document.getElementById('tab-'+t); if(el) el.style.display=(t===id?'block':'none');}); document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');}); if(btn) btn.classList.add('active'); if(id==='watchlist') renderWatchlist(); if(id==='autopilot') renderAutopilot();}
 function needSearch(){return lastRows.length===0;}
 function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
@@ -440,6 +468,40 @@ function runMarket(){
   html+='<p class="muted">Source: your last live search ("'+lastQuery+'", '+lastRows.length+' rows). ZIK\'s 30-day niches, 24h products and leaderboard come from its own database and are not reproduced here.</p>';
   document.getElementById('marketOut').innerHTML=html;
 }
+
+function selectedSources(){
+  var out=[];
+  document.querySelectorAll('.trendSrc').forEach(function(cb){if(cb.checked) out.push(cb.value);});
+  return out;
+}
+function sourceLinksFor(title, wanted){
+  return supplierLinks(title).filter(function(l){return wanted.indexOf(l.name)!==-1;}).map(function(l){return '<a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+l.name+'</a>';}).join(' · ');
+}
+async function runTrending(){
+  var cat=document.getElementById('trendCat').value;
+  var mkt=document.getElementById('trendMarket').value;
+  var cond=document.getElementById('trendCond').value;
+  var bestOnly=document.getElementById('trendBestOnly').checked;
+  var q = cat==='ALL' ? 'best selling trending' : cat;
+  document.getElementById('q').value=q;
+  document.getElementById('market').value=mkt;
+  document.getElementById('trendStatus').textContent='Trending la raha hun… ('+(cat==='ALL'?'All Categories':cat)+', '+mkt+')';
+  await doSearch();
+  var rows=lastRows.slice();
+  if(cond){rows=rows.filter(function(r){return String(r.item.condition||'').toUpperCase().indexOf(cond)!==-1;});}
+  if(bestOnly){rows=rows.filter(function(r){return r.item.soldQuantity!=null && Number(r.item.soldQuantity)>0;});}
+  var hasSales=rows.some(function(r){return r.item.soldQuantity!=null;});
+  rows.sort(function(a,b){if(hasSales) return (Number(b.item.soldQuantity)||0)-(Number(a.item.soldQuantity)||0); return (Number(b.item.feedbackScore)||0)-(Number(a.item.feedbackScore)||0);});
+  var wanted=selectedSources();
+  var html='';
+  rows.slice(0,50).forEach(function(row,i){var c=rowCells(row,null); html+='<tr><td>'+(i+1)+'</td><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+c.sales+'</td><td>'+c.fb+'</td><td>'+c.cond+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+(wanted.length?sourceLinksFor(row.item.title, wanted):'Koi source select nahi')+'</td><td>'+c.link+'</td></tr>';});
+  document.getElementById('trendResults').innerHTML=html||'<tr><td colspan="11">Koi trending product nahi mila. Best sellers only hatakar dobara try karo.</td></tr>';
+  var sellers=topSellers(lastRows, 10);
+  var sh='<p>'+sellers.map(function(s){return '<span class="pill">'+esc(s.seller)+' — '+s.count+' listings'+(s.hasSales?', '+s.sales+' sales (est.)':'')+' — <a href="https://www.ebay.com/usr/'+esc(s.seller)+'" target="_blank" rel="noopener">Store →</a></span>';}).join(' ')+'</p>';
+  document.getElementById('trendSellers').innerHTML=sellers.length?sh:'<p class="muted">Koi seller nahi mila.</p>';
+  document.getElementById('trendStatus').textContent='Trending: '+(cat==='ALL'?'All Categories':cat)+' — '+rows.length+' products, ranking '+(hasSales?'sales (est.) se':'feedback se')+'. Ye ZIK ki global list nahi, is live search ki ranking hai.';
+}
+
 function runTitle(){
   if(needSearch()){document.getElementById('titleOut').innerHTML='<p class="muted">First do a Product Research search.</p>'; return;}
   var kw=extractKeywords(lastRows.map(function(r){return r.item.title;}));
