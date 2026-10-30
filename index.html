@@ -3,88 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eBay Product Research Tool</title>
+<title>eBay Product Research Tool — ZIK-style, all tools</title>
 <style>
 *{box-sizing:border-box}
-:root{--bg1:#050816;--bg2:#0b1230;--glass:rgba(255,255,255,.08);--line:rgba(255,255,255,.14);--text:#eef2ff;--muted:#9aa7d6;--blue:#60a5fa;--green:#4ade80}
+:root{--bg1:#050816;--bg2:#0b1230;--line:rgba(255,255,255,.14);--text:#eef2ff;--muted:#9aa7d6;--green:#4ade80}
 @keyframes aurora{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes floatIn{from{opacity:0;transform:translateY(24px) rotateX(8deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
+@keyframes floatIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shine{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(240%) skewX(-18deg)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.35)}50%{box-shadow:0 0 24px 6px rgba(96,165,250,.25)}}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(900px 500px at 15% -10%,#1e3a8a66,transparent 60%),radial-gradient(800px 500px at 90% 0%,#7c3aed44,transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.03) 50%,transparent 60%);z-index:0}
-header{position:relative;z-index:2;padding:30px 20px 22px;background:linear-gradient(120deg,#0b2a6b,#1e1b4b,#0f766e);background-size:200% 200%;animation:aurora 12s ease infinite;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.3)}
+header{padding:30px 20px 22px;background:linear-gradient(120deg,#0b2a6b,#1e1b4b,#0f766e);background-size:200% 200%;animation:aurora 12s ease infinite;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.55)}
 .hwrap{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-header h1{margin:0;font-size:34px;letter-spacing:1px;text-shadow:0 4px 0 rgba(0,0,0,.4),0 14px 30px rgba(0,0,0,.5);animation:floatIn .7s ease both}
+header h1{margin:0;font-size:32px;letter-spacing:1px;text-shadow:0 4px 0 rgba(0,0,0,.4)}
 header p{margin:6px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1.5px}
-.marketpill{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.3);color:#fff;padding:11px 18px;border-radius:999px;font-weight:800;box-shadow:0 8px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);transform:translateZ(20px)}
-.tabs{max-width:1280px;margin:-10px auto 0;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:3}
-.tab{padding:13px 28px;border-radius:999px;border:none;font-weight:900;font-size:15px;cursor:pointer;transition:transform .18s,box-shadow .18s,filter .18s;box-shadow:0 7px 0 rgba(0,0,0,.3),0 16px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.5)}
-.tab:hover{transform:translateY(-3px) scale(1.03)}
-.tab:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.3)}
-.tab.active{background:linear-gradient(180deg,#7dd3fc,#2563eb);color:#fff;animation:pulseGlow 2.4s ease infinite}
+.marketpill{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.3);color:#fff;padding:11px 18px;border-radius:999px;font-weight:800}
+.tabs{max-width:1280px;margin:-10px auto 0;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:3}
+.tab{padding:11px 20px;border-radius:999px;border:none;font-weight:900;font-size:14px;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.3)}
+.tab:hover{transform:translateY(-2px)}
+.tab.active{background:linear-gradient(180deg,#7dd3fc,#2563eb);color:#fff}
 .tab:not(.active){background:linear-gradient(180deg,#cbd5e1,#64748b);color:#0f172a}
-.layout{max-width:1280px;margin:20px auto;padding:0 20px 50px;display:flex;gap:20px;align-items:flex-start;position:relative;z-index:1;perspective:1200px}
-aside{width:210px;flex-shrink:0;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);transform:rotateY(-4deg);transform-origin:left center;transition:transform .3s}
-aside:hover{transform:rotateY(0deg)}
-aside a{display:block;padding:11px 12px;border-radius:12px;color:#e2e8f0;text-decoration:none;font-weight:700;font-size:14px;transition:transform .15s,background .15s}
-aside a:hover{transform:translateX(4px);background:rgba(255,255,255,.1)}
-aside a.active{background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.5)}
+.layout{max-width:1280px;margin:20px auto;padding:0 20px 50px}
 main{flex:1;min-width:0}
-.card{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 0 rgba(0,0,0,.28),0 30px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22);margin-bottom:20px;animation:floatIn .6s ease both;transform-style:preserve-3d;transition:transform .25s}
-.card::before{content:"";position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-120%) skewX(-18deg);animation:shine 5s ease infinite;pointer-events:none}
-.card:hover{transform:translateY(-3px)}
-.card h2{margin:0 0 6px;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 0 rgba(0,0,0,.28),0 30px 60px rgba(0,0,0,.45);margin-bottom:20px;animation:floatIn .6s ease both}
+.card h2{margin:0 0 6px}
 .muted{color:var(--muted);font-size:13px}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;position:relative;z-index:1}
-input,select{padding:13px 15px;border-radius:13px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.35);color:#fff;font-size:14px;box-shadow:inset 0 3px 10px rgba(0,0,0,.5)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+input,select,textarea{padding:13px 15px;border-radius:13px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.35);color:#fff;font-size:14px}
 input{flex:1;min-width:200px}
+textarea{width:100%;min-height:90px}
 input::placeholder{color:#94a3b8}
-button{padding:13px 22px;border-radius:13px;border:none;background:linear-gradient(180deg,#86efac,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #15803d,0 14px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .12s,box-shadow .12s,filter .12s}
-button:hover{filter:brightness(1.08);transform:translateY(-2px)}
-button:active{transform:translateY(4px);box-shadow:0 1px 0 #15803d}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:16px;position:relative;z-index:1}
-.stat{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;box-shadow:0 10px 0 rgba(0,0,0,.3),0 18px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .2s}
-.stat:hover{transform:translateY(-5px) rotateX(4deg)}
+button{padding:13px 22px;border-radius:13px;border:none;background:linear-gradient(180deg,#86efac,#16a34a);color:#04120a;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #15803d}
+button:hover{filter:brightness(1.08)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:16px}
+.stat{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;box-shadow:0 10px 0 rgba(0,0,0,.3)}
 .stat b{font-size:22px;display:block}
 .stat span{color:var(--muted);font-size:12px}
-.tablewrap{overflow-x:visible;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
-table{width:100%;table-layout:auto;border-collapse:separate;border-spacing:0;min-width:0;background:linear-gradient(180deg,rgba(30,41,90,.9),rgba(10,16,40,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden}
-th{position:sticky;top:0;background:linear-gradient(180deg,#24346e,#16224e);padding:8px 6px;text-align:left;font-size:11px;line-height:1.3;color:#e2e8f0;white-space:normal;word-break:break-word;border-bottom:2px solid rgba(255,255,255,.2)}
-td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle;font-size:12px;line-height:1.35;word-break:break-word;animation:rowIn .4s ease both}
-tbody tr{transition:background .15s,transform .15s}
-tbody tr:hover td{background:rgba(255,255,255,.06)}
-td img{width:48px;height:48px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 6px 14px rgba(0,0,0,.5)}
-.title{font-weight:700;font-size:12px;line-height:1.35;max-width:none}
-.price{font-weight:900;color:#4ade80;white-space:normal;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.tablewrap{overflow-x:auto;border-radius:16px}
+table{width:100%;border-collapse:separate;border-spacing:0;background:linear-gradient(180deg,rgba(30,41,90,.9),rgba(10,16,40,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden}
+th{background:linear-gradient(180deg,#24346e,#16224e);padding:8px 6px;text-align:left;font-size:11px;color:#e2e8f0;border-bottom:2px solid rgba(255,255,255,.2)}
+td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle;font-size:12px;word-break:break-word;animation:rowIn .4s ease both}
+td img{width:48px;height:48px;object-fit:cover;border-radius:12px;display:block}
+.title{font-weight:700;font-size:12px}
+.price{font-weight:900;color:#4ade80}
 a{color:#7dd3fc;text-decoration:none;font-weight:700}
-.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:11px;white-space:normal;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:11px}
 .warn{background:linear-gradient(180deg,rgba(245,158,11,.2),rgba(245,158,11,.08));border:1px solid #f59e0b;color:#fde68a;padding:14px;border-radius:14px;margin-top:14px}
-.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px;position:relative;z-index:1}
+.profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
 .profit input{width:100%}
-@media(max-width:800px){aside{display:none}.layout{flex-direction:column}header h1{font-size:26px}th{font-size:10px;padding:6px 4px}td{font-size:11px;padding:6px 4px}.title{font-size:11px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.kw{display:inline-block;margin:4px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);cursor:pointer;font-size:12px}
+@media(max-width:800px){header h1{font-size:26px}th{font-size:10px}td{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
 <body>
-<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div></div></header>
-<div class="tabs">
+<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets &nbsp;•&nbsp; ZIK-STYLE TOOLS IN ONE PAGE</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div></div></header>
+<div class="tabs" id="tabbar">
 <button class="tab active" onclick="showTab('research',this)">Research</button>
+<button class="tab" onclick="showTab('explorer',this)">Explorer</button>
+<button class="tab" onclick="showTab('competitor',this)">Competitor</button>
+<button class="tab" onclick="showTab('category',this)">Category</button>
+<button class="tab" onclick="showTab('market',this)">Market Insights</button>
+<button class="tab" onclick="showTab('title',this)">Title Builder</button>
+<button class="tab" onclick="showTab('bulk',this)">Bulk Scanner</button>
+<button class="tab" onclick="showTab('turbo',this)">Turbo Scanner</button>
+<button class="tab" onclick="showTab('autopilot',this)">Autopilot</button>
+<button class="tab" onclick="showTab('top',this)">Top Sellers</button>
+<button class="tab" onclick="showTab('supplier',this)">Supplier Finder</button>
+<button class="tab" onclick="showTab('watchlist',this)">Watchlist</button>
+<button class="tab" onclick="showTab('store',this)">Store</button>
 <button class="tab" onclick="showTab('profit',this)">Profit</button>
 <button class="tab" onclick="showTab('notes',this)">Notes</button>
 </div>
-<div class="layout">
-<aside>
-<a href="#" class="active" onclick="showTab('research',document.querySelectorAll('.tab')[0]);return false">Product Research</a>
-<a href="#" onclick="showTab('profit',document.querySelectorAll('.tab')[1]);return false">Profit Calculator</a>
-<a href="#" onclick="showTab('notes',document.querySelectorAll('.tab')[2]);return false">What this tool shows</a>
-</aside>
-<main>
+<div class="layout"><main>
+<!-- RESEARCH -->
 <div id="tab-research">
 <div class="card">
 <h2>Product Research — Live Listings</h2>
-<p class="muted">This tool shows live eBay listings only. Sales (est.) comes from the eBay item-detail call for a single-market search, labelled est. because eBay itself calls it an estimate. Chances of Success and Winning / Losing are a transparent tool score, not eBay data — see Notes.</p>
+<p class="muted">Live eBay listings only. Sold history, sell-through and successful-listing rates are NOT shown as eBay figures, because the live listings API does not return them for a search. Do one search first — every other tab below works from that search's results.</p>
 <div class="row">
 <input id="q" placeholder="Search a product, e.g. wireless earbuds">
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
@@ -94,7 +88,7 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <div class="row">
 <input id="priceMin" type="number" placeholder="Min price (optional)">
 <input id="priceMax" type="number" placeholder="Max price (optional)">
-<input id="conditionText" placeholder="Condition text filter (optional, e.g. New — leave blank for all)">
+<input id="conditionText" placeholder="Condition text filter (optional, e.g. New)">
 <button onclick="clearFilters()">Clear filters</button>
 </div>
 <div id="status" class="muted" style="margin-top:10px"></div>
@@ -107,94 +101,415 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 </div>
 </div>
 <div class="card"><h2>Live Listings</h2><div class="tablewrap"><table><thead><tr><th>PRODUCT</th><th>PRODUCT TITLE</th><th>PRICE</th><th>SELLER</th><th>TOTAL SALES BY SELLER (EST., IN THIS SEARCH)</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>CHANCES OF SUCCESS (TOOL SCORE)</th><th>WINNING / LOSING</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
-<p class="muted">Columns in order: Product picture, Product Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity for that seller's rows), Feedback Score, Location, Condition, Chances of Success (tool score, see Notes), Winning / Losing / Neutral (tool rating from that score, not an eBay guarantee), Market, eBay Link.</p></div>
+<p class="muted">Columns: picture, Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity), Feedback, Location, Condition, Chances of Success (tool score, see Notes), Winning / Neutral / Losing (tool rating from that score, not an eBay guarantee), Market, eBay Link + Save to Watchlist. Missing field = Not specified. No sold, sell-through or total-sales column is shown, because no sold source returns those values for this search.</p></div>
 </div>
+
+<!-- EXPLORER -->
+<div id="tab-explorer" style="display:none"><div class="card">
+<h2>Product Explorer — advanced filters on your last search</h2>
+<p class="muted">ZIK Explorer has 19+ filters and a monthly cap (20 PRO / 100 PRO+). This version runs the same idea on your last live search — no cap, because it filters rows already fetched, it does not call ZIK's database.</p>
+<div class="row">
+<input id="exExclude" placeholder="Exclude words, comma separated (e.g. broken, parts)">
+<input id="exMinFb" type="number" placeholder="Min feedback score (optional)">
+<select id="exSort"><option value="sales">Sort: sales (est.) high to low</option><option value="priceAsc">Sort: price low to high</option><option value="priceDesc">Sort: price high to low</option><option value="fb">Sort: feedback high to low</option></select>
+<button onclick="runExplorer()">Run Explorer</button>
+</div>
+<div id="exStatus" class="muted" style="margin-top:10px"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SELLER</th><th>SALES (EST.)</th><th>FEEDBACK</th><th>CONDITION</th><th>MARKET</th><th>LINK</th></tr></thead><tbody id="exResults"></tbody></table></div>
+</div></div>
+
+<!-- COMPETITOR -->
+<div id="tab-competitor" style="display:none"><div class="card">
+<h2>Competitor Research — any eBay seller</h2>
+<p class="muted">ZIK: paste a Seller ID and see that seller's listings, sales and prices. Here: type the seller name, then either filter your last search, or run a fresh live search for that seller (needs the updated api/search.js — if only index.html is updated, the fresh search still works and is then filtered by seller name here).</p>
+<div class="row">
+<input id="compSeller" placeholder="Seller username, e.g. shinyrectangles">
+<input id="compQ" placeholder="Keyword for fresh live search (optional)">
+<button onclick="runCompetitor()">Show this seller</button>
+<button onclick="runCompetitorLive()">Fresh live search for this seller</button>
+</div>
+<div id="compStats" class="stats"></div>
+<div id="compStatus" class="muted" style="margin-top:10px"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SALES (EST.)</th><th>FEEDBACK</th><th>CONDITION</th><th>MARKET</th><th>LINK</th></tr></thead><tbody id="compResults"></tbody></table></div>
+</div></div>
+
+<!-- CATEGORY -->
+<div id="tab-category" style="display:none"><div class="card">
+<h2>Category Research — from your last search</h2>
+<p class="muted">ZIK Category Research browses eBay's real category tree with star ratings. eBay's Browse search API here does not return a category tree, so this tab is honest about its limit: it groups your last search by a category word in the title, and rates that group with a TOOL rating (not ZIK's star rating).</p>
+<div class="row">
+<input id="catWord" placeholder="Category word, e.g. charger, watch, shoes">
+<button onclick="runCategory()">Show category group</button>
+</div>
+<div id="catStats" class="stats"></div>
+<div id="catStatus" class="muted" style="margin-top:10px"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SELLER</th><th>SALES (EST.)</th><th>MARKET</th><th>LINK</th></tr></thead><tbody id="catResults"></tbody></table></div>
+</div></div>
+<!-- MARKET INSIGHTS -->
+<div id="tab-market" style="display:none"><div class="card">
+<h2>Market Insights — from your last search</h2>
+<p class="muted">ZIK Market Insights shows trending niches (30 days), trending products (24h refresh) and a dropshipper leaderboard from its own database. This tool has no access to that database, so this tab shows the same kind of summary — but only from your last live search, and it says so. No daily trend chart is faked here.</p>
+<button onclick="runMarket()">Build insights from last search</button>
+<div id="marketOut" style="margin-top:12px"></div>
+</div></div>
+
+<!-- TITLE BUILDER -->
+<div id="tab-title" style="display:none"><div class="card">
+<h2>Title Builder — from your last search's titles</h2>
+<p class="muted">ZIK Title Analytics shows top selling titles and long-tail / generic keywords, then builds a title up to eBay's 80-character limit. This version extracts the same from your last search's titles. Click any keyword to add it to your title.</p>
+<button onclick="runTitle()">Extract keywords from last search</button>
+<div class="row"><input id="titleBuilt" placeholder="Your title — click keywords below to add them"><span id="titleCount" class="pill">0 / 80 characters</span><button onclick="copyTitle()">Copy title</button></div>
+<div id="titleOut" style="margin-top:12px"></div>
+</div></div>
+
+<!-- BULK SCANNER -->
+<div id="tab-bulk" style="display:none"><div class="card">
+<h2>Bulk Scanner — up to 5 sellers, from your last search</h2>
+<p class="muted">ZIK Bulk Scanner scans a whole store and matches every listing to Amazon / Walmart (PRO+ only). This version scans up to 5 sellers from your last search and gives each item supplier SEARCH links — it does NOT show live Amazon / Walmart prices, because no Amazon / Walmart API key is connected. A search link is not a price match.</p>
+<textarea id="bulkSellers" placeholder="One seller per line, up to 5, e.g.&#10;shinyrectangles&#10;another-seller"></textarea>
+<div class="row"><button onclick="runBulk()">Scan these sellers</button></div>
+<div id="bulkOut" style="margin-top:12px"></div>
+</div></div>
+
+<!-- TURBO -->
+<div id="tab-turbo" style="display:none"><div class="card">
+<h2>Turbo Scanner — strict filtered scan, from your last search</h2>
+<p class="muted">ZIK Turbo Scanner searches 5M+ Amazon / Walmart products (PRO+ 10/month) and never repeats a result. This version cannot reach that database, so it is a strict filter on your last live search instead — same workflow, honest source. For sales (est.) filtering, use a single-market search (US etc.), because ALL-market searches do not load sales (est.).</p>
+<div class="row">
+<input id="turboMinPrice" type="number" placeholder="Min price (optional)">
+<input id="turboMaxPrice" type="number" placeholder="Max price (optional)">
+<input id="turboMinFb" type="number" placeholder="Min feedback (optional)">
+<input id="turboMinSales" type="number" placeholder="Min sales (est.) (optional)">
+<label style="font-size:13px"><input type="checkbox" id="turboNewOnly" style="min-width:0;flex:none"> New condition only</label>
+<button onclick="runTurbo()">Run Turbo scan</button>
+</div>
+<div id="turboStatus" class="muted" style="margin-top:10px"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SELLER</th><th>SALES (EST.)</th><th>FEEDBACK</th><th>CONDITION</th><th>MARKET</th><th>LINK</th></tr></thead><tbody id="turboResults"></tbody></table></div>
+</div></div>
+<!-- AUTOPILOT -->
+<div id="tab-autopilot" style="display:none"><div class="card">
+<h2>Autopilot — saved scans in this browser</h2>
+<p class="muted">ZIK Autopilot runs scheduled scans 24/7 on its servers (PRO+ 10/month). A static website cannot do server-side 24/7 scans, so this version is honest: it SAVES your scan criteria in this browser, and one click re-runs them all. It does not run while the page is closed, and it does not verify supplier reliability or handle importing.</p>
+<div class="row">
+<input id="autoQ" placeholder="Keyword to save">
+<select id="autoMarket"><option value="US">US</option><option value="UK">UK</option><option value="ALL">All + 8 markets</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
+<input id="autoMinPrice" type="number" placeholder="Min price (optional)">
+<input id="autoMaxPrice" type="number" placeholder="Max price (optional)">
+<button onclick="saveAutopilot()">Save this scan</button>
+<button onclick="runAutopilot()">Run all saved scans</button>
+</div>
+<div id="autoOut" style="margin-top:12px"></div>
+<div id="autoStatus" class="muted" style="margin-top:10px"></div>
+</div></div>
+
+<!-- TOP SELLERS -->
+<div id="tab-top" style="display:none"><div class="card">
+<h2>Top Sellers in this search — not ZIK's global Top 500</h2>
+<p class="muted">ZIK's 500 Best Selling Items is a daily list from its own sold database (PRO+ only). This tool has no access to that list, so this tab ranks the top items IN YOUR LAST SEARCH by sales (est.) — single-market searches only for sales ranking; ALL-market searches rank by feedback instead, and the tab says which one it used.</p>
+<button onclick="runTop()">Show top items from last search</button>
+<div id="topStatus" class="muted" style="margin-top:10px"></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>#</th><th>PRODUCT</th><th>TITLE</th><th>PRICE</th><th>SELLER</th><th>SALES (EST.)</th><th>FEEDBACK</th><th>MARKET</th><th>LINK</th></tr></thead><tbody id="topResults"></tbody></table></div>
+</div></div>
+
+<!-- SUPPLIER FINDER -->
+<div id="tab-supplier" style="display:none"><div class="card">
+<h2>Supplier Finder / Item Finder</h2>
+<p class="muted">ZIK Item Finder matches a listing to Amazon, Walmart, AliExpress, Alibaba and CJ with live supplier prices, profit and ROI. No supplier API key is connected here, so this tab gives you supplier SEARCH links for the exact title, plus a real profit calculation once you type the supplier price you found. A search link is not a live price match — never treat it as one.</p>
+<div class="row">
+<select id="supProduct"><option value="">— search first, then pick a product —</option></select>
+</div>
+<div id="supLinks" style="margin-top:12px"></div>
+<div class="profit">
+<div><label>eBay selling price (USD)</label><input id="supSell" type="number" step="0.01"></div>
+<div><label>Supplier price you found (USD)</label><input id="supCost" type="number" step="0.01"></div>
+<div><label>Shipping (USD)</label><input id="supShip" type="number" step="0.01" value="3"></div>
+<div><label>eBay fee %</label><input id="supFee" type="number" step="0.01" value="13.25"></div>
+</div>
+<button style="margin-top:14px" onclick="calcSupplier()">Calculate margin + ROI</button>
+<div id="supOut" style="font-weight:900;margin-top:12px"></div>
+</div></div>
+
+<!-- WATCHLIST -->
+<div id="tab-watchlist" style="display:none"><div class="card">
+<h2>Watchlist — saved in this browser</h2>
+<p class="muted">ZIK Watchlist saves competitors and products to folders. This version saves products and sellers in this browser (localStorage), so they stay on this device only. Save a product from the Research table's Save link, or save a seller below.</p>
+<div class="row">
+<input id="watchSeller" placeholder="Seller username to watch">
+<button onclick="watchSellerAdd()">Watch this seller</button>
+<button onclick="exportWatchlistCSV()">Export Watchlist as CSV</button>
+<button onclick="clearWatchlist()">Clear Watchlist</button>
+</div>
+<div id="watchOut" style="margin-top:12px"></div>
+</div></div>
+
+<!-- STORE -->
+<div id="tab-store" style="display:none"><div class="card">
+<h2>Store snapshot — from your last search</h2>
+<p class="muted">ZIK Store Analytics needs a connected eBay store (OAuth). This tool uses client-credentials keys only, so no store can be connected here. This tab is therefore a snapshot of one seller taken from your last search — limited to 50 listings per market, not a full store.</p>
+<div class="row">
+<input id="storeSeller" placeholder="Seller username">
+<button onclick="runStore()">Show store snapshot</button>
+</div>
+<div id="storeStats" class="stats"></div>
+<div id="storeStatus" class="muted" style="margin-top:10px"></div>
+</div></div>
+
+<!-- PROFIT -->
 <div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
-<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2><p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets in the market map, not a count of unique products. Sales (est.) is eBay's estimated sold quantity from the item-detail call, for single-market searches only. Total Sales by Seller is the sum of those estimates for one seller in this search only. Chances of Success is a transparent tool score out of 100, NOT eBay data: Sales (est.) &gt; 0 = 40 points, Feedback &gt;=1000 = 25 / &gt;=100 = 15 / &gt;=10 = 5, Price &lt;= search average = 20 / &lt;= average x 1.2 = 10, Condition New/Ungraded/Factory Sealed = 15. Winning = 70% or more, Neutral = 40-69%, Losing = under 40%. Without sales data a row cannot reach Winning, because sales are 40 of the 100 points. A failed sold call is never replaced with an invented number or a search total.</p></div></div>
+
+<!-- NOTES -->
+<div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2>
+<p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets, not a count of unique products. Chances of Success and Winning / Neutral / Losing are TOOL scores from the rows in this search (sales est. &gt; 0 = 40 points; feedback ≥ 1000 = 25 / ≥ 100 = 15 / ≥ 10 = 5; price ≤ search average = 20 / ≤ average × 1.2 = 10; condition containing New / Ungraded / Factory Sealed = 15; capped at 100; Winning ≥ 70, Neutral 40–69, Losing &lt; 40). They are not eBay data and not a guarantee.</p>
+<p><b>Honest limits, read before trusting any tab:</b> (1) No global sold history, no ZIK sold database, no 5M-product Turbo database — Turbo / Top / Market tabs work from your last search only. (2) No live Amazon / Walmart / AliExpress / Alibaba / CJ prices — Supplier Finder gives search links only, plus a calculation from a price you type in. (3) No server-side 24/7 Autopilot — saved scans run only when you press Run in this browser. (4) No connected-store analytics and no Chrome extension — those need store OAuth and a browser extension, which a website cannot provide. (5) Sales (est.) comes only from single-market searches, via eBay item details, and is labelled est. because eBay itself calls it an estimate. A missing field is always shown as Not specified, never invented.</p>
+<p>Two honest options for real sold history remain: (1) collect live data daily and build sold history over time, or (2) keep running as live listings only.</p>
+</div></div>
 <div class="warn">Owner note: EBAY_APP_ID and EBAY_CERT_ID stay only in Vercel Environment Variables. Never put them in this page or in a public Git repo.</div>
-</main>
-</div>
+</main></div>
 <script>
-function showTab(id,btn){var tabs=['research','profit','notes'];tabs.forEach(function(t){document.getElementById('tab-'+t).style.display=(t===id?'block':'none');});document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});if(btn){btn.classList.add('active');}}
-document.addEventListener('mousemove',function(e){
-if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}
-var cards=document.querySelectorAll('.card');
-cards.forEach(function(card){
-var r=card.getBoundingClientRect();
-if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
-var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;
-card.style.transform='translateY(-3px) rotateY('+(x*4)+'deg) rotateX('+(-y*4)+'deg)';
-} else {card.style.transform='';}
-});
-});
-function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
+/* Pure helpers — no DOM access here, so they can be unit-tested in Node. */
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
-var marketNames={EBAY_US:'US',EBAY_GB:'UK',EBAY_DE:'Germany',EBAY_AU:'Australia',EBAY_CA:'Canada',EBAY_FR:'France',EBAY_IT:'Italy',EBAY_ES:'Spain'};
-async function doSearch(){
-var q=document.getElementById('q').value.trim();var market=document.getElementById('market').value;var limit=document.getElementById('limit').value;
-if(!q){document.getElementById('status').textContent='Please type a product name first.';return;}
-document.getElementById('status').textContent='Searching live eBay…';document.getElementById('results').innerHTML='';document.getElementById('filterNote').textContent='';
-try{
-var r=await fetch('/api/search?q='+encodeURIComponent(q)+'&market='+market+'&limit='+limit);var d=await r.json();
-if(!d.ok){document.getElementById('status').textContent='Error: '+d.error;return;}
-var total=0;var allItems=[];
-d.results.forEach(function(m){total+=m.total;(m.items||[]).forEach(function(it){allItems.push({item:it,market:m.market});});});
-var pMinRaw=document.getElementById('priceMin').value;var pMaxRaw=document.getElementById('priceMax').value;
-var pMin=pMinRaw==='' ? null : parseFloat(pMinRaw);var pMax=pMaxRaw==='' ? null : parseFloat(pMaxRaw);
-if(pMin!==null&&pMax!==null&&pMin>pMax){var tmp=pMin;pMin=pMax;pMax=tmp;}
-var condText=document.getElementById('conditionText').value.trim().toLowerCase();
-var filtered=allItems.filter(function(row){
-var it=row.item;
-if(pMin!==null&&it.priceValue!=null&&it.priceValue<pMin){return false;}
-if(pMax!==null&&it.priceValue!=null&&it.priceValue>pMax){return false;}
-if(condText){var c=String(it.condition||'').toLowerCase();if(c.indexOf(condText)===-1){return false;}}
-return true;
-});
-var filterNoteEl=document.getElementById('filterNote');
-if(filtered.length===0&&allItems.length>0){
-filtered=allItems;
-filterNoteEl.textContent='Note: your filters removed every row, so all '+allItems.length+' rows are shown instead. Clear the price or condition filter to search normally.';
-} else if(condText||pMin!==null||pMax!==null){
-filterNoteEl.textContent='Filters applied: '+(pMin!==null?('min $'+pMin+' '):'')+(pMax!==null?('max $'+pMax+' '):'')+(condText?('condition contains "'+condText+'"'):'');
+function stopWords(){return ['the','a','an','and','or','for','with','new','used','free','shipping','item','items','set','lot','brand','genuine','original','black','white','blue','red','pack'];}
+function extractKeywords(titles){
+  var counts={}; var phrases={};
+  titles.forEach(function(t){
+    var words=String(t||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(' ').filter(function(w){return w.length>2 && stopWords().indexOf(w)===-1;});
+    words.forEach(function(w){counts[w]=(counts[w]||0)+1;});
+    for(var i=0;i<words.length-1;i++){var ph=words[i]+' '+words[i+1]; phrases[ph]=(phrases[ph]||0)+1;}
+  });
+  function top(obj,n){return Object.keys(obj).map(function(k){return {k:k,c:obj[k]};}).sort(function(a,b){return b.c-a.c;}).slice(0,n);}
+  return {words:top(counts,20), phrases:top(phrases,20)};
 }
-var prices=[];var sellers={};var html='';
-filtered.forEach(function(row){if(row.item.priceValue!=null){prices.push(row.item.priceValue);} if(row.item.seller){sellers[row.item.seller]=true;}});
-var avgPrice=prices.length?(prices.reduce(function(a,b){return a+b;},0)/prices.length):null;
-var sellerSales={};var sellerHasSales={};
-filtered.forEach(function(row){var it=row.item;if(it.seller&&it.soldQuantity!=null){sellerSales[it.seller]=(sellerSales[it.seller]||0)+Number(it.soldQuantity);sellerHasSales[it.seller]=true;}});
-function chanceScore(it){
-var s=0;
-if(it.soldQuantity!=null&&Number(it.soldQuantity)>0){s+=40;}
-var fb=it.feedbackScore!=null?Number(it.feedbackScore):0;
-if(fb>=1000){s+=25;} else if(fb>=100){s+=15;} else if(fb>=10){s+=5;}
-if(avgPrice!=null&&it.priceValue!=null){if(it.priceValue<=avgPrice){s+=20;} else if(it.priceValue<=avgPrice*1.2){s+=10;}}
-var c=String(it.conditionDescription||it.condition||'').toUpperCase();
-if(c.indexOf('NEW')!==-1||c.indexOf('UNGRADED')!==-1||c.indexOf('FACTORY')!==-1){s+=15;}
-return Math.min(100,s);
+function priceBands(rows){
+  var bands=[{label:'Under $10',min:0,max:10,n:0},{label:'$10 – $25',min:10,max:25,n:0},{label:'$25 – $50',min:25,max:50,n:0},{label:'$50 – $100',min:50,max:100,n:0},{label:'Over $100',min:100,max:1e9,n:0}];
+  rows.forEach(function(r){var p=r.item.priceValue; if(p==null) return; bands.forEach(function(b){if(p>=b.min && p<b.max) b.n++;});});
+  return bands;
 }
-filtered.forEach(function(row){
-var it=row.item;
-var img=it.image?'<div style="width:48px;height:48px;overflow:hidden;border-radius:10px;flex-shrink:0"><img src="'+esc(it.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>':'Not specified';
-var titleText=esc(it.title);
-var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+titleText+'</div></a>':'<div class="title">'+titleText+'</div>';
-var link=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified';
-var feedback=it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified';
-var sellerSalesText=(it.seller&&sellerHasSales[it.seller])?Number(sellerSales[it.seller]).toLocaleString()+' (est.)':'Not specified';
-var cond=it.conditionDescription||it.condition||'Not specified';
-var score=chanceScore(it);
-var verdict=score>=70?'🟢 Winning':(score>=40?'⚪ Neutral':'🔴 Losing');
-html+='<tr><td>'+img+'</td><td>'+title+'</td><td class="price">'+esc(it.price||'Not specified')+'</td><td>'+esc(it.seller||'Not specified')+'</td><td>'+sellerSalesText+'</td><td>'+feedback+'</td><td>'+esc(it.location||'Not specified')+'</td><td>'+esc(cond)+'</td><td>'+score+'% (tool score)</td><td>'+verdict+'</td><td><span class="pill">'+esc(marketNames[row.market]||row.market)+'</span></td><td>'+link+'</td></tr>';
-});
-document.getElementById('statListings').textContent=total.toLocaleString();
-document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
-document.getElementById('statShown').textContent=filtered.length;
-document.getElementById('statAvg').textContent=prices.length?('$'+(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2)):'Not specified';
-document.getElementById('statSellers').textContent=Object.keys(sellers).length;
-document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
-document.getElementById('results').innerHTML=html||'<tr><td colspan="12">No listings returned for this search.</td></tr>';
-}catch(e){document.getElementById('status').textContent='Error: '+e.message;}
+function aggregateSeller(rows, name){
+  var n=String(name||'').toLowerCase();
+  var mine=rows.filter(function(r){return r.item.seller && String(r.item.seller).toLowerCase()===n;});
+  var prices=mine.map(function(r){return r.item.priceValue;}).filter(function(p){return p!=null;});
+  var sales=0, hasSales=false;
+  mine.forEach(function(r){if(r.item.soldQuantity!=null){sales+=Number(r.item.soldQuantity); hasSales=true;}});
+  var fb=mine.length && mine[0].item.feedbackScore!=null ? mine[0].item.feedbackScore : null;
+  return {rows:mine, count:mine.length, avg:prices.length?prices.reduce(function(a,b){return a+b;},0)/prices.length:null, sales:hasSales?sales:null, feedback:fb};
 }
-function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0;var cost=parseFloat(document.getElementById('cost').value)||0;var ship=parseFloat(document.getElementById('ship').value)||0;var feePct=parseFloat(document.getElementById('fee').value)||0;var fee=sell*feePct/100;var profit=sell-cost-ship-fee;var margin=sell?profit/sell*100:0;var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0;document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
+function topSellers(rows, n){
+  var map={};
+  rows.forEach(function(r){if(!r.item.seller) return; var s=map[r.item.seller]||{seller:r.item.seller,count:0,sales:0,hasSales:false,fb:r.item.feedbackScore}; s.count++; if(r.item.soldQuantity!=null){s.sales+=Number(r.item.soldQuantity); s.hasSales=true;} map[r.item.seller]=s;});
+  return Object.keys(map).map(function(k){return map[k];}).sort(function(a,b){return (b.hasSales?b.sales:0)-(a.hasSales?a.sales:0) || b.count-a.count;}).slice(0,n||10);
+}
+function supplierLinks(title){
+  var q=encodeURIComponent(title||'');
+  return [
+    {name:'Amazon', url:'https://www.amazon.com/s?k='+q},
+    {name:'Walmart', url:'https://www.walmart.com/search?q='+q},
+    {name:'AliExpress', url:'https://www.aliexpress.com/wholesale?SearchText='+q},
+    {name:'Alibaba', url:'https://www.alibaba.com/trade/search?SearchText='+q},
+    {name:'CJ Dropshipping', url:'https://cjdropshipping.com/search/'+q}
+  ];
+}
+function chanceScore(it, avgPrice){
+  var s=0;
+  if(it.soldQuantity!=null && Number(it.soldQuantity)>0) s+=40;
+  var fb=it.feedbackScore!=null?Number(it.feedbackScore):0;
+  if(fb>=1000) s+=25; else if(fb>=100) s+=15; else if(fb>=10) s+=5;
+  if(avgPrice!=null && it.priceValue!=null){if(it.priceValue<=avgPrice) s+=20; else if(it.priceValue<=avgPrice*1.2) s+=10;}
+  var c=String(it.conditionDescription||it.condition||'').toUpperCase();
+  if(c.indexOf('NEW')!==-1||c.indexOf('UNGRADED')!==-1||c.indexOf('FACTORY')!==-1) s+=15;
+  return Math.min(100,s);
+}
+function verdict(score){return score>=70?'🟢 Winning':(score>=40?'⚪ Neutral':'🔴 Losing');}
+function avgPriceOf(rows){var ps=rows.map(function(r){return r.item.priceValue;}).filter(function(p){return p!=null;}); return ps.length?ps.reduce(function(a,b){return a+b;},0)/ps.length:null;}
+function marketName(m){var map={EBAY_US:'US',EBAY_GB:'UK',EBAY_DE:'Germany',EBAY_AU:'Australia',EBAY_CA:'Canada',EBAY_FR:'France',EBAY_IT:'Italy',EBAY_ES:'Spain'}; return map[m]||m;}
+function rowCells(r, avg){
+  var it=r.item;
+  var img=it.image?'<img src="'+esc(it.image)+'" alt="">':'Not specified';
+  var title=it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener"><div class="title">'+esc(it.title)+'</div></a>':'<div class="title">'+esc(it.title)+'</div>';
+  var link=(it.url?'<a href="'+esc(it.url)+'" target="_blank" rel="noopener">View on eBay →</a>':'Not specified')+' <a href="#" onclick="saveProduct('+r._idx+');return false;">[Save]</a>';
+  return {img:img, title:title, link:link, price:esc(it.price||'Not specified'), seller:esc(it.seller||'Not specified'), sales:(it.soldQuantity!=null?Number(it.soldQuantity).toLocaleString()+' (est.)':'Not specified'), fb:(it.feedbackScore!=null?Number(it.feedbackScore).toLocaleString():'Not specified'), loc:esc(it.location||'Not specified'), cond:esc(it.conditionDescription||it.condition||'Not specified'), score:avg!=null?chanceScore(it,avg):null, market:marketName(r.market)};
+}
+function simpleTable(tbodyId, rows, withScore){
+  var avg=withScore?avgPriceOf(rows):null;
+  var html='';
+  rows.forEach(function(r){var c=rowCells(r,avg); html+='<tr><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+c.sales+'</td><td>'+c.fb+'</td><td>'+c.cond+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
+  document.getElementById(tbodyId).innerHTML=html||'<tr><td colspan="9">No rows. Do a Product Research search first.</td></tr>';
+}
+/* State + tabs */
+var lastRows=[]; var lastQuery=''; var lastMarket='ALL'; var lastTotal=0;
+var ALL_TABS=['research','explorer','competitor','category','market','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','notes'];
+function showTab(id,btn){ALL_TABS.forEach(function(t){var el=document.getElementById('tab-'+t); if(el) el.style.display=(t===id?'block':'none');}); document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');}); if(btn) btn.classList.add('active'); if(id==='watchlist') renderWatchlist(); if(id==='autopilot') renderAutopilot();}
+function needSearch(){return lastRows.length===0;}
+function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
+async function doSearch(extra){
+  var q=document.getElementById('q').value.trim(); var market=document.getElementById('market').value; var limit=document.getElementById('limit').value;
+  if(!q){document.getElementById('status').textContent='Please type a product name first.'; return;}
+  document.getElementById('status').textContent='Searching live eBay…'; document.getElementById('results').innerHTML=''; document.getElementById('filterNote').textContent='';
+  try{
+    var url='/api/search?q='+encodeURIComponent(q)+'&market='+market+'&limit='+limit;
+    if(extra && extra.seller) url+='&seller='+encodeURIComponent(extra.seller);
+    if(extra && extra.category) url+='&category='+encodeURIComponent(extra.category);
+    var r=await fetch(url); var d=await r.json();
+    if(!d.ok){document.getElementById('status').textContent='Error: '+d.error; return;}
+    var total=0; var all=[];
+    d.results.forEach(function(m){total+=m.total; (m.items||[]).forEach(function(it){all.push({item:it,market:m.market});});});
+    if(extra && extra.seller){var sn=extra.seller.toLowerCase(); all=all.filter(function(row){return row.item.seller && String(row.item.seller).toLowerCase()===sn;});}
+    all.forEach(function(row,i){row._idx=i;});
+    lastRows=all; lastQuery=q; lastMarket=market; lastTotal=total;
+    var pMinRaw=document.getElementById('priceMin').value; var pMaxRaw=document.getElementById('priceMax').value;
+    var pMin=pMinRaw==='' ? null : parseFloat(pMinRaw); var pMax=pMaxRaw==='' ? null : parseFloat(pMaxRaw);
+    if(pMin!==null && pMax!==null && pMin>pMax){var tmp=pMin;pMin=pMax;pMax=tmp;}
+    var condText=document.getElementById('conditionText').value.trim().toLowerCase();
+    var filtered=all.filter(function(row){var it=row.item; if(pMin!==null && it.priceValue!=null && it.priceValue<pMin) return false; if(pMax!==null && it.priceValue!=null && it.priceValue>pMax) return false; if(condText){var c=String(it.condition||'').toLowerCase(); if(c.indexOf(condText)===-1) return false;} return true;});
+    var fn=document.getElementById('filterNote');
+    if(filtered.length===0 && all.length>0){filtered=all; fn.textContent='Note: your filters removed every row, so all '+all.length+' rows are shown instead.';}
+    else if(condText||pMin!==null||pMax!==null){fn.textContent='Filters applied.';}
+    var avg=avgPriceOf(filtered);
+    var sellers={}; filtered.forEach(function(row){if(row.item.seller) sellers[row.item.seller]=true;});
+    var sellerSales={}; var sellerHas={};
+    filtered.forEach(function(row){var it=row.item; if(it.seller && it.soldQuantity!=null){sellerSales[it.seller]=(sellerSales[it.seller]||0)+Number(it.soldQuantity); sellerHas[it.seller]=true;}});
+    var html='';
+    filtered.forEach(function(row){var c=rowCells(row,avg); var sc=chanceScore(row.item,avg); html+='<tr><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+((row.item.seller && sellerHas[row.item.seller])?Number(sellerSales[row.item.seller]).toLocaleString()+' (est.)':'Not specified')+'</td><td>'+c.fb+'</td><td>'+c.loc+'</td><td>'+c.cond+'</td><td>'+sc+'% (tool score)</td><td>'+verdict(sc)+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
+    document.getElementById('statListings').textContent=total.toLocaleString();
+    document.getElementById('statListingsLabel').textContent=(market==='ALL'?'Listings — sum across 8 markets, not unique products':'Listings in '+market);
+    document.getElementById('statShown').textContent=filtered.length;
+    document.getElementById('statAvg').textContent=avg!=null?('$'+avg.toFixed(2)):'Not specified';
+    document.getElementById('statSellers').textContent=Object.keys(sellers).length;
+    document.getElementById('status').textContent='Found '+total.toLocaleString()+' listings for "'+q+'" ('+market+'). Rows shown: '+filtered.length+'.';
+    document.getElementById('salesNote').textContent=(market==='ALL'?'Sales (est.): select a single market (e.g. US) to load per-item sales from eBay item details. ALL is too many detail calls for one search.':'Sales (est.) = eBay estimated sold quantity from the item-detail call for that listing, labelled est. because eBay itself calls it an estimate. Not specified = eBay returned no sold quantity for that listing.');
+    document.getElementById('results').innerHTML=html||'<tr><td colspan="12">No listings returned for this search.</td></tr>';
+    populateSupplier();
+  }catch(e){document.getElementById('status').textContent='Error: '+e.message;}
+}
+function populateSupplier(){
+  var sel=document.getElementById('supProduct'); if(!sel) return;
+  sel.innerHTML='<option value="">— pick a product —</option>';
+  lastRows.forEach(function(row,i){var o=document.createElement('option'); o.value=i; o.textContent=(row.item.title||'').slice(0,90)+' — '+(row.item.price||''); sel.appendChild(o);});
+  sel.onchange=function(){var row=lastRows[Number(sel.value)]; if(!row) return; document.getElementById('supSell').value=row.item.priceValue!=null?row.item.priceValue:''; var links=supplierLinks(row.item.title).map(function(l){return '<a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+l.name+' search →</a>';}).join(' &nbsp;·&nbsp; '); document.getElementById('supLinks').innerHTML='<p class="muted">Supplier search links for: <b>'+esc(row.item.title)+'</b> — these are search links only, not live supplier prices.</p><p>'+links+'</p>';};
+}
+function runExplorer(){
+  if(needSearch()){document.getElementById('exStatus').textContent='First do a Product Research search.'; return;}
+  var excl=document.getElementById('exExclude').value.toLowerCase().split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var minFb=document.getElementById('exMinFb').value==='' ? null : parseFloat(document.getElementById('exMinFb').value);
+  var sort=document.getElementById('exSort').value;
+  var rows=lastRows.filter(function(row){var t=String(row.item.title||'').toLowerCase(); if(excl.some(function(w){return t.indexOf(w)!==-1;})) return false; if(minFb!==null && (row.item.feedbackScore==null || Number(row.item.feedbackScore)<minFb)) return false; return true;});
+  rows.sort(function(a,b){if(sort==='priceAsc') return (a.item.priceValue||0)-(b.item.priceValue||0); if(sort==='priceDesc') return (b.item.priceValue||0)-(a.item.priceValue||0); if(sort==='fb') return (Number(b.item.feedbackScore)||0)-(Number(a.item.feedbackScore)||0); return (Number(b.item.soldQuantity)||0)-(Number(a.item.soldQuantity)||0);});
+  document.getElementById('exStatus').textContent='Explorer: '+rows.length+' of '+lastRows.length+' rows from your last search ("'+lastQuery+'").';
+  simpleTable('exResults', rows, false);
+}
+function showCompetitor(agg){
+  document.getElementById('compStats').innerHTML='<div class="stat"><b>'+agg.count+'</b><span>Listings in search</span></div><div class="stat"><b>'+(agg.avg!=null?('$'+agg.avg.toFixed(2)):'Not specified')+'</b><span>Average price</span></div><div class="stat"><b>'+(agg.sales!=null?agg.sales.toLocaleString()+' (est.)':'Not specified')+'</b><span>Total sales (est.)</span></div><div class="stat"><b>'+(agg.feedback!=null?Number(agg.feedback).toLocaleString():'Not specified')+'</b><span>Feedback score</span></div>';
+  simpleTable('compResults', agg.rows, false);
+}
+function runCompetitor(){
+  var name=document.getElementById('compSeller').value.trim();
+  if(!name){document.getElementById('compStatus').textContent='Type a seller username first.'; return;}
+  if(needSearch()){document.getElementById('compStatus').textContent='First do a Product Research search, or use Fresh live search.'; return;}
+  var agg=aggregateSeller(lastRows, name);
+  document.getElementById('compStatus').textContent = agg.count ? 'Seller found in your last search.' : 'Seller not found in your last search. Try Fresh live search.';
+  showCompetitor(agg);
+}
+async function runCompetitorLive(){
+  var name=document.getElementById('compSeller').value.trim(); var q=document.getElementById('compQ').value.trim() || lastQuery;
+  if(!name || !q){document.getElementById('compStatus').textContent='Seller username and a keyword are both needed for a fresh search.'; return;}
+  document.getElementById('q').value=q;
+  await doSearch({seller:name});
+  var agg=aggregateSeller(lastRows, name);
+  document.getElementById('compStatus').textContent = agg.count ? 'Fresh live search done. Seller found.' : 'Fresh live search done, but seller has no listings in these results.';
+  showCompetitor(agg);
+}
+function runCategory(){
+  var word=document.getElementById('catWord').value.trim().toLowerCase();
+  if(!word){document.getElementById('catStatus').textContent='Type a category word first.'; return;}
+  if(needSearch()){document.getElementById('catStatus').textContent='First do a Product Research search.'; return;}
+  var rows=lastRows.filter(function(r){return String(r.item.title||'').toLowerCase().indexOf(word)!==-1;});
+  var avg=avgPriceOf(rows); var sales=0, has=false;
+  rows.forEach(function(r){if(r.item.soldQuantity!=null){sales+=Number(r.item.soldQuantity); has=true;}});
+  var stars=rows.length>=20 && has ? '★★★ (tool rating)' : rows.length>=5 ? '★★ (tool rating)' : '★ (tool rating)';
+  document.getElementById('catStats').innerHTML='<div class="stat"><b>'+rows.length+'</b><span>Listings in group</span></div><div class="stat"><b>'+(avg!=null?('$'+avg.toFixed(2)):'Not specified')+'</b><span>Average price</span></div><div class="stat"><b>'+(has?sales.toLocaleString()+' (est.)':'Not specified')+'</b><span>Total sales (est.)</span></div><div class="stat"><b>'+stars+'</b><span>Tool rating, not ZIK stars</span></div>';
+  document.getElementById('catStatus').textContent='Group "'+word+'" from your last search ("'+lastQuery+'"). This is a title-word group, not eBay\'s category tree.';
+  simpleTable('catResults', rows, false);
+}
+function runMarket(){
+  if(needSearch()){document.getElementById('marketOut').innerHTML='<p class="muted">First do a Product Research search.</p>'; return;}
+  var kw=extractKeywords(lastRows.map(function(r){return r.item.title;}));
+  var sellers=topSellers(lastRows, 10);
+  var bands=priceBands(lastRows);
+  var html='<h3>Top keywords in this search</h3><p>'+kw.words.map(function(k){return '<span class="pill">'+esc(k.k)+' ('+k.c+')</span>';}).join(' ')+'</p>';
+  html+='<h3>Top sellers in this search</h3><p>'+sellers.map(function(s){return '<span class="pill">'+esc(s.seller)+' — '+s.count+' listings'+(s.hasSales?', '+s.sales+' sales (est.)':'')+'</span>';}).join(' ')+'</p>';
+  html+='<h3>Price bands in this search</h3><p>'+bands.map(function(b){return '<span class="pill">'+b.label+': '+b.n+'</span>';}).join(' ')+'</p>';
+  html+='<p class="muted">Source: your last live search ("'+lastQuery+'", '+lastRows.length+' rows). ZIK\'s 30-day niches, 24h products and leaderboard come from its own database and are not reproduced here.</p>';
+  document.getElementById('marketOut').innerHTML=html;
+}
+function runTitle(){
+  if(needSearch()){document.getElementById('titleOut').innerHTML='<p class="muted">First do a Product Research search.</p>'; return;}
+  var kw=extractKeywords(lastRows.map(function(r){return r.item.title;}));
+  function chips(list, label){return '<h3>'+label+'</h3><p>'+list.map(function(k){return '<span class="kw" onclick="addKeyword(\''+esc(k.k).replace(/'/g,'')+'\')">'+esc(k.k)+' ('+k.c+')</span>';}).join(' ')+'</p>';}
+  document.getElementById('titleOut').innerHTML=chips(kw.words,'Single keywords (click to add)')+chips(kw.phrases,'Long-tail phrases (click to add)');
+  updateTitleCount();
+}
+function addKeyword(w){var el=document.getElementById('titleBuilt'); el.value=(el.value+' '+w).trim(); updateTitleCount();}
+function updateTitleCount(){var el=document.getElementById('titleBuilt'); var n=el.value.length; document.getElementById('titleCount').textContent=n+' / 80 characters'+(n>80?' — OVER eBay\'s 80-character limit':'');}
+document.addEventListener('input',function(e){if(e.target && e.target.id==='titleBuilt') updateTitleCount();});
+function copyTitle(){var el=document.getElementById('titleBuilt'); el.select(); try{document.execCommand('copy');}catch(e){} }
+function runBulk(){
+  if(needSearch()){document.getElementById('bulkOut').innerHTML='<p class="muted">First do a Product Research search.</p>'; return;}
+  var names=document.getElementById('bulkSellers').value.split('\n').map(function(s){return s.trim();}).filter(Boolean).slice(0,5);
+  if(!names.length){document.getElementById('bulkOut').innerHTML='<p class="muted">Type up to 5 seller names, one per line.</p>'; return;}
+  var html='';
+  names.forEach(function(name){
+    var agg=aggregateSeller(lastRows, name);
+    html+='<h3>'+esc(name)+' — '+agg.count+' listings in this search</h3>';
+    if(!agg.count){html+='<p class="muted">No listings for this seller in your last search.</p>'; return;}
+    html+='<p class="muted">Average price '+(agg.avg!=null?('$'+agg.avg.toFixed(2)):'Not specified')+' · Sales (est.) '+(agg.sales!=null?agg.sales.toLocaleString():'Not specified')+' · Feedback '+(agg.feedback!=null?Number(agg.feedback).toLocaleString():'Not specified')+'</p>';
+    agg.rows.slice(0,10).forEach(function(row){var links=supplierLinks(row.item.title).map(function(l){return '<a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+l.name+'</a>';}).join(' · '); html+='<p><b>'+esc(row.item.title)+'</b> — '+esc(row.item.price||'Not specified')+' · Supplier search links (not live prices): '+links+'</p>';});
+  });
+  document.getElementById('bulkOut').innerHTML=html;
+}
+function runTurbo(){
+  if(needSearch()){document.getElementById('turboStatus').textContent='First do a Product Research search.'; return;}
+  var minP=document.getElementById('turboMinPrice').value==='' ? null : parseFloat(document.getElementById('turboMinPrice').value);
+  var maxP=document.getElementById('turboMaxPrice').value==='' ? null : parseFloat(document.getElementById('turboMaxPrice').value);
+  var minFb=document.getElementById('turboMinFb').value==='' ? null : parseFloat(document.getElementById('turboMinFb').value);
+  var minS=document.getElementById('turboMinSales').value==='' ? null : parseFloat(document.getElementById('turboMinSales').value);
+  var newOnly=document.getElementById('turboNewOnly').checked;
+  var rows=lastRows.filter(function(row){var it=row.item; if(minP!==null && it.priceValue!=null && it.priceValue<minP) return false; if(maxP!==null && it.priceValue!=null && it.priceValue>maxP) return false; if(minFb!==null && (it.feedbackScore==null || Number(it.feedbackScore)<minFb)) return false; if(minS!==null && (it.soldQuantity==null || Number(it.soldQuantity)<minS)) return false; if(newOnly && String(it.condition||'').toUpperCase().indexOf('NEW')===-1) return false; return true;});
+  rows.sort(function(a,b){return (Number(b.item.soldQuantity)||0)-(Number(a.item.soldQuantity)||0) || (Number(b.item.feedbackScore)||0)-(Number(a.item.feedbackScore)||0);});
+  document.getElementById('turboStatus').textContent='Turbo-style scan: '+rows.length+' of '+lastRows.length+' rows from your last search ("'+lastQuery+'"). Not ZIK\'s 5M-product database.';
+  simpleTable('turboResults', rows.slice(0,50), false);
+}
+function loadWatch(){try{return JSON.parse(localStorage.getItem('ebay_watchlist')||'{"products":[],"sellers":[]}');}catch(e){return {products:[],sellers:[]};}}
+function saveWatch(w){try{localStorage.setItem('ebay_watchlist', JSON.stringify(w));}catch(e){}}
+function saveProduct(idx){var row=lastRows[idx]; if(!row) return; var w=loadWatch(); var it=row.item; if(!w.products.some(function(p){return p.title===it.title;})) w.products.push({title:it.title, price:it.price, seller:it.seller, url:it.url}); saveWatch(w); alert('Saved to Watchlist: '+it.title); renderWatchlist();}
+function watchSellerAdd(){var name=document.getElementById('watchSeller').value.trim(); if(!name) return; var w=loadWatch(); if(w.sellers.indexOf(name)===-1) w.sellers.push(name); saveWatch(w); document.getElementById('watchSeller').value=''; renderWatchlist();}
+function renderWatchlist(){var w=loadWatch(); var html='<h3>Watched sellers ('+w.sellers.length+')</h3><p>'+(w.sellers.length?w.sellers.map(function(s){return '<span class="pill">'+esc(s)+'</span>';}).join(' '):'None yet.')+'</p><h3>Saved products ('+w.products.length+')</h3>'; w.products.forEach(function(p){html+='<p><b>'+esc(p.title)+'</b> — '+esc(p.price||'Not specified')+' — '+esc(p.seller||'Not specified')+' '+(p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener">View →</a>':'')+'</p>';}); document.getElementById('watchOut').innerHTML=html;}
+function exportWatchlistCSV(){var w=loadWatch(); var csv='Type,Title,Price,Seller,URL\n'; w.sellers.forEach(function(s){csv+='Seller,,,'+s.replace(/,/g,' ')+',\n';}); w.products.forEach(function(p){csv+='Product,"'+String(p.title||'').replace(/"/g,'""')+'",'+(p.price||'')+','+(p.seller||'')+','+(p.url||'')+'\n';}); var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='watchlist.csv'; a.click();}
+function clearWatchlist(){saveWatch({products:[],sellers:[]}); renderWatchlist();}
+function loadAuto(){try{return JSON.parse(localStorage.getItem('ebay_autopilot')||'[]');}catch(e){return [];}}
+function saveAutoList(list){try{localStorage.setItem('ebay_autopilot', JSON.stringify(list));}catch(e){}}
+function saveAutopilot(){var q=document.getElementById('autoQ').value.trim(); if(!q){document.getElementById('autoStatus').textContent='Type a keyword to save.'; return;} var list=loadAuto(); list.push({q:q, market:document.getElementById('autoMarket').value, min:document.getElementById('autoMinPrice').value, max:document.getElementById('autoMaxPrice').value}); saveAutoList(list); document.getElementById('autoStatus').textContent='Saved. '+list.length+' scan(s) saved in this browser.'; renderAutopilot();}
+function renderAutopilot(){var list=loadAuto(); var html=list.length?list.map(function(s,i){return '<p>'+(i+1)+'. "'+esc(s.q)+'" — '+esc(s.market)+(s.min?' min $'+esc(s.min):'')+(s.max?' max $'+esc(s.max):'')+' <button onclick="deleteAuto('+i+')">Delete</button></p>';}).join(''):'<p class="muted">No saved scans yet.</p>'; document.getElementById('autoOut').innerHTML=html;}
+function deleteAuto(i){var list=loadAuto(); list.splice(i,1); saveAutoList(list); renderAutopilot();}
+async function runAutopilot(){var list=loadAuto(); if(!list.length){document.getElementById('autoStatus').textContent='No saved scans yet.'; return;} document.getElementById('autoStatus').textContent='Running '+list.length+' saved scan(s)… (this runs now, in this browser — not in the background while the page is closed.)'; for(var i=0;i<list.length;i++){var s=list[i]; document.getElementById('q').value=s.q; document.getElementById('market').value=s.market; document.getElementById('priceMin').value=s.min||''; document.getElementById('priceMax').value=s.max||''; await doSearch();} document.getElementById('autoStatus').textContent='Done. Last saved scan\'s results are shown in Research. Re-running does not repeat ZIK\'s non-repeatable Turbo results — it re-fetches live eBay listings.';}
+function runTop(){
+  if(needSearch()){document.getElementById('topStatus').textContent='First do a Product Research search.'; return;}
+  var rows=lastRows.slice();
+  var hasSales=rows.some(function(r){return r.item.soldQuantity!=null;});
+  rows.sort(function(a,b){if(hasSales) return (Number(b.item.soldQuantity)||0)-(Number(a.item.soldQuantity)||0); return (Number(b.item.feedbackScore)||0)-(Number(a.item.feedbackScore)||0);});
+  document.getElementById('topStatus').textContent='Top items in your last search ("'+lastQuery+'") — ranked by '+(hasSales?'sales (est.)':'feedback (sales est. not available for ALL-market searches)')+'. This is not ZIK\'s global Top 500 list.';
+  var html='';
+  rows.slice(0,50).forEach(function(row,i){var c=rowCells(row,null); html+='<tr><td>'+(i+1)+'</td><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+c.sales+'</td><td>'+c.fb+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
+  document.getElementById('topResults').innerHTML=html||'<tr><td colspan="9">No rows.</td></tr>';
+}
+function calcSupplier(){var sell=parseFloat(document.getElementById('supSell').value)||0; var cost=parseFloat(document.getElementById('supCost').value)||0; var ship=parseFloat(document.getElementById('supShip').value)||0; var feePct=parseFloat(document.getElementById('supFee').value)||0; var fee=sell*feePct/100; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('supOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+') — supplier price typed by you, not a live supplier API price.';}
+function runStore(){
+  var name=document.getElementById('storeSeller').value.trim();
+  if(!name){document.getElementById('storeStatus').textContent='Type a seller username first.'; return;}
+  if(needSearch()){document.getElementById('storeStatus').textContent='First do a Product Research search.'; return;}
+  var agg=aggregateSeller(lastRows, name);
+  document.getElementById('storeStats').innerHTML='<div class="stat"><b>'+agg.count+'</b><span>Listings in search</span></div><div class="stat"><b>'+(agg.avg!=null?('$'+agg.avg.toFixed(2)):'Not specified')+'</b><span>Average price</span></div><div class="stat"><b>'+(agg.sales!=null?agg.sales.toLocaleString()+' (est.)':'Not specified')+'</b><span>Total sales (est.)</span></div><div class="stat"><b>'+(agg.feedback!=null?Number(agg.feedback).toLocaleString():'Not specified')+'</b><span>Feedback score</span></div>';
+  document.getElementById('storeStatus').textContent = agg.count ? 'Snapshot from your last search. Full-store data is not available.' : 'Seller not found in your last search.';
+}
+function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0; var cost=parseFloat(document.getElementById('cost').value)||0; var ship=parseFloat(document.getElementById('ship').value)||0; var feePct=parseFloat(document.getElementById('fee').value)||0; var fee=sell*feePct/100; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
 </script>
 </body>
 </html>
