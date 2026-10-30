@@ -1,8 +1,11 @@
+// Vercel serverless version of /api/search (same logic as server.js).
+// Keys come ONLY from Vercel Environment Variables, never from frontend code.
 const MARKETS = {
   US: 'EBAY_US', UK: 'EBAY_GB', DE: 'EBAY_DE', AU: 'EBAY_AU',
   CA: 'EBAY_CA', FR: 'EBAY_FR', IT: 'EBAY_IT', ES: 'EBAY_ES',
 };
 let tokenCache = { token: null, expiresAt: 0 };
+
 async function getToken() {
   const now = Date.now();
   if (tokenCache.token && now < tokenCache.expiresAt) return tokenCache.token;
@@ -20,6 +23,7 @@ async function getToken() {
   tokenCache = { token: data.access_token, expiresAt: now + (data.expires_in - 60) * 1000 };
   return tokenCache.token;
 }
+
 module.exports = async (req, res) => {
   try {
     const q = (req.query.q || '').trim();
@@ -30,6 +34,10 @@ module.exports = async (req, res) => {
     const markets = market === 'ALL' ? Object.values(MARKETS) : [MARKETS[market]];
     if (!markets[0]) return res.status(400).json({ ok: false, error: 'Unknown market.' });
     async function enrichWithSales(items, mid) {
+      // Single-market only: one item-detail call per listing (max 50).
+      // Detail returns estimatedAvailabilities, which eBay documents as an estimate
+      // and third-party Browse SDKs describe as carrying sold + remaining quantities.
+      // If a detail call fails or the field is absent, sold stays null -> 'Not specified', never invented.
       const out = await Promise.all(items.map(async (it) => {
         if (!it.itemId) return it;
         try {
@@ -48,8 +56,16 @@ module.exports = async (req, res) => {
       }));
       return out;
     }
+    // Optional filters (new in v2, backward compatible: ignored if absent).
+    // Frontend also filters by seller name, so this works even if only index.html is redeployed.
+    const seller = (req.query.seller || '').trim();
+    const category = (req.query.category || '').trim();
+    const filters = [];
+    if (seller) filters.push(`sellers:{${seller}}`);
+    if (category) filters.push(`categoryIds:{${category}}`);
+    const filterParam = filters.length ? `&filter=${encodeURIComponent(filters.join(','))}` : '';
     const results = await Promise.all(markets.map(async (mid) => {
-      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(q)}&limit=${limit}`;
+      const url = `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(q)}&limit=${limit}${filterParam}`;
       const r = await fetch(url, { headers: { Authorization: `Bearer ${token}`, 'X-EBAY-C-MARKETPLACE-ID': mid } });
       if (!r.ok) return { market: mid, total: 0, items: [], error: `eBay search failed (${r.status})` };
       const d = await r.json();
@@ -66,6 +82,7 @@ module.exports = async (req, res) => {
         conditionDescription: it.conditionDescription || null,
         soldQuantity: null,
       }));
+      // Only enrich single-market searches: ALL would need 160 detail calls and would time out on Vercel.
       if (market !== 'ALL') items = await enrichWithSales(items, mid);
       return { market: mid, total: d.total || 0, items, salesNote: market === 'ALL' ? 'Select a single market to load per-item sales (est.). ALL would need too many item-detail calls.' : null };
     }));
