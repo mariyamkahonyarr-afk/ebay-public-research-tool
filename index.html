@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Market Intelligence — eBay Product Research</title>
-<script>(function(){try{var t=localStorage.getItem('hsq_theme')||'system';var d=t;if(t==='system'){d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',d);document.documentElement.setAttribute('data-theme-choice',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('hsq_theme')||'dark';var d=t;if(t==='system'){d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',d);document.documentElement.setAttribute('data-theme-choice',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <style>
-:root[data-theme="light"]{--bg:#F7F8FA;--surface:#FFFFFF;--surface2:#F1F5F9;--text:#0F172A;--muted:#64748B;--line:#E2E8F0;--accent:#4F46E5;--accent2:#4338CA;--accent-soft:#EEF2FF;--good:#15803D;--good-text:#15803D;--warn:#B45309;--danger:#B91C1C;--danger-text:#B91C1C;--shadow:0 1px 2px rgba(15,23,42,.05),0 4px 16px rgba(15,23,42,.04)}
-:root[data-theme="dark"]{--bg:#0B1220;--surface:#0F172A;--surface2:#1E293B;--text:#E6EAF2;--muted:#94A3B8;--line:#1E293B;--accent:#6366F1;--accent2:#818CF8;--accent-soft:#1E1B4B;--good:#4ADE80;--good-text:#4ADE80;--warn:#FBBF24;--danger:#F87171;--danger-text:#F87171;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}
+:root[data-theme="light"]{--bg:#F7F8FA;--surface:#FFFFFF;--surface2:#F1F5F9;--text:#0F172A;--muted:#64748B;--line:#E2E8F0;--accent:#5B7FBF;--accent2:#4A6FA5;--accent-soft:#E8EEF7;--good:#15803D;--good-text:#15803D;--warn:#B45309;--danger:#B91C1C;--danger-text:#B91C1C;--shadow:0 1px 2px rgba(15,23,42,.05),0 4px 16px rgba(15,23,42,.04)}
+:root[data-theme="dark"]{--bg:#14171D;--surface:#222A35;--surface2:#252E3A;--text:#E1E6ED;--text2:#A5AFBD;--muted:#8490A0;--line:#303946;--accent:#7095D5;--accent2:#86A7E5;--accent-soft:#27364D;--teal:#54A99C;--hover:#293341;--row:#1C222B;--sidebar:#181C23;--good:#70B48C;--good-text:#70B48C;--warn:#D2A766;--danger:#D77B7B;--danger-text:#D77B7B;--shadow:0 1px 2px rgba(0,0,0,.4)}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
 h1,h2,h3{letter-spacing:-.01em}
@@ -145,6 +145,49 @@ input[type="checkbox"],input[type="radio"]{flex:none;min-width:0;width:16px;heig
 .research-table th:nth-child(12),.research-table td:nth-child(12){min-width:150px}
 .table-scroll-hint{display:none}
 @media(max-width:900px){.table-scroll-hint{display:block}}
+
+/* PREMIUM GRAPHITE DARK 2026-11-02: exact brief palette; surfaces differ, no navy-purple wash */
+:root[data-theme="dark"] body{background-color:#14171D;background-image:radial-gradient(1100px 500px at 85% -10%, rgba(112,149,213,.08), transparent 60%),radial-gradient(900px 500px at -10% 0%, rgba(84,169,156,.05), transparent 55%)}
+:root[data-theme="dark"] .sidebar{background:#181C23}
+:root[data-theme="dark"] .topbar{background:#181C23}
+:root[data-theme="dark"] table{background:#1C222B}
+:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{background:#1C222B}
+:root[data-theme="dark"] .ctx{background:#1C222B}
+:root[data-theme="dark"] tbody tr:hover{background:#293341}
+:root[data-theme="dark"] .navbtn:hover{background:#293341}
+:root[data-theme="dark"] .navbtn svg{color:#A5AFBD}
+:root[data-theme="dark"] .navbtn.active{background:#27364D;color:#E1E6ED;box-shadow:inset 3px 0 0 #7095D5}
+:root[data-theme="dark"] .navbtn.active svg{color:#7095D5}
+:root[data-theme="dark"] button:not(.navbtn):not(.group-head):not(.action-card):not(.icon-btn):not(.secondary){background:#7095D5;color:#0F141A}
+:root[data-theme="dark"] button:not(.navbtn):not(.group-head):not(.action-card):not(.icon-btn):not(.secondary):hover{background:#86A7E5;filter:none}
+:root[data-theme="dark"] button.secondary{background:#252E3A;color:#E1E6ED;border-color:#303946}
+:root[data-theme="dark"] button.secondary:hover{background:#293341;border-color:#7095D5}
+:root[data-theme="dark"] .action-card{background:#222A35;color:#E1E6ED}
+:root[data-theme="dark"] .action-card:hover{border-color:#7095D5}
+:root[data-theme="dark"] .action-card .icon-box{background:#27364D;color:#7095D5}
+:root[data-theme="dark"] a{color:#7095D5}
+:root[data-theme="dark"] a:hover{color:#86A7E5}
+:root[data-theme="dark"] .brand-mark{background:#27364D;color:#86A7E5}
+:root[data-theme="dark"] .price{color:#70B48C}
+:root[data-theme="dark"] .badge-fact{background:rgba(112,180,140,.14);color:#70B48C}
+:root[data-theme="dark"] .badge-est{background:rgba(210,167,102,.16);color:#D2A766}
+:root[data-theme="dark"] .badge-calc{background:rgba(112,149,213,.14);color:#7095D5}
+:root[data-theme="dark"] .verdict-winning{background:rgba(112,180,140,.13);color:#70B48C}
+:root[data-theme="dark"] .verdict-neutral{background:#252E3A;color:#A5AFBD;border-color:#303946}
+:root[data-theme="dark"] .verdict-losing{background:rgba(215,123,123,.12);color:#D77B7B}
+:root[data-theme="dark"] .row-winner{background:rgba(112,180,140,.06)!important}
+:root[data-theme="dark"] .chartbar{background:#7095D5}
+:root[data-theme="dark"] .skel{background:linear-gradient(90deg,#252E3A,#293341,#252E3A);background-size:200% 100%}
+:root[data-theme="dark"] .warn{border-color:#D2A766}
+:root[data-theme="dark"] input:focus,:root[data-theme="dark"] select:focus,:root[data-theme="dark"] textarea:focus{border-color:#7095D5;box-shadow:0 0 0 3px rgba(112,149,213,.22)}
+:root[data-theme="dark"] button:focus-visible,:root[data-theme="dark"] input:focus-visible,:root[data-theme="dark"] select:focus-visible,:root[data-theme="dark"] textarea:focus-visible,:root[data-theme="dark"] a:focus-visible{outline-color:#7095D5}
+:root[data-theme="dark"] ::-webkit-scrollbar{width:10px;height:10px}
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#303946;border-radius:8px}
+:root[data-theme="dark"] ::-webkit-scrollbar-track{background:transparent}
+:root[data-theme="dark"] #tab-dashboard .card:first-child{position:relative;overflow:hidden}
+:root[data-theme="dark"] #tab-dashboard .card:first-child::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 280px at 18% 0%, rgba(112,149,213,.12), transparent 60%),linear-gradient(120deg, rgba(112,149,213,.06), rgba(84,169,156,.05));background-size:180% 180%;animation:saasAmbient 16s ease-in-out infinite alternate;pointer-events:none}
+:root[data-theme="dark"] #tab-dashboard .card:first-child>*{position:relative;z-index:1}
+@keyframes saasAmbient{from{background-position:0% 50%}to{background-position:100% 50%}}
 </style>
 </head>
 <body>
@@ -231,7 +274,7 @@ input[type="checkbox"],input[type="radio"]{flex:none;min-width:0;width:16px;heig
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
 <select id="limit"><option value="20">20 listings per market</option><option value="10">10 listings per market</option><option value="25">25 listings per market</option><option value="50">50 listings per market</option></select>
 <button onclick="doSearch()">Search</button>
-<button onclick="resetWinners()" title="Load a fresh set of auto winning products (your variation and condition filters are kept)" style="background:#0f766e">↻ New Winners</button>
+<button onclick="resetWinners()" title="Load a fresh set of auto winning products (your variation and condition filters are kept)" style="background:#54A99C">↻ New Winners</button>
 </div>
 <div class="row"><button class="secondary" id="advFilterBtn" onclick="toggleAdvFilters()">Advanced filters: hide</button></div>
 <div class="row" id="advFilters">
@@ -450,7 +493,7 @@ input[type="checkbox"],input[type="radio"]{flex:none;min-width:0;width:16px;heig
 <p class="muted">Light and Dark use the same layout and functionality. Your choice is saved in this browser (localStorage) and applied before the page paints, so it does not flash on load.</p>
 <div class="row"><label>Theme</label>
 <select id="themeSelect2" onchange="setTheme(this.value)" style="min-width:0;flex:none"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
-</div><p class="muted">Dark: background #0B1220, cards #111C2E, modal #1A2A44, text #E6EAF2 / #94A3B8, accent #3B82F6. Light: background #F8FAFC, cards #FFFFFF, secondary #F1F5F9, text #0F172A / #475569, accent #2563EB. Contrast meets WCAG AA for body text.</p></div>
+</div><p class="muted">Dark: background #14171D, sidebar #181C23, cards #222A35, nested #252E3A, text #E1E6ED / #8490A0, accent #7095D5. Light: background #F8FAFC, cards #FFFFFF, secondary #F1F5F9, text #0F172A / #475569, accent #2563EB. Contrast meets WCAG AA for body text.</p></div>
 <div class="card"><h2>Account &amp; Preferences (local only)</h2>
 <p class="muted">There is no login or account system yet — this is Phase 1, and accounts are a Phase 3 dependency. Preferences below only affect this browser.</p>
 <div class="row"><button class="secondary" onclick="exportWatchlistCSV()">Export Watchlist as CSV</button><button class="secondary" onclick="clearWatchlist()">Clear Watchlist</button><button class="secondary" onclick="if(confirm('Clear saved Autopilot scans in this browser?')){saveAutoList([]);renderAutopilot();}">Clear Autopilot scans</button></div>
@@ -550,7 +593,7 @@ function toggleGroup(btn){var g=btn.parentElement; if(g) g.classList.toggle('ope
 function toggleSidebarCollapse(){var sb=document.getElementById('sidebar'); if(sb) sb.classList.toggle('collapsed');}
 function toggleSidebarMobile(){var sb=document.getElementById('sidebar'); if(!sb) return; sb.classList.toggle('open'); var bd=document.getElementById('drawerBackdrop'); if(bd) bd.classList.toggle('show', sb.classList.contains('open'));}
 function setTheme(choice){try{localStorage.setItem('hsq_theme',choice);}catch(e){} var d=choice; if(choice==='system'){d=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';} document.documentElement.setAttribute('data-theme',d); document.documentElement.setAttribute('data-theme-choice',choice); ['themeSelect','themeSelect2'].forEach(function(id){var el=document.getElementById(id); if(el) el.value=choice;});}
-function syncThemeSelects(){try{var c=localStorage.getItem('hsq_theme')||'system'; ['themeSelect','themeSelect2'].forEach(function(id){var el=document.getElementById(id); if(el) el.value=c;});}catch(e){}}
+function syncThemeSelects(){try{var c=localStorage.getItem('hsq_theme')||'dark'; ['themeSelect','themeSelect2'].forEach(function(id){var el=document.getElementById(id); if(el) el.value=c;});}catch(e){}}
 function renderDashboard(){var el=document.getElementById('dashLastSearch'); if(el){el.innerHTML=lastRows.length?('<b>Last search:</b> "'+esc(lastQuery)+'" — '+esc(lastMarket)+' — '+lastRows.length+' rows in memory, '+lastTotal.toLocaleString()+' total results. <span class="muted">Refresh: '+new Date().toLocaleString()+'</span>'):'<b>No search yet</b><p class="muted">Your first search will appear here, with its keyword, market, rows shown and total results. Start with a keyword above — for example, wireless charger.</p>';} var w=document.getElementById('dashWatchlist'); if(w){try{var wl=loadWatch(); w.innerHTML='<p>'+wl.sellers.length+' watched sellers · '+wl.products.length+' saved products (this browser only).</p>';}catch(e){w.innerHTML='<p class="muted">Watchlist is saved in this browser only.</p>';}}}
 function runDashboardSearch(){var q=document.getElementById('dashQ').value.trim(); if(!q){alert('Type a product keyword first.'); return;} document.getElementById('q').value=q; document.getElementById('market').value=document.getElementById('dashMarket').value; showTab('research',null); doSearch();}
 function medianPriceOf(rows){var ps=rows.map(function(r){return r.item.priceValue;}).filter(function(p){return p!=null;}).sort(function(a,b){return a-b;}); if(!ps.length) return null; var m=Math.floor(ps.length/2); return ps.length%2?ps[m]:(ps[m-1]+ps[m])/2;}
@@ -903,6 +946,8 @@ el.innerHTML='<div class="stats">'
 +'<div class="stat"><b>'+lastRows.length.toLocaleString()+'</b><span>Products analyzed <span class="badge badge-calc">CALCULATED</span></span></div>'
 +'<div class="stat"><b>'+wCount.toLocaleString()+'</b><span>Saved watchlist items <span class="badge badge-fact">FACT</span></span></div></div>'
 +'<p class="muted" style="margin-top:10px">From your last search'+(lastQuery?' \u201c'+esc(lastQuery)+'\u201d ('+esc(lastMarket)+')':'')+'. FACT = eBay field as returned; CALCULATED = computed by this tool from those listings.</p>';}
+
+syncThemeSelects();
 </script>
 </body>
 </html>
