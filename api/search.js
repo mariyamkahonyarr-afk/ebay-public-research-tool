@@ -24,7 +24,37 @@ async function getToken() {
   return tokenCache.token;
 }
 
+// Phase 1 rate limit (Vercel-compatible, in-memory).
+// LIMITATION, READ BEFORE RELYING ON THIS: Vercel serverless instances do not share memory.
+// A counter kept here is per-instance, not global. A visitor can therefore exceed the nominal
+// limit by hitting a fresh instance, and counters reset on cold start / redeploy. This is a
+// best-effort guard, NOT persistent protection. Persistent, cross-instance protection requires
+// an external store (e.g. Upstash Redis) — a Phase 3 dependency that needs owner approval
+// before any paid service is added. Do not present this limit as a guarantee.
+const rateStore = new Map();
+function rateLimitCheck(req, res) {
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress || 'unknown';
+  const now = Date.now();
+  let rec = rateStore.get(ip);
+  if (!rec || now - rec.minuteStart >= 60000) rec = { minuteStart: now, minute: 0, dayStart: now, day: 0 };
+  if (now - rec.dayStart >= 86400000) { rec.dayStart = now; rec.day = 0; }
+  rec.minute += 1; rec.day += 1; rateStore.set(ip, rec);
+  const minuteLeft = Math.max(0, 20 - rec.minute);
+  const dayLeft = Math.max(0, 200 - rec.day);
+  res.setHeader('X-RateLimit-Minute-Limit', '20');
+  res.setHeader('X-RateLimit-Minute-Remaining', String(minuteLeft));
+  res.setHeader('X-RateLimit-Day-Limit', '200');
+  res.setHeader('X-RateLimit-Day-Remaining', String(dayLeft));
+  if (rec.minute > 20 || rec.day > 200) {
+    res.setHeader('Retry-After', '60');
+    res.status(429).json({ ok: false, error: 'Rate limit reached. Please wait a minute and try again.' });
+    return false;
+  }
+  return true;
+}
+
 module.exports = async (req, res) => {
+  if (!rateLimitCheck(req, res)) return;
   try {
     const q = (req.query.q || '').trim();
     const market = (req.query.market || 'US').toUpperCase();
