@@ -88,6 +88,22 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 .drawer{border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:12px;background:var(--surface2)}
 .chartbar{height:18px;background:var(--accent);border-radius:4px}
 @media(max-width:900px){.research-table th:first-child,.research-table td:first-child{position:static}}
+
+.hsq-hero{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:start}
+.hsq-eyebrow{font-weight:900;letter-spacing:2px;color:var(--accent);margin:0 0 6px;font-size:13px}
+.hsq-headline{font-size:30px;line-height:1.15;margin:0 0 10px}
+#hsq3d-wrap{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface2);transition:opacity .3s}
+#hsq3d-canvas{display:block;width:100%;height:440px;touch-action:pan-y}
+.hsq3d-controls{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px}
+.hsq3d-btn{padding:8px 12px;font-size:13px}
+.hsq3d-note{padding:0 12px 12px;margin:0}
+.hsq3d-fallback{padding:28px 20px;text-align:center}
+.hsq3d-fallback-laptop{max-width:340px;margin:0 auto 12px;border:2px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)}
+.hsq3d-fallback-screen{border:1px solid var(--line);border-radius:8px;padding:18px 12px;background:var(--bg)}
+.hsq3d-fallback-screen b{display:block;letter-spacing:1px;margin-bottom:8px}
+.hsq3d-fallback-screen span{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.hsq-hero{grid-template-columns:1fr}#hsq3d-canvas{height:320px}}
+@media(prefers-reduced-motion:reduce){#hsq3d-wrap{transition:none}}
 </style>
 </head>
 <body>
@@ -147,7 +163,10 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <div class="layout"><main>
 <!-- DASHBOARD -->
 <div id="tab-dashboard" style="display:none">
-<div class="card"><h2>Welcome to HSQ ECOMMERCE</h2>
+<div class="card hsq-hero">
+<div class="hsq-hero-left">
+<p class="hsq-eyebrow">HSQ ECOMMERCE</p>
+<h2 class="hsq-headline">Discover products. Analyze markets. Build success.</h2>
 <p class="muted">eBay product research, market intelligence and profit tools — all from live eBay listings. No sold-history database is claimed, and no figure is invented: see the badges below on every number.</p>
 <p><span class="badge badge-fact">FACT</span> eBay field as returned &nbsp; <span class="badge badge-est">ESTIMATE</span> sold quantity / competitor revenue &nbsp; <span class="badge badge-calc">CALCULATED</span> tool score, profit, margin — formula shown.</p>
 <div class="row">
@@ -157,6 +176,22 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <button class="secondary" onclick="showTab('research',null)">Go to Product Research</button>
 </div>
 <div id="dashLastSearch" class="empty"><b>No search yet</b><p class="muted">Your first search will appear here, with its keyword, market, rows shown and total results. Start with a keyword above — for example, wireless charger.</p></div>
+</div>
+<div class="hsq-hero-right">
+<div id="hsq3d-wrap">
+<div id="hsq3d-fallback" class="hsq3d-fallback" style="display:none">
+<div class="hsq3d-fallback-laptop"><div class="hsq3d-fallback-screen"><b>HSQ ECOMMERCE</b><span>Product Research · Market Insights · Competitor Analysis · Profit Calculator · Supplier Finder</span></div></div>
+<p class="muted">3D scene unavailable here (WebGL or the 3D library could not load). Research tools above work normally.</p>
+</div>
+<canvas id="hsq3d-canvas" aria-label="Interactive 3D HSQ ECOMMERCE research command center"></canvas>
+<div class="hsq3d-controls">
+<button class="secondary hsq3d-btn" id="hsq3d-pause" type="button">Pause animation</button>
+<button class="secondary hsq3d-btn" id="hsq3d-motion" type="button">Reduce motion</button>
+<button class="secondary hsq3d-btn" id="hsq3d-hide" type="button">Hide 3D scene</button>
+</div>
+<p class="muted hsq3d-note">Move your mouse over the scene for gentle parallax. Panels show tool names only — no sales figures or market statistics are displayed in the scene.</p>
+</div>
+</div>
 </div>
 <div class="card"><h2>Watchlist overview</h2><div id="dashWatchlist"><p class="muted">Saved in this browser only. Open Watchlist to see, export or clear it.</p></div><button class="secondary" onclick="showTab('watchlist',null)">Open Watchlist</button></div>
 <div class="card"><h2>Quick access</h2><div class="row">
@@ -178,7 +213,7 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
 <select id="limit"><option value="20">20 listings per market</option><option value="10">10 listings per market</option><option value="25">25 listings per market</option><option value="50">50 listings per market</option></select>
 <button onclick="doSearch()">Search</button>
-<button onclick="resetWinners()" title="Load a fresh set of auto winning products (your variation and condition filters are kept)" style="background:#0f766e">↻ New Winners</button>
+<button onclick="resetWinners()" title="Clear filters and load a fresh set of auto winning products" style="background:#0f766e">↻ New Winners</button>
 </div>
 <div class="row">
 <input id="priceMin" type="number" placeholder="Min price (optional)">
@@ -831,5 +866,375 @@ function calcProfit(){
 }
 function resetScorer(){for(var i=0;i<18;i++){document.getElementById('sc'+i).value='0'; document.getElementById('hf'+i).checked=false;} document.getElementById('scorerOut').textContent='';} document.addEventListener('DOMContentLoaded', function(){buildScorer(); syncThemeSelects(); renderDashboard(); renderExplorerViews(); showTab('dashboard',null);});
 </script>
+
+<script type="importmap">{"imports":{"three":"./three.module.js"}}</script>
+<script type="module" id="hsq-3d-scene">
+// HSQ ECOMMERCE — Signature 3D Brand Animation (preview only, dashboard hero).
+// Independent from all business logic: it reads no listings, no prices, no
+// user data, and it never touches search, watchlist, profit or scorer code.
+// All geometry is procedural (Three.js core primitives + canvas textures).
+// No external 3D assets, no unlicensed assets, no fabricated sales figures:
+// panels and the laptop screen show tool NAMES and abstract lines/bars only,
+// with no numbers, no axes values and no statistics of any kind.
+import * as THREE from 'three';
+
+const wrap = document.getElementById('hsq3d-wrap');
+const canvas = document.getElementById('hsq3d-canvas');
+const fallback = document.getElementById('hsq3d-fallback');
+const pauseBtn = document.getElementById('hsq3d-pause');
+const motionBtn = document.getElementById('hsq3d-motion');
+const hideBtn = document.getElementById('hsq3d-hide');
+if (!wrap || !canvas) { /* hero not present; nothing to do */ }
+else {
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
+  };
+  let paused = store.get('hsq_3d_paused', '0') === '1';
+  let reduced = store.get('hsq_3d_reduced', '0') === '1' || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  let hidden = store.get('hsq_3d_hidden', '0') === '1';
+  let renderer = null, scene = null, camera = null, raf = 0, started = false, visible = true, inView = true;
+  let laptop = null, products = [], panels = [], pulses = [], particles = null, platform = null, brandPlane = null;
+  let mouseX = 0, mouseY = 0, smX = 0, smY = 0;
+  let startTime = 0;
+  const PALETTES = {
+    dark: { bg: 0x0B1220, platform: 0x1A2A44, laptop: 0xC0C5CE, accent: 0x3B82F6, glass: 0.20, light: 1.0 },
+    light: { bg: 0xF8FAFC, platform: 0xE2E8F0, laptop: 0xE5E7EB, accent: 0x2563EB, glass: 0.38, light: 1.25 },
+  };
+  let themeName = (document.documentElement.getAttribute('data-theme') === 'light') ? 'light' : 'dark';
+  let cur = null; // lerped palette (THREE.Color objects)
+
+  function showFallback(msg) {
+    if (canvas) canvas.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+    if (msg && fallback) { const p = fallback.querySelector('p'); if (p) p.textContent = msg; }
+  }
+  function syncButtons() {
+    if (pauseBtn) pauseBtn.textContent = paused ? 'Resume animation' : 'Pause animation';
+    if (motionBtn) motionBtn.textContent = reduced ? 'Full motion' : 'Reduce motion';
+    if (hideBtn) hideBtn.textContent = hidden ? 'Show 3D scene' : 'Hide 3D scene';
+  }
+  function canvasTexture(w, h, draw) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    draw(c.getContext('2d'), w, h);
+    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+  function screenTexture() {
+    const dark = themeName === 'dark';
+    return canvasTexture(1024, 640, (g, w, h) => {
+      g.fillStyle = dark ? '#0B1220' : '#FFFFFF'; g.fillRect(0, 0, w, h);
+      g.fillStyle = dark ? '#111C2E' : '#F1F5F9'; g.fillRect(0, 0, w, 84);
+      g.fillStyle = dark ? '#3B82F6' : '#2563EB'; g.font = '800 34px system-ui, sans-serif'; g.textBaseline = 'middle';
+      g.fillText('HSQ ECOMMERCE', 32, 44);
+      const rows = ['Product Research', 'Market Insights', 'Competitor Analysis', 'Profit Calculator', 'Supplier Finder'];
+      rows.forEach((label, i) => {
+        const y = 130 + i * 98;
+        g.fillStyle = dark ? '#1A2A44' : '#F1F5F9'; g.beginPath(); g.roundRect(32, y, w - 64, 72, 14); g.fill();
+        g.fillStyle = ['#3B82F6', '#22C55E', '#F59E0B', '#8B5CF6', '#0EA5E9'][i];
+        g.beginPath(); g.arc(66, y + 36, 12, 0, Math.PI * 2); g.fill();
+        g.fillStyle = dark ? '#E6EAF2' : '#0F172A'; g.font = '600 30px system-ui, sans-serif';
+        g.fillText(label, 96, y + 38);
+        g.fillStyle = dark ? '#3B82F6' : '#2563EB';
+        for (let b = 0; b < 4; b++) { g.fillRect(700 + b * 52, y + 52 - (b + 1) * 10, 34, (b + 1) * 10); }
+      });
+    });
+  }
+  function keyboardTexture() {
+    const dark = themeName === 'dark';
+    return canvasTexture(512, 320, (g, w, h) => {
+      g.fillStyle = dark ? '#9AA3B2' : '#D1D5DB'; g.fillRect(0, 0, w, h);
+      for (let r = 0; r < 4; r++) for (let c = 0; c < 10; c++) {
+        g.fillStyle = dark ? '#2A3648' : '#FFFFFF';
+        g.beginPath(); g.roundRect(12 + c * 50, 12 + r * 76, 40, 60, 8); g.fill();
+      }
+    });
+  }
+  function panelTexture(title) {
+    const dark = themeName === 'dark';
+    return canvasTexture(512, 288, (g, w, h) => {
+      g.clearRect(0, 0, w, h);
+      g.fillStyle = dark ? 'rgba(17,28,46,0.85)' : 'rgba(255,255,255,0.85)';
+      g.beginPath(); g.roundRect(4, 4, w - 8, h - 8, 20); g.fill();
+      g.fillStyle = dark ? '#3B82F6' : '#2563EB'; g.font = '800 30px system-ui, sans-serif';
+      g.fillText(title, 28, 52);
+      g.strokeStyle = dark ? '#3B82F6' : '#2563EB'; g.lineWidth = 5; g.beginPath();
+      const pts = [[28, 200], [110, 150], [190, 175], [270, 110], [350, 135], [430, 80], [484, 100]];
+      pts.forEach((p, i) => { if (i === 0) g.moveTo(p[0], p[1]); else g.lineTo(p[0], p[1]); });
+      g.stroke();
+      g.fillStyle = dark ? '#3B82F6' : '#2563EB';
+      pts.forEach((p) => { g.beginPath(); g.arc(p[0], p[1], 7, 0, Math.PI * 2); g.fill(); });
+    });
+  }
+  function brandTexture() {
+    return canvasTexture(1024, 220, (g, w, h) => {
+      g.clearRect(0, 0, w, h);
+      const grad = g.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, '#E5E7EB'); grad.addColorStop(0.5, '#FFFFFF'); grad.addColorStop(1, '#3B82F6');
+      g.fillStyle = grad; g.font = '900 92px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('HSQ ECOMMERCE', w / 2, h / 2);
+      g.fillStyle = '#3B82F6'; g.fillRect(w / 2 - 180, h - 28, 360, 6);
+    });
+  }
+  function std(color, metal, rough, extra) {
+    return new THREE.MeshStandardMaterial(Object.assign({ color, metalness: metal, roughness: rough }, extra || {}));
+  }
+  function build() {
+    scene = new THREE.Scene();
+    const pal = PALETTES[themeName];
+    scene.background = new THREE.Color(pal.bg);
+    cur = { bg: new THREE.Color(pal.bg), platform: new THREE.Color(pal.platform), accent: new THREE.Color(pal.accent), laptop: new THREE.Color(pal.laptop) };
+    camera = new THREE.PerspectiveCamera(44, 1, 0.1, 100);
+    camera.position.set(0, 3.4, 9.5);
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x1A2A44, 0.5); scene.add(hemi);
+    const key = new THREE.DirectionalLight(0xffffff, 1.4 * pal.light); key.position.set(4, 8, 5); key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024); scene.add(key);
+    const rim = new THREE.PointLight(pal.accent, 18, 20); rim.position.set(-4, 3, -3); scene.add(rim);
+    scene.userData.lights = { key, rim, hemi };
+    // Platform
+    platform = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.25, 64), std(pal.platform, 0.6, 0.5));
+    platform.position.y = -0.95; platform.receiveShadow = true; scene.add(platform);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(3.35, 0.02, 8, 96), new THREE.MeshBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.8 }));
+    ring.rotation.x = Math.PI / 2; ring.position.y = -0.82; scene.add(ring);
+    // Laptop
+    laptop = new THREE.Group();
+    const base = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 2.2), std(pal.laptop, 0.9, 0.35));
+    base.castShadow = true; laptop.add(base);
+    const kb = new THREE.Mesh(new THREE.PlaneGeometry(3.1, 1.7), new THREE.MeshStandardMaterial({ map: keyboardTexture(), roughness: 0.6, metalness: 0.2 }));
+    kb.rotation.x = -Math.PI / 2; kb.position.set(0, 0.07, 0.1); laptop.add(kb);
+    const screenGroup = new THREE.Group(); screenGroup.position.set(0, 0.06, -1.1); screenGroup.rotation.x = -0.38;
+    const screenBody = new THREE.Mesh(new THREE.BoxGeometry(3.4, 2.1, 0.08), std(pal.laptop, 0.9, 0.35));
+    screenBody.position.y = 1.05; screenBody.castShadow = true; screenGroup.add(screenBody);
+    const screenFace = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.9), new THREE.MeshStandardMaterial({ map: screenTexture(), roughness: 0.25, metalness: 0.1, emissive: 0xffffff, emissiveMap: screenTexture(), emissiveIntensity: 0.35 }));
+    screenFace.position.set(0, 1.05, 0.05); screenGroup.add(screenFace);
+    laptop.add(screenGroup);
+    laptop.position.y = 0.35; scene.add(laptop);
+    scene.userData.screenFace = screenFace; scene.userData.screenBody = screenBody; scene.userData.base = base;
+    // Brand plane above the laptop
+    brandPlane = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 0.95), new THREE.MeshStandardMaterial({ map: brandTexture(), transparent: true, roughness: 0.3, metalness: 0.6 }));
+    brandPlane.position.set(0, 3.1, -0.6); brandPlane.rotation.x = -0.08; scene.add(brandPlane);
+    // Floating products (procedural, original geometry)
+    function product(builder, x, y, z, phase) {
+      const g = new THREE.Group(); builder(g); g.position.set(x, y, z); g.userData = { baseY: y, phase };
+      scene.add(g); products.push(g); return g;
+    }
+    const darkMat = std(0x1F2937, 0.4, 0.5), accentMat = std(pal.accent, 0.6, 0.4);
+    product((g) => { // headphones: half-torus arc, cups at the arc ends
+      const band = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.11, 12, 32, Math.PI), darkMat); g.add(band);
+      const cupL = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.18, 24), darkMat); cupL.position.set(-0.55, 0, 0); cupL.rotation.z = Math.PI / 2; g.add(cupL);
+      const cupR = cupL.clone(); cupR.position.x = 0.55; g.add(cupR);
+      const glow = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.03, 8, 32, Math.PI), accentMat); g.add(glow);
+    }, -3.3, 1.3, 0.4, 0);
+    product((g) => { // smartwatch
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.7, 0.18), darkMat); g.add(body);
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.45, 0.55), new THREE.MeshStandardMaterial({ color: pal.accent, roughness: 0.2, metalness: 0.3, emissive: pal.accent, emissiveIntensity: 0.4 })); face.position.z = 0.1; g.add(face);
+      const bandT = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.5, 0.08), std(0x374151, 0.2, 0.7)); bandT.position.y = 0.58; g.add(bandT);
+      const bandB = bandT.clone(); bandB.position.y = -0.58; g.add(bandB);
+    }, 3.2, 1.1, -0.4, 1.1);
+    product((g) => { // compact gadget
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.45, 0.12), std(pal.laptop, 0.8, 0.4)); g.add(body);
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.33), new THREE.MeshStandardMaterial({ color: 0x0EA5E9, roughness: 0.2, emissive: 0x0EA5E9, emissiveIntensity: 0.3 })); face.position.z = 0.07; g.add(face);
+    }, -2.5, 0.1, 1.4, 2.0);
+    product((g) => { // home accessory (vase)
+      const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.32, 0.7, 24), std(0xE5E7EB, 0.1, 0.6)); g.add(vase);
+      const rimT = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.03, 8, 24), accentMat); rimT.rotation.x = Math.PI / 2; rimT.position.y = 0.35; g.add(rimT);
+    }, 2.7, 0.1, 0.9, 2.7);
+    product((g) => { // soft collectible toy (abstract plush, matte)
+      const bodyM = std(0xE8CFC0, 0.0, 0.9);
+      const body = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 18), bodyM); g.add(body);
+      const earL = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), bodyM); earL.position.set(-0.3, 0.36, 0); g.add(earL);
+      const earR = earL.clone(); earR.position.x = 0.3; g.add(earR);
+      const eyeM = std(0x1F2937, 0.1, 0.4);
+      const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), eyeM); eyeL.position.set(-0.15, 0.08, 0.38); g.add(eyeL);
+      const eyeR = eyeL.clone(); eyeR.position.x = 0.15; g.add(eyeR);
+    }, -1.9, 2.0, -1.3, 3.4);
+    product((g) => { // packaging
+      const box = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.5, 0.5), std(0xD6C9A8, 0.0, 0.8)); g.add(box);
+      const tape = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.12, 0.52), accentMat); g.add(tape);
+    }, 2.1, -0.3, 1.5, 4.1);
+    // Glass panels (tool names + abstract lines only, no figures)
+    const panelDefs = [
+      ['PRODUCT RESEARCH', -3.2, 2.3, -1.0], ['MARKET INTELLIGENCE', 3.3, 2.4, -1.0],
+      ['PROFIT ANALYSIS', -3.3, 0.2, -1.2], ['SUPPLIER MATCH', 3.4, 0.3, -1.2],
+      ['COMPETITOR RESEARCH', 0, 3.5, -1.6],
+    ];
+    panelDefs.forEach(([title, x, y, z]) => {
+      const tex = panelTexture(title);
+      const mat = new THREE.MeshStandardMaterial({ map: tex, transparent: true, opacity: 1, roughness: 0.15, metalness: 0.1, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.96), mat);
+      mesh.position.set(x, y, z); mesh.userData = { title, tex, mat };
+      scene.add(mesh); panels.push(mesh);
+      const border = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.7, 0.96, 0.01)), new THREE.LineBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.6 }));
+      border.position.copy(mesh.position); scene.add(border);
+    });
+    // Data pathways (thin electric-blue lines, laptop -> panels/products)
+    const lineMat = new THREE.LineBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.45 });
+    function pathway(x, y, z) {
+      const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0.4, 0), new THREE.Vector3(x / 2, (0.4 + y) / 2 + 0.4, z / 2), new THREE.Vector3(x, y, z)]);
+      const line = new THREE.Line(geo, lineMat); scene.add(line); return line;
+    }
+    panelDefs.forEach(([, x, y, z]) => pathway(x, y, z));
+    products.forEach((p) => pathway(p.position.x, p.position.y, p.position.z));
+    // Pulses along two pathways
+    for (let i = 0; i < 2; i++) {
+      const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), new THREE.MeshBasicMaterial({ color: pal.accent }));
+      scene.add(pulse); pulses.push(pulse);
+    }
+    // Ambient particles (subtle, capped at 90)
+    const pGeo = new THREE.BufferGeometry(); const pPos = new Float32Array(90 * 3);
+    for (let i = 0; i < 90; i++) {
+      const r = 4 + Math.random() * 3, a = Math.random() * Math.PI * 2;
+      pPos[i * 3] = Math.cos(a) * r; pPos[i * 3 + 1] = (Math.random() - 0.5) * 5 + 1; pPos[i * 3 + 2] = Math.sin(a) * r;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: pal.accent, size: 0.035, transparent: true, opacity: 0.5 }));
+    scene.add(particles);
+    scene.userData.lineMat = lineMat; scene.userData.ring = ring;
+    resize();
+  }
+  function resize() {
+    if (!renderer || !camera) return;
+    const w = wrap.clientWidth || 800, h = 440;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  function applyTheme() {
+    themeName = (document.documentElement.getAttribute('data-theme') === 'light') ? 'light' : 'dark';
+    // Palette lerp happens in the loop; panel/screen textures regenerate here.
+    if (!scene) return;
+    panels.forEach((m) => { const t = panelTexture(m.userData.title); m.userData.tex.dispose(); m.userData.tex = t; m.material.map = t; m.material.needsUpdate = true; });
+    const sf = scene.userData.screenFace;
+    if (sf) { const t = screenTexture(); sf.material.map.dispose(); sf.material.emissiveMap.dispose(); sf.material.map = t; sf.material.emissiveMap = t; sf.material.needsUpdate = true; }
+    const kb = laptop ? laptop.children[1] : null;
+    if (kb && kb.material.map) { const t = keyboardTexture(); kb.material.map.dispose(); kb.material.map = t; kb.material.needsUpdate = true; }
+  }
+  function renderFrame(now) {
+    const t = (now - startTime) / 1000;
+    const phase = ((t % 12) / 12) * Math.PI * 2; // seamless 12-second loop
+    const pal = PALETTES[themeName];
+    // Smooth theme lerp
+    cur.bg.lerp(new THREE.Color(pal.bg), 0.08); cur.platform.lerp(new THREE.Color(pal.platform), 0.08);
+    cur.accent.lerp(new THREE.Color(pal.accent), 0.08); cur.laptop.lerp(new THREE.Color(pal.laptop), 0.08);
+    scene.background = cur.bg;
+    if (platform) platform.material.color.copy(cur.platform);
+    if (scene.userData.screenBody) scene.userData.screenBody.material.color.copy(cur.laptop);
+    if (scene.userData.base) scene.userData.base.material.color.copy(cur.laptop);
+    if (scene.userData.lineMat) scene.userData.lineMat.color.copy(cur.accent);
+    if (scene.userData.ring) scene.userData.ring.material.color.copy(cur.accent);
+    if (scene.userData.lights) { scene.userData.lights.key.intensity = 1.4 * pal.light; scene.userData.lights.rim.color.copy(cur.accent); }
+    // Camera: gentle orbit + mouse parallax (lerped)
+    smX += (mouseX - smX) * 0.05; smY += (mouseY - smY) * 0.05;
+    const ang = Math.sin(phase) * 0.35 + smX * 0.25;
+    const radius = 10.2, height = 3.4 + Math.sin(phase * 2) * 0.3 + smY * -0.4;
+    camera.position.set(Math.sin(ang) * radius, height, Math.cos(ang) * radius);
+    camera.lookAt(0, 0.9, 0);
+    // Laptop float (6s period divides the 12s loop)
+    if (laptop) laptop.position.y = 0.35 + Math.sin(t * Math.PI / 3) * 0.08;
+    products.forEach((p) => {
+      const ph = p.userData.phase;
+      p.position.y = p.userData.baseY + Math.sin(t * Math.PI / 3 + ph) * 0.12;
+      p.rotation.y = Math.sin(t * Math.PI / 6 + ph) * 0.25;
+    });
+    panels.forEach((m, i) => { m.position.y += Math.sin(t * Math.PI / 3 + i * 1.3) * 0.0015; });
+    if (particles) particles.rotation.y = t * 0.02;
+    pulses.forEach((pulse, i) => {
+      const tt = ((t * 0.25 + i * 0.5) % 1);
+      const target = panels[i % panels.length];
+      pulse.position.set(target.position.x * tt, 0.4 + (target.position.y - 0.4) * tt, target.position.z * tt);
+    });
+    renderer.render(scene, camera);
+  }
+  function loop(now) {
+    if (!started || !renderer || paused || reduced || !visible || !inView) { raf = 0; return; }
+    renderFrame(now);
+    raf = requestAnimationFrame(loop);
+  }
+  function startLoop() {
+    if (!started || !renderer || raf || paused || reduced) return;
+    if (!startTime) startTime = performance.now();
+    raf = requestAnimationFrame(loop);
+  }
+  function renderOnce() {
+    if (!renderer || !started) return;
+    if (!startTime) startTime = performance.now();
+    renderFrame(startTime + 3000); // settled composition for reduced motion
+  }
+  function dispose() {
+    if (raf) cancelAnimationFrame(raf); raf = 0;
+    if (scene) scene.traverse((o) => {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) { const ms = Array.isArray(o.material) ? o.material : [o.material]; ms.forEach((m) => { if (m.map) m.map.dispose(); if (m.emissiveMap) m.emissiveMap.dispose(); m.dispose(); }); }
+    });
+    if (renderer) { renderer.dispose(); /* NOTE: no forceContextLoss here — a
+      force-lost canvas cannot reliably host a second WebGLRenderer, which broke
+      Hide -> Show re-init in browser testing. dispose() frees the resources. */ }
+    renderer = null; scene = null; camera = null; laptop = null; products = []; panels = []; pulses = []; particles = null; platform = null; brandPlane = null; started = false; window.__hsq3dReady = false;
+  }
+  function init() {
+    if (started || hidden) return;
+    try {
+      build();
+      started = true; window.__hsq3dReady = true;
+      if (canvas) canvas.style.display = 'block';
+      if (fallback) fallback.style.display = 'none';
+      resize();
+      if (reduced) renderOnce(); else startLoop();
+    } catch (e) {
+      showFallback('3D scene unavailable here (WebGL or the 3D library could not load). Research tools above work normally.');
+    }
+  }
+  function maybeInit() {
+    if (started || hidden) return;
+    const rect = wrap.getBoundingClientRect();
+    const vis = wrap.offsetParent !== null && rect.height > 0 && rect.top < window.innerHeight && rect.bottom > 0;
+    if (vis) init();
+  }
+  // Lazy load: poll for visibility (dashboard tab may start hidden) + viewport observer
+  const poll = setInterval(() => { if (started) { clearInterval(poll); return; } maybeInit(); }, 600);
+  setTimeout(maybeInit, 1200);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); }).observe(wrap);
+  }
+  document.addEventListener('visibilitychange', () => { visible = !document.hidden; if (visible) startLoop(); });
+  wrap.addEventListener('mousemove', (e) => {
+    const r = wrap.getBoundingClientRect();
+    mouseX = ((e.clientX - r.left) / Math.max(1, r.width)) * 2 - 1;
+    mouseY = ((e.clientY - r.top) / Math.max(1, r.height)) * 2 - 1;
+  });
+  wrap.addEventListener('mouseleave', () => { mouseX = 0; mouseY = 0; });
+  window.addEventListener('resize', resize);
+  if ('MutationObserver' in window) {
+    new MutationObserver(() => applyTheme()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+  // Controls
+  if (pauseBtn) pauseBtn.addEventListener('click', () => {
+    paused = !paused; store.set('hsq_3d_paused', paused ? '1' : '0'); syncButtons();
+    if (!paused && started && !reduced) startLoop();
+  });
+  if (motionBtn) motionBtn.addEventListener('click', () => {
+    reduced = !reduced; store.set('hsq_3d_reduced', reduced ? '1' : '0'); syncButtons();
+    if (started) { if (reduced) { if (raf) cancelAnimationFrame(raf); raf = 0; renderOnce(); } else startLoop(); }
+  });
+  if (hideBtn) hideBtn.addEventListener('click', () => {
+    hidden = !hidden; store.set('hsq_3d_hidden', hidden ? '1' : '0'); syncButtons();
+    if (hidden) { dispose(); if (canvas) canvas.style.display = 'none'; if (fallback) fallback.style.display = 'none'; }
+    else { if (canvas) canvas.style.display = 'block'; maybeInit(); }
+  });
+  syncButtons();
+  if (hidden) { if (canvas) canvas.style.display = 'none'; }
+  window.__hsq3d = { init, dispose, isReady: () => started };
+}
+
+</script>
+<script>(function(){ // Static fallback if the 3D module never becomes ready (offline CDN, no WebGL, blocked script)
+  function fb(){ var c=document.getElementById('hsq3d-canvas'), f=document.getElementById('hsq3d-fallback');
+    if(!c||!f) return; if(window.__hsq3dReady) return;
+    try{ if(localStorage.getItem('hsq_3d_hidden')==='1') return; }catch(e){}
+    c.style.display='none'; f.style.display='block'; }
+  setTimeout(fb, 8000); })();</script>
 </body>
 </html>
