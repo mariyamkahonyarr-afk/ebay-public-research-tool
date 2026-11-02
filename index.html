@@ -3,209 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSQ ECOMMERCE — eBay Product Research</title>
+<title>Market Intelligence — eBay Product Research</title>
 <script>(function(){try{var t=localStorage.getItem('hsq_theme')||'system';var d=t;if(t==='system'){d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',d);document.documentElement.setAttribute('data-theme-choice',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <style>
+:root[data-theme="light"]{--bg:#F7F8FA;--surface:#FFFFFF;--surface2:#F1F5F9;--text:#0F172A;--muted:#64748B;--line:#E2E8F0;--accent:#4F46E5;--accent2:#4338CA;--accent-soft:#EEF2FF;--good:#15803D;--good-text:#15803D;--warn:#B45309;--danger:#B91C1C;--danger-text:#B91C1C;--shadow:0 1px 2px rgba(15,23,42,.05),0 4px 16px rgba(15,23,42,.04)}
+:root[data-theme="dark"]{--bg:#0B1220;--surface:#0F172A;--surface2:#1E293B;--text:#E6EAF2;--muted:#94A3B8;--line:#1E293B;--accent:#6366F1;--accent2:#818CF8;--accent-soft:#1E1B4B;--good:#4ADE80;--good-text:#4ADE80;--warn:#FBBF24;--danger:#F87171;--danger-text:#F87171;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}
 *{box-sizing:border-box}
-:root{--bg:#0B1220;--surface:#111C2E;--surface2:#1A2A44;--text:#E6EAF2;--muted:#94A3B8;--line:rgba(255,255,255,.12);--accent:#3B82F6;--accent2:#2563EB;--good:#22C55E;--warn:#F59E0B;--bad:#EF4444}
-:root[data-theme="light"]{--bg:#F8FAFC;--surface:#FFFFFF;--surface2:#F1F5F9;--text:#0F172A;--muted:#475569;--line:#E2E8F0;--accent:#2563EB;--accent2:#1D4ED8}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Inter,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh}
-a{color:var(--accent);text-decoration:none;font-weight:600}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.app{display:flex;min-height:100vh}
-.sidebar{width:260px;flex:0 0 260px;background:var(--surface);border-right:1px solid var(--line);padding:16px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:20}
-.brand{padding:8px 8px 16px;border-bottom:1px solid var(--line);margin-bottom:12px}
-.brand b{font-size:20px;letter-spacing:.4px;display:block}
-.brand b span{color:var(--accent)}
-.brand small{color:var(--muted);font-size:12px}
-.group{margin-bottom:8px}
-.group-head{width:100%;display:flex;justify-content:space-between;align-items:center;background:transparent;color:var(--muted);border:none;padding:8px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
-.group-items{display:none}
-.group.open .group-items{display:block}
-.navbtn{display:block;width:100%;text-align:left;background:transparent;color:var(--text);border:1px solid transparent;border-radius:10px;padding:10px 12px;margin:2px 0;font-size:14px;font-weight:600;cursor:pointer}
-.navbtn:hover{background:var(--surface2)}
-.navbtn.active{background:var(--accent);color:#fff}
-.sidebar.collapsed{width:68px;flex-basis:68px}
-.sidebar.collapsed .brand small,.sidebar.collapsed .group-head span:last-child,.sidebar.collapsed .navbtn span:last-child{display:none}
-.sidebar.collapsed .navbtn{text-align:center;padding:10px 4px}
-.main{flex:1;min-width:0}
-.topbar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.topbar h1{font-size:18px;margin:0}
-.ctx{flex:1;min-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px}
-.ctx b{font-size:13px}
-.ctx span{color:var(--muted)}
-/* DESKTOP-FIRST (HSQ requirement, 2 Nov 2026): optimised for 1366x768, 1440x900, 1920x1080. Mobile stays basic only — no mobile-first redesign. */
-.layout{max-width:1600px;margin:0 auto;padding:20px 24px}
-@media(min-width:1920px){.layout{max-width:1720px;padding:24px 32px}.stats{grid-template-columns:repeat(7,1fr)}}
-@media(max-width:1440px){.layout{max-width:1360px;padding:20px}}
-@media(max-width:1366px){.sidebar{width:240px;flex-basis:240px}.layout{padding:16px}}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.card h2{margin:0 0 6px;font-size:18px}
-.muted{color:var(--muted);font-size:13px}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
-input,select,textarea{padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-size:14px}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{letter-spacing:-.01em}
+a{color:var(--accent)}
+button{padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:filter .2s ease,transform .15s ease,box-shadow .2s ease,background .2s ease}
+button:hover{filter:brightness(1.07)}
+button:active{transform:scale(.99)}
+button:disabled{opacity:.55;cursor:not-allowed}
+button.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--line)}
+button.secondary:hover{background:var(--surface);border-color:var(--muted)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,textarea{padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s ease,box-shadow .2s ease}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 input{flex:1;min-width:200px}
 textarea{width:100%;min-height:90px}
 input::placeholder{color:var(--muted)}
-button{padding:11px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-button:hover{filter:brightness(1.08)}
-button.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--line)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px}
-.stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
-.stat b{font-size:20px;display:block}
+.app{display:flex;align-items:flex-start}
+/* Sidebar */
+.sidebar{width:264px;flex:0 0 264px;background:var(--surface);border-right:1px solid var(--line);padding:16px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:20}
+.brand{display:flex;gap:11px;align-items:center;padding:6px 8px 16px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.brand-mark{width:38px;height:38px;flex:0 0 38px;border-radius:11px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;letter-spacing:.02em}
+.brand-text b{font-size:16px;letter-spacing:-.01em;display:block;line-height:1.2}
+.brand-text small{color:var(--muted);font-size:12px}
+.group{margin-bottom:6px}
+.group-head{width:100%;display:flex;justify-content:space-between;align-items:center;background:transparent;color:var(--muted);border:none;padding:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.group-items{display:none}
+.group.open .group-items{display:block}
+.navbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:var(--text);border:1px solid transparent;border-radius:10px;padding:9px 11px;margin:2px 0;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.navbtn svg{flex:0 0 18px;width:18px;height:18px}
+.navbtn:hover{background:var(--surface2)}
+.navbtn.active{background:var(--accent-soft);color:var(--accent);box-shadow:inset 3px 0 0 var(--accent);font-weight:600}
+.sidebar.collapsed{width:72px;flex-basis:72px}
+.sidebar.collapsed .brand-text,.sidebar.collapsed .group-head,.sidebar.collapsed .navbtn span:last-child{display:none}
+.sidebar.collapsed .navbtn{justify-content:center;padding:10px 4px}
+.sidebar.collapsed .brand{justify-content:center;padding:6px 0 16px}
+/* Top header */
+.main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.icon-btn{display:none;background:var(--surface);color:var(--text);border:1px solid var(--line);padding:9px 11px}
+.topbar-title{min-width:180px}
+.topbar-title h1{font-size:17px;margin:0;font-weight:700}
+.crumb{font-size:12px;color:var(--muted)}
+.ctx{flex:1;min-width:220px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:13px}
+.ctx b{font-size:13px}
+.ctx span{color:var(--muted)}
+.header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.header-label{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);font-weight:600}
+.header-label select{padding:9px 11px}
+/* Layout + cards */
+.layout{max-width:1440px;margin:0 auto;padding:20px 24px}
+@media(min-width:1920px){.layout{max-width:1600px;padding:24px 32px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;font-weight:700}
+.card h3{margin:14px 0 6px;font-size:15px}
+.muted{color:var(--muted);font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+@keyframes saasFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+main .card{animation:saasFadeUp .22s ease both}
+/* Quick action cards */
+.action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.action-card{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.action-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,23,42,.08);border-color:var(--accent)}
+.action-card .icon-box{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.action-card .icon-box svg{width:19px;height:19px}
+.action-card b{font-size:15px}
+.action-card span{font-size:13px;color:var(--muted);font-weight:400}
+/* Metrics */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:left}
+.stat b{font-size:23px;display:block;font-weight:700;font-variant-numeric:tabular-nums}
 .stat span{color:var(--muted);font-size:12px}
-.tablewrap{overflow-x:auto;border-radius:12px}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-th{background:var(--surface2);padding:10px 8px;text-align:left;font-size:11px;color:var(--text);border-bottom:1px solid var(--line);position:sticky;top:0}
-td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:12px;word-break:break-word}
+.stat .badge{margin-left:4px;vertical-align:middle}
+/* Tables */
+.tablewrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;background:var(--surface)}
+th{background:var(--surface2);padding:11px 10px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13px;word-break:break-word}
+tbody tr{transition:background .15s ease}
+tbody tr:hover{background:var(--surface2)}
 td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
-.title{font-weight:700;font-size:12px}
-.price{font-weight:800;color:var(--good)}
-.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:11px}
-.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.5px}
-.badge-fact{background:#14532D;color:#BBF7D0;border:1px solid #22C55E}
-.badge-est{background:#78350F;color:#FDE68A;border:1px solid #F59E0B}
-.badge-calc{background:#1E3A8A;color:#BFDBFE;border:1px solid #60A5FA}
-:root[data-theme="light"] .badge-fact{background:#DCFCE7;color:#14532D}
-:root[data-theme="light"] .badge-est{background:#FEF3C7;color:#78350F}
-:root[data-theme="light"] .badge-calc{background:#DBEAFE;color:#1E3A8A}
+.title{font-weight:600;font-size:13px}
+.price{font-weight:700;color:var(--good-text);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;padding:4px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:11px;font-weight:600}
+.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.badge-fact{background:rgba(34,197,94,.14);color:var(--good-text)}
+.badge-est{background:rgba(245,158,11,.16);color:var(--warn)}
+.badge-calc{background:rgba(79,70,229,.12);color:var(--accent)}
+.verdict{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.verdict-winning{background:rgba(34,197,94,.14);color:var(--good-text)}
+.verdict-neutral{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.verdict-losing{background:rgba(185,28,28,.1);color:var(--danger-text)}
+.research-table th:first-child,.research-table td:first-child{position:sticky;left:0;background:var(--surface);z-index:3}
+.row-winner{background:rgba(34,197,94,.06)!important}
+.pager{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+/* Misc components */
 .warn{background:var(--surface2);border:1px solid var(--warn);color:var(--text);padding:14px;border-radius:12px;margin-top:14px}
-.empty{border:1px dashed var(--line);border-radius:12px;padding:20px;text-align:center;margin-top:12px}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;margin-top:12px}
 .empty b{font-size:16px}
 .skeleton td{background:var(--surface2)}
-.skel{display:block;height:14px;border-radius:6px;background:var(--line)}
+.skel{display:block;height:14px;border-radius:6px;background:linear-gradient(90deg,var(--line),var(--surface2),var(--line));background-size:200% 100%;animation:saasShimmer 1.2s infinite}
+@keyframes saasShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 .profit{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
 .profit input{width:100%}
 .kw{display:inline-block;margin:4px;padding:6px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);cursor:pointer;font-size:12px}
 .scorer select{min-width:0;flex:none}
-.drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:15}
-@media(max-width:900px){.sidebar{position:fixed;left:-280px;top:0;bottom:0;transition:left .2s ease}.sidebar.open{left:0}.drawer-backdrop.show{display:block}.layout{padding:16px}}
-@media(max-width:640px){.topbar{padding:12px}.layout{padding:12px}table{min-width:640px}.stats{grid-template-columns:repeat(2,1fr)}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.research-table th:first-child,.research-table td:first-child{position:sticky;left:0;background:var(--surface);z-index:2}
-.row-winner{background:rgba(34,197,94,.08)!important}
-.pager{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .drawer{border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:12px;background:var(--surface2)}
 .chartbar{height:18px;background:var(--accent);border-radius:4px}
-@media(max-width:900px){.research-table th:first-child,.research-table td:first-child{position:static}}
-
-.hsq-hero{position:relative;min-height:calc(100svh - 61px);margin:-20px -24px 16px;width:calc(100% + 48px);overflow:hidden;background:transparent;border:none;box-shadow:none;padding:0;border-radius:0}
-.hsq-eyebrow{font-weight:900;letter-spacing:2px;color:var(--accent);margin:0 0 6px;font-size:13px}
-.hsq-headline{font-size:36px;line-height:1.15;margin:0 0 10px}
-.hsq-hero-left{position:relative;z-index:2;max-width:480px;padding:36px 32px;background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 92%,transparent) 0%,color-mix(in srgb,var(--bg) 70%,transparent) 55%,transparent 100%)}
-.hsq-hero-right{position:absolute;inset:0;z-index:1}
-#hsq3d-wrap{position:relative;height:100%;border:none;border-radius:0;overflow:hidden;background:var(--surface2);transition:opacity .3s}
-#hsq3d-canvas{display:block;width:100%;height:100%;touch-action:pan-y}
-.hsq3d-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 82%,transparent),transparent)}
-.hsq3d-btn{padding:8px 12px;font-size:13px}
-.hsq3d-note{position:absolute;left:0;right:0;bottom:54px;z-index:3;padding:0 16px;margin:0}
-.hsq3d-fallback{padding:28px 20px;text-align:center}
-.hsq3d-fallback-laptop{max-width:340px;margin:0 auto 12px;border:2px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)}
-.hsq3d-fallback-screen{border:1px solid var(--line);border-radius:8px;padding:18px 12px;background:var(--bg)}
-.hsq3d-fallback-screen b{display:block;letter-spacing:1px;margin-bottom:8px}
-.hsq3d-fallback-screen span{font-size:12px;color:var(--muted)}
-@media(max-width:1440px){.hsq-hero{margin:-20px -20px 16px;width:calc(100% + 40px)}}
-@media(max-width:900px){.hsq-hero-left{max-width:none;padding:24px 20px}}
-@media(max-width:640px){.hsq-hero{margin:-12px -12px 16px;width:calc(100% + 24px)}}
-@media(prefers-reduced-motion:reduce){#hsq3d-wrap{transition:none}}
+.drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:15}
+/* Responsive: tablet icon rail, mobile drawer, small screens */
+@media(max-width:1024px){.sidebar{width:72px;flex-basis:72px}.sidebar .brand-text,.sidebar .group-head,.sidebar .navbtn span:last-child{display:none}.sidebar .navbtn{justify-content:center;padding:10px 4px}.sidebar .brand{justify-content:center;padding:6px 0 16px}.layout{padding:16px}}
+@media(max-width:900px){.icon-btn{display:block}.sidebar{position:fixed;left:-280px;top:0;bottom:0;width:264px;flex-basis:264px;transition:left .2s ease}.sidebar.open{left:0}.sidebar .brand-text,.sidebar .group-head,.sidebar .navbtn span:last-child{display:block}.sidebar .navbtn{justify-content:flex-start;padding:9px 11px}.sidebar .brand{justify-content:flex-start;padding:6px 8px 16px}.drawer-backdrop.show{display:block}.layout{padding:16px}.research-table th:first-child,.research-table td:first-child{position:static}}
+@media(max-width:640px){.topbar{padding:12px}.layout{padding:12px}.card{padding:16px}table{min-width:640px}.stats{grid-template-columns:repeat(2,1fr)}.action-grid{grid-template-columns:1fr}.ctx{min-width:100%}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="drawerBackdrop" class="drawer-backdrop" onclick="toggleSidebarMobile()"></div>
 <div class="app">
 <aside class="sidebar" id="sidebar" aria-label="Main navigation">
-<div class="brand"><b>HSQ <span>ECOMMERCE</span></b><small>eBay Product Research</small></div>
+<div class="brand"><div class="brand-mark">M</div><div class="brand-text"><b>Market Intelligence</b><small>eBay Product Research</small></div></div>
 <div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Overview</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('dashboard',this)" title="Overview dashboard"><span>▦</span> <span>Dashboard</span></button>
-</div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Product Research</span><span>▾</span></button><div class="group-items">
-<button class="navbtn active" onclick="showTab('research',this)" title="Product Research"><span>⌕</span> <span>Product Research</span></button>
-<button class="navbtn" onclick="showTab('explorer',this)" title="Product Explorer"><span>◎</span> <span>Product Explorer</span></button>
-<button class="navbtn" onclick="showTab('title',this)" title="Title Builder"><span>T</span> <span>Title Builder</span></button>
-</div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Market Intelligence</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('market',this)" title="Market Insights"><span>◈</span> <span>Market Insights</span></button>
-<button class="navbtn" onclick="showTab('trending',this)" title="Categories and Trending"><span>↗</span> <span>Categories &amp; Trending</span></button>
-<button class="navbtn" onclick="showTab('top',this)" title="Top Sellers"><span>★</span> <span>Top Sellers</span></button>
-</div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Competitor Analysis</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('competitor',this)" title="Competitor Research"><span>◐</span> <span>Competitor Research</span></button>
-<button class="navbtn" onclick="showTab('category',this)" title="Category Research"><span>▤</span> <span>Category Research</span></button>
+<button class="navbtn" onclick="showTab('dashboard',this)" title="Overview dashboard"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> <span>Dashboard</span></button>
+<button class="navbtn active" onclick="showTab('research',this)" title="Product Research"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span> <span>Product Research</span></button>
 </div></div>
 <div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Product Discovery</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('turbo',this)" title="Turbo Scanner"><span>⚡</span> <span>Turbo Scanner</span></button>
-<button class="navbtn" onclick="showTab('bulk',this)" title="Bulk Scanner"><span>▦</span> <span>Bulk Scanner</span></button>
-<button class="navbtn" onclick="showTab('scorer',this)" title="Winner Scorer"><span>✓</span> <span>Winner Scorer</span></button>
+<button class="navbtn" onclick="showTab('explorer',this)" title="Product Explorer"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2 6-6 2 2-6z"/></svg></span> <span>Product Explorer</span></button>
+<button class="navbtn" onclick="showTab('category',this)" title="Category Research"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 6-9 6-9-6z"/><path d="M3 14l9 6 9-6"/></svg></span> <span>Category Research</span></button>
+<button class="navbtn" onclick="showTab('market',this)" title="Market Insights"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20V10"/><path d="M12 20V4"/><path d="M18 20v-6"/></svg></span> <span>Market Insights</span></button>
+<button class="navbtn" onclick="showTab('trending',this)" title="Categories and Trending"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg></span> <span>Categories & Trending</span></button>
+<button class="navbtn" onclick="showTab('title',this)" title="Title Builder"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M12 4v16"/><path d="M9 20h6"/></svg></span> <span>Title Builder</span></button>
 </div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Supplier Research</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('supplier',this)" title="Supplier Finder"><span>⊕</span> <span>Supplier Finder</span></button>
+<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Competitor Intelligence</span><span>▾</span></button><div class="group-items">
+<button class="navbtn" onclick="showTab('competitor',this)" title="Competitor Research"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5c2.5.5 4 2 4 4.5"/></svg></span> <span>Competitor Research</span></button>
+<button class="navbtn" onclick="showTab('top',this)" title="Top Sellers"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1-10 0z"/><path d="M7 6H4a1 1 0 0 0-1 1c0 2 2 3 4 3"/><path d="M17 6h3a1 1 0 0 1 1 1c0 2-2 3-4 3"/></svg></span> <span>Top Sellers</span></button>
+<button class="navbtn" onclick="showTab('store',this)" title="Store Snapshot"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l1-3h14l1 3"/><path d="M4 7v13h16V7"/><path d="M9 20v-6h6v6"/></svg></span> <span>Store Snapshot</span></button>
 </div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Profit &amp; Analytics</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('profit',this)" title="Profit Calculator"><span>$</span> <span>Profit Calculator</span></button>
-<button class="navbtn" onclick="showTab('store',this)" title="Store Analytics"><span>▣</span> <span>Store Analytics</span></button>
+<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Product Scanning</span><span>▾</span></button><div class="group-items">
+<button class="navbtn" onclick="showTab('bulk',this)" title="Bulk Scanner"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span> <span>Bulk Scanner</span></button>
+<button class="navbtn" onclick="showTab('turbo',this)" title="Turbo Scanner"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg></span> <span>Turbo Scanner</span></button>
+<button class="navbtn" onclick="showTab('autopilot',this)" title="Autopilot"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><polyline points="21 3 21 9 15 9"/></svg></span> <span>Autopilot</span></button>
 </div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Saved &amp; Automation</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('watchlist',this)" title="Watchlist"><span>☆</span> <span>Watchlist</span></button>
-<button class="navbtn" onclick="showTab('autopilot',this)" title="Autopilot"><span>↻</span> <span>Autopilot</span></button>
+<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Sourcing & Profit</span><span>▾</span></button><div class="group-items">
+<button class="navbtn" onclick="showTab('supplier',this)" title="Supplier Finder"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h13v10H1z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></span> <span>Supplier Finder</span></button>
+<button class="navbtn" onclick="showTab('profit',this)" title="Profit Calculator"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="9" y2="11"/><line x1="12" y1="11" x2="13" y2="11"/><line x1="16" y1="11" x2="17" y2="11"/><line x1="8" y1="15" x2="9" y2="15"/><line x1="12" y1="15" x2="13" y2="15"/><line x1="16" y1="15" x2="17" y2="15"/></svg></span> <span>Profit Calculator</span></button>
+<button class="navbtn" onclick="showTab('scorer',this)" title="Winner Scorer"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span> <span>Winner Scorer</span></button>
 </div></div>
-<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>Help &amp; Settings</span><span>▾</span></button><div class="group-items">
-<button class="navbtn" onclick="showTab('notes',this)" title="Notes and Help"><span>?</span> <span>Notes / Help</span></button>
-<button class="navbtn" onclick="showTab('settings',this)" title="Theme Settings"><span>◐</span> <span>Theme Settings</span></button>
+<div class="group open"><button class="group-head" onclick="toggleGroup(this)"><span>My Workspace</span><span>▾</span></button><div class="group-items">
+<button class="navbtn" onclick="showTab('watchlist',this)" title="Watchlist"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span> <span>Watchlist</span></button>
+<button class="navbtn" onclick="showTab('notes',this)" title="Notes and Help"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2z"/><path d="M22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/></svg></span> <span>Notes</span></button>
 </div></div>
+<button class="navbtn" onclick="showTab('settings',this)" title="Theme Settings"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="14" x2="20" y2="14"/><circle cx="15" cy="14" r="2"/></svg></span> <span>Appearance</span></button>
 <button class="secondary" style="width:100%;margin-top:12px" onclick="toggleSidebarCollapse()">Collapse sidebar</button>
 </aside>
 <div class="main">
 <div class="topbar">
-<button class="secondary" onclick="toggleSidebarMobile()" aria-label="Toggle navigation">☰</button>
-<h1>HSQ ECOMMERCE</h1>
+<button class="icon-btn" onclick="toggleSidebarMobile()" aria-label="Toggle navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+<div class="topbar-title"><h1 id="pageTitle">Product Research</h1><nav class="crumb" id="crumb" aria-label="Breadcrumb">Home / Overview / Product Research</nav></div>
 <div class="ctx" id="searchCtx"><b>Current search:</b> <span id="ctxText">No search yet — start on the Dashboard or in Product Research.</span></div>
-<label class="muted" style="display:flex;gap:8px;align-items:center">Theme
-<select id="themeSelect" onchange="setTheme(this.value)" style="min-width:0;flex:none">
-<option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>
-</select></label>
+<div class="header-actions">
+<label class="header-label">Marketplace <select id="globalMarket" onchange="syncGlobalMarket()" style="min-width:0;flex:none"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select></label>
+<label class="header-label">Theme <select id="themeSelect" onchange="setTheme(this.value)" style="min-width:0;flex:none"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+</div>
 </div>
 <div class="layout"><main>
 <!-- DASHBOARD -->
 <div id="tab-dashboard" style="display:none">
-<div class="card hsq-hero">
-<div class="hsq-hero-left">
-<p class="hsq-eyebrow">HSQ ECOMMERCE</p>
-<h2 class="hsq-headline">Discover products. Analyze markets. Build success.</h2>
-<p class="muted">eBay product research, market intelligence and profit tools — all from live eBay listings. No sold-history database is claimed, and no figure is invented: see the badges below on every number.</p>
+<div class="card"><h2>Welcome to Market Intelligence</h2>
+<p class="muted">Discover profitable opportunities, analyze competitors and make smarter eBay selling decisions.</p>
 <p><span class="badge badge-fact">FACT</span> eBay field as returned &nbsp; <span class="badge badge-est">ESTIMATE</span> sold quantity / competitor revenue &nbsp; <span class="badge badge-calc">CALCULATED</span> tool score, profit, margin — formula shown.</p>
 <div class="row">
 <input id="dashQ" placeholder="Search a product, e.g. wireless charger">
 <select id="dashMarket" style="min-width:0;flex:none"><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option><option value="ALL">All + 8 markets</option></select>
 <button onclick="runDashboardSearch()">Search products</button>
 <button class="secondary" onclick="showTab('research',null)">Go to Product Research</button>
-</div>
-<div id="dashLastSearch" class="empty"><b>No search yet</b><p class="muted">Your first search will appear here, with its keyword, market, rows shown and total results. Start with a keyword above — for example, wireless charger.</p></div>
-<button class="secondary" style="margin-top:12px" onclick="window.scrollBy({top:window.innerHeight,behavior:'smooth'})">▼ Tools neeche hain</button>
-</div>
-<div class="hsq-hero-right">
-<div id="hsq3d-wrap">
-<div id="hsq3d-fallback" class="hsq3d-fallback" style="display:none">
-<div class="hsq3d-fallback-laptop"><div class="hsq3d-fallback-screen"><b>HSQ ECOMMERCE</b><span>Product Research · Market Insights · Competitor Analysis · Profit Calculator · Supplier Finder</span></div></div>
-<p class="muted">3D scene unavailable here (WebGL or the 3D library could not load). Research tools above work normally.</p>
-</div>
-<canvas id="hsq3d-canvas" aria-label="Interactive 3D HSQ ECOMMERCE research command center"></canvas>
-<div class="hsq3d-controls">
-<button class="secondary hsq3d-btn" id="hsq3d-pause" type="button">Pause animation</button>
-<button class="secondary hsq3d-btn" id="hsq3d-motion" type="button">Reduce motion</button>
-<button class="secondary hsq3d-btn" id="hsq3d-hide" type="button">Hide 3D scene</button>
-</div>
-<p class="muted hsq3d-note">Move your mouse over the scene for gentle parallax. Panels show tool names only — no sales figures or market statistics are displayed in the scene.</p>
-</div>
-</div>
-</div>
+</div></div>
+<div class="card"><h2>Quick actions</h2><div class="action-grid">
+<button class="action-card" onclick="showTab('research',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span><b>Research a Product</b><span>Search live eBay listings by keyword and market.</span></button>
+<button class="action-card" onclick="showTab('competitor',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5c2.5.5 4 2 4 4.5"/></svg></span><b>Analyze a Competitor</b><span>Inspect any seller, from your last search or a fresh live search.</span></button>
+<button class="action-card" onclick="showTab('trending',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg></span><b>Discover Trending Products</b><span>Browse category groups and best sellers from live data.</span></button>
+<button class="action-card" onclick="showTab('profit',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="9" y2="11"/><line x1="12" y1="11" x2="13" y2="11"/><line x1="16" y1="11" x2="17" y2="11"/><line x1="8" y1="15" x2="9" y2="15"/><line x1="12" y1="15" x2="13" y2="15"/><line x1="16" y1="15" x2="17" y2="15"/></svg></span><b>Calculate Profit</b><span>Turn price, cost, shipping and fees into net profit, margin and ROI.</span></button>
+<button class="action-card" onclick="showTab('bulk',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span><b>Scan Products</b><span>Scan up to 5 sellers from your last search.</span></button>
+<button class="action-card" onclick="showTab('watchlist',null)"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><b>View Watchlist</b><span>Saved products and sellers, stored in this browser only.</span></button>
+</div></div>
+<div class="card"><h2>Research summary</h2><div id="saasSummary"><div class="empty"><b>No research yet</b><p class="muted">Run a search in Product Research and real summary metrics from that search will appear here. Nothing here is estimated or invented before a search runs.</p><button onclick="showTab('research',null)">Go to Product Research</button></div></div></div>
+<div class="card"><h2>Last search</h2><div id="dashLastSearch" class="empty"><b>No search yet</b><p class="muted">Your first search will appear here, with its keyword, market, rows shown and total results. Start with a keyword above — for example, wireless charger.</p></div></div>
 <div class="card"><h2>Watchlist overview</h2><div id="dashWatchlist"><p class="muted">Saved in this browser only. Open Watchlist to see, export or clear it.</p></div><button class="secondary" onclick="showTab('watchlist',null)">Open Watchlist</button></div>
-<div class="card"><h2>Quick access</h2><div class="row">
-<button class="secondary" onclick="showTab('trending',null)">Categories &amp; Trending</button>
-<button class="secondary" onclick="showTab('profit',null)">Profit Calculator</button>
-<button class="secondary" onclick="showTab('scorer',null)">Winner Scorer</button>
-<button class="secondary" onclick="showTab('supplier',null)">Supplier Finder</button>
-<button class="secondary" onclick="showTab('notes',null)">Help &amp; limits</button>
-</div><p class="muted">Onboarding: 1) Search in Product Research. 2) Filter in Explorer. 3) Score survivors in Winner Scorer. 4) Check profit and supplier links before listing. Autopilot and Watchlist do not run on a server — they save and re-run in this browser only.</p></div>
+<div class="card"><h2>How to use this workspace</h2><p class="muted">Onboarding: 1) Search in Product Research. 2) Filter in Explorer. 3) Score survivors in Winner Scorer. 4) Check profit and supplier links before listing. Autopilot and Watchlist do not run on a server — they save and re-run in this browser only.</p></div>
 </div>
 
 <!-- RESEARCH -->
@@ -218,9 +207,10 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
 <select id="limit"><option value="20">20 listings per market</option><option value="10">10 listings per market</option><option value="25">25 listings per market</option><option value="50">50 listings per market</option></select>
 <button onclick="doSearch()">Search</button>
-<button onclick="resetWinners()" title="Clear filters and load a fresh set of auto winning products" style="background:#0f766e">↻ New Winners</button>
+<button onclick="resetWinners()" title="Load a fresh set of auto winning products (your variation and condition filters are kept)" style="background:#0f766e">↻ New Winners</button>
 </div>
-<div class="row">
+<div class="row"><button class="secondary" id="advFilterBtn" onclick="toggleAdvFilters()">Advanced filters: hide</button></div>
+<div class="row" id="advFilters">
 <input id="priceMin" type="number" placeholder="Min price (optional)">
 <input id="priceMax" type="number" placeholder="Max price (optional)">
 <input id="conditionText" placeholder="Condition text filter (optional, e.g. New)">
@@ -239,7 +229,7 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <div class="stat"><b id="statMax">—</b><span>Maximum price</span></div>
 </div>
 </div>
-<div class="card"><h2>Live Listings</h2><p class="muted">Columns: use the picker to hide/show columns. Product column stays frozen on desktop so you never lose which product a row is. Click [Detail] on a row for the product drawer below.</p><div class="row" id="colPicker"><span class="muted">Columns:</span><label><input type="checkbox" checked onchange="toggleResearchCol(3,this.checked)"> Price</label><label><input type="checkbox" checked onchange="toggleResearchCol(4,this.checked)"> Seller</label><label><input type="checkbox" checked onchange="toggleResearchCol(5,this.checked)"> Sales est.</label><label><input type="checkbox" checked onchange="toggleResearchCol(6,this.checked)"> Feedback</label><label><input type="checkbox" checked onchange="toggleResearchCol(7,this.checked)"> Location</label><label><input type="checkbox" checked onchange="toggleResearchCol(8,this.checked)"> Condition</label><label><input type="checkbox" checked onchange="toggleResearchCol(9,this.checked)"> Score</label><label><input type="checkbox" checked onchange="toggleResearchCol(10,this.checked)"> Verdict</label><label><input type="checkbox" checked onchange="toggleResearchCol(11,this.checked)"> Market</label><label><input type="checkbox" checked onchange="toggleResearchCol(12,this.checked)"> Link</label></div><div class="tablewrap"><table class="research-table"><thead><tr><th>PRODUCT</th><th>PRODUCT TITLE</th><th>PRICE</th><th>SELLER</th><th>TOTAL SALES BY SELLER (EST., IN THIS SEARCH)</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>CHANCES OF SUCCESS (TOOL SCORE)</th><th>WINNING / LOSING</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
+<div class="card"><h2>Live Listings</h2><p class="muted">Success scores and Winning / Neutral / Losing verdicts are calculated by this tool's formula from the listings shown — they are not official eBay predictions or guaranteed outcomes.</p><p class="muted">Columns: use the picker to hide/show columns. Product column stays frozen on desktop so you never lose which product a row is. Click [Detail] on a row for the product drawer below.</p><div class="row" id="colPicker"><span class="muted">Columns:</span><label><input type="checkbox" checked onchange="toggleResearchCol(3,this.checked)"> Price</label><label><input type="checkbox" checked onchange="toggleResearchCol(4,this.checked)"> Seller</label><label><input type="checkbox" checked onchange="toggleResearchCol(5,this.checked)"> Sales est.</label><label><input type="checkbox" checked onchange="toggleResearchCol(6,this.checked)"> Feedback</label><label><input type="checkbox" checked onchange="toggleResearchCol(7,this.checked)"> Location</label><label><input type="checkbox" checked onchange="toggleResearchCol(8,this.checked)"> Condition</label><label><input type="checkbox" checked onchange="toggleResearchCol(9,this.checked)"> Score</label><label><input type="checkbox" checked onchange="toggleResearchCol(10,this.checked)"> Verdict</label><label><input type="checkbox" checked onchange="toggleResearchCol(11,this.checked)"> Market</label><label><input type="checkbox" checked onchange="toggleResearchCol(12,this.checked)"> Link</label></div><div class="tablewrap"><table class="research-table"><thead><tr><th>PRODUCT</th><th>PRODUCT TITLE</th><th>PRICE</th><th>SELLER</th><th>TOTAL SALES BY SELLER (EST., IN THIS SEARCH)</th><th>FEEDBACK SCORE</th><th>LOCATION</th><th>CONDITION</th><th>CHANCES OF SUCCESS (TOOL SCORE)</th><th>WINNING / LOSING</th><th>MARKET</th><th>eBay LINK</th></tr></thead><tbody id="results"></tbody></table></div>
 <div class="pager"><label>Rows per page</label><select id="pageSize" onchange="_resPage=1;renderResearchPage()" style="min-width:0;flex:none"><option value="20">20</option><option value="50">50</option><option value="200">200</option><option value="100000">All</option></select><button class="secondary" onclick="changeResearchPage(-1)">Previous</button><button class="secondary" onclick="changeResearchPage(1)">Next</button><span id="pageInfo" class="muted"></span></div><div id="detailDrawer" class="drawer" style="display:none"></div><p class="muted">Columns: picture, Title (click it — it is also the eBay link), Price, Seller, Total Sales by Seller (est., summed from sales (est.) for that seller in this search only — Not specified if eBay returned no sold quantity), Feedback, Location, Condition, Chances of Success (tool score, see Notes), Winning / Neutral / Losing (tool rating from that score, not an eBay guarantee), Market, eBay Link + Save to Watchlist. Missing field = Not specified. No sold, sell-through or total-sales column is shown, because no sold source returns those values for this search.</p></div>
 </div>
 
@@ -448,14 +438,14 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <p>Live listings only, from eBay Browse API in the same search. The All markets total is the sum across the 8 markets, not a count of unique products. Chances of Success and Winning / Neutral / Losing are TOOL scores from the rows in this search (sales est. &gt; 0 = 40 points; feedback ≥ 1000 = 25 / ≥ 100 = 15 / ≥ 10 = 5; price ≤ search average = 20 / ≤ average × 1.2 = 10; condition containing New / Ungraded / Factory Sealed = 15; capped at 100; Winning ≥ 70, Neutral 40–69, Losing &lt; 40). They are not eBay data and not a guarantee.</p>
 <p><b>Honest limits, read before trusting any tab:</b> (1) No global sold history, no ZIK sold database, no 5M-product Turbo database — Turbo / Top / Market tabs work from your last search only. (2) No live Amazon / Walmart / AliExpress / Alibaba / CJ prices — Supplier Finder gives search links only, plus a calculation from a price you type in. (3) No server-side 24/7 Autopilot — saved scans run only when you press Run in this browser. (4) No connected-store analytics and no Chrome extension — those need store OAuth and a browser extension, which a website cannot provide. (5) Sales (est.) comes only from single-market searches, via eBay item details, and is labelled est. because eBay itself calls it an estimate. A missing field is always shown as Not specified, never invented.</p>
 <p>Two honest options for real sold history remain: (1) collect live data daily and build sold history over time, or (2) keep running as live listings only.</p>
-</div></div>
-<div class="card"><h2>Help — How to use HSQ ECOMMERCE</h2>
+</div>
+<div class="card"><h2>Help — How to use Market Intelligence</h2>
 <p><b>Workflow:</b> 1) Product Research search. 2) Explorer filter. 3) Winner Scorer (auto-fill, then manual). 4) Profit Calculator. 5) Supplier Finder (search links + typed price). 6) Watchlist save.</p>
 <p><b>Badges:</b> FACT = eBay field as returned. ESTIMATE = eBay estimated sold quantity, competitor revenue, keyword demand. CALCULATED = tool score, profit, margin, ROI — formula shown, never eBay data.</p>
 <p><b>eBay limits:</b> No sold history, no global trends, no live supplier prices in this version. ALL-market searches have no per-item sales (est.) to avoid timeouts. Single-market searches do.</p>
 <p><b>Profit:</b> Fee = fee% × (selling price + buyer-paid sales tax) + per-order $0.30 (≤$10) / $0.40 (&gt;$10). Profit = selling price − product cost − shipping − fee − promoted − returns reserve. Sales tax itself is not profit.</p>
 <p><b>Supplier guidance:</b> Search links are not price matches. Type the price you verified, check VeRO/brand authorisation, order a sample, and confirm blind packaging and returns before scaling.</p>
-</div>
+</div></div>
 <!-- Owner deployment notes moved to Phase 1 report / owner docs, not the public UI. -->
 </main></div></div></div>
 <script>
@@ -531,7 +521,7 @@ function simpleTable(tbodyId, rows, withScore){
 /* State + tabs */
 var lastRows=[]; var lastQuery=''; var lastMarket='ALL'; var lastTotal=0;
 var ALL_TABS=['dashboard','research','explorer','competitor','category','market','trending','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','scorer','notes','settings'];
-function showTab(id,btn){ALL_TABS.forEach(function(t){var el=document.getElementById('tab-'+t); if(el) el.style.display=(t===id?'block':'none');}); document.querySelectorAll('.navbtn').forEach(function(b){b.classList.remove('active');}); if(btn) btn.classList.add('active'); else {document.querySelectorAll('.navbtn').forEach(function(b){var m=b.getAttribute('onclick')||''; if(m.indexOf("'"+id+"'")!==-1) b.classList.add('active');});} if(id==='watchlist') renderWatchlist(); if(id==='autopilot') renderAutopilot(); if(id==='dashboard') renderDashboard(); var sb=document.getElementById('sidebar'); if(sb) sb.classList.remove('open'); var bd=document.getElementById('drawerBackdrop'); if(bd) bd.classList.remove('show'); window.scrollTo(0,0);}
+function showTab(id,btn){ALL_TABS.forEach(function(t){var el=document.getElementById('tab-'+t); if(el) el.style.display=(t===id?'block':'none');}); document.querySelectorAll('.navbtn').forEach(function(b){b.classList.remove('active');}); if(btn) btn.classList.add('active'); else {document.querySelectorAll('.navbtn').forEach(function(b){var m=b.getAttribute('onclick')||''; if(m.indexOf("'"+id+"'")!==-1) b.classList.add('active');});} if(id==='watchlist') renderWatchlist(); if(id==='autopilot') renderAutopilot(); if(id==='dashboard'){renderDashboard(); renderSaasSummary();} updatePageHeader(id); var sb=document.getElementById('sidebar'); if(sb) sb.classList.remove('open'); var bd=document.getElementById('drawerBackdrop'); if(bd) bd.classList.remove('show'); window.scrollTo(0,0);}
 function toggleGroup(btn){var g=btn.parentElement; if(g) g.classList.toggle('open');}
 function toggleSidebarCollapse(){var sb=document.getElementById('sidebar'); if(sb) sb.classList.toggle('collapsed');}
 function toggleSidebarMobile(){var sb=document.getElementById('sidebar'); if(!sb) return; sb.classList.toggle('open'); var bd=document.getElementById('drawerBackdrop'); if(bd) bd.classList.toggle('show', sb.classList.contains('open'));}
@@ -826,7 +816,7 @@ function renderResearchPage(){
   if(_resPage>pages) _resPage=pages; if(_resPage<1) _resPage=1;
   var start=size>=100000?0:(_resPage-1)*size; var end=size>=100000?total:Math.min(total,start+size);
   var html='';
-  _resFiltered.slice(start,end).forEach(function(row){var c=rowCells(row,_resAvg); var sc=chanceScore(row.item,_resAvg); var win=sc>=70?' row-winner':''; html+='<tr class="'+win+'"><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+((row.item.seller && _resSellerHas[row.item.seller])?Number(_resSellerSales[row.item.seller]).toLocaleString()+' (est.)':'Not specified')+'</td><td>'+c.fb+'</td><td>'+c.loc+'</td><td>'+c.cond+'</td><td>'+sc+'% (tool score)</td><td>'+verdict(sc)+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
+  _resFiltered.slice(start,end).forEach(function(row){var c=rowCells(row,_resAvg); var sc=chanceScore(row.item,_resAvg); var win=sc>=70?' row-winner':''; html+='<tr class="'+win+'"><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+((row.item.seller && _resSellerHas[row.item.seller])?Number(_resSellerSales[row.item.seller]).toLocaleString()+' (est.)':'Not specified')+'</td><td>'+c.fb+'</td><td>'+c.loc+'</td><td>'+c.cond+'</td><td>'+sc+'% (tool score)</td><td>'+verdictBadge(sc)+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
   document.getElementById('results').innerHTML=html||'<tr><td colspan="12">No listings returned for this search.</td></tr>';
   var pi=document.getElementById('pageInfo'); if(pi) pi.textContent=total?('Page '+_resPage+' of '+pages+' — rows '+(start+1)+'–'+end+' of '+total+' filtered'):'No rows.';
 }
@@ -870,383 +860,25 @@ function calcProfit(){
   var exEl=document.getElementById('scorerExplain'); if(exEl) exEl.textContent+=' Auto-filled from last search (n='+lastRows.length+'): sold-history row from total sales (est.) '+totalSales+', concentration row from top-seller share '+Math.round(topShare*100)+'%, saturation row from '+sellerCount+' sellers, price row from average $'+(avg!=null?avg.toFixed(2):'—')+'. All other rows remain manual.';
 }
 function resetScorer(){for(var i=0;i<18;i++){document.getElementById('sc'+i).value='0'; document.getElementById('hf'+i).checked=false;} document.getElementById('scorerOut').textContent='';} document.addEventListener('DOMContentLoaded', function(){buildScorer(); syncThemeSelects(); renderDashboard(); renderExplorerViews(); showTab('dashboard',null);});
+
+var TAB_META={dashboard:['Dashboard','Overview'],research:['Product Research','Overview'],explorer:['Product Explorer','Product Discovery'],category:['Category Research','Product Discovery'],market:['Market Insights','Product Discovery'],trending:['Categories & Trending','Product Discovery'],title:['Title Builder','Product Discovery'],competitor:['Competitor Research','Competitor Intelligence'],top:['Top Sellers','Competitor Intelligence'],store:['Store Snapshot','Competitor Intelligence'],bulk:['Bulk Scanner','Product Scanning'],turbo:['Turbo Scanner','Product Scanning'],autopilot:['Autopilot','Product Scanning'],supplier:['Supplier Finder','Sourcing & Profit'],profit:['Profit Calculator','Sourcing & Profit'],scorer:['Winner Scorer','Sourcing & Profit'],watchlist:['Watchlist','My Workspace'],notes:['Notes','My Workspace'],settings:['Appearance','My Workspace']};
+function updatePageHeader(id){var m=TAB_META[id]||['Dashboard','Overview'];var t=document.getElementById('pageTitle');if(t)t.textContent=m[0];var c=document.getElementById('crumb');if(c)c.textContent='Home / '+m[1]+' / '+m[0];document.title=m[0]+' — Market Intelligence';}
+function syncGlobalMarket(){var g=document.getElementById('globalMarket');if(!g)return;var v=g.value;['dashMarket','market','trendMarket','autoMarket'].forEach(function(id){var el=document.getElementById(id);if(!el)return;for(var i=0;i<el.options.length;i++){if(el.options[i].value===v){el.value=v;break;}}});}
+function toggleAdvFilters(){var el=document.getElementById('advFilters');var b=document.getElementById('advFilterBtn');if(!el)return;var hide=el.style.display==='none';el.style.display=hide?'flex':'none';if(b)b.textContent=hide?'Advanced filters: hide':'Advanced filters: show';}
+function verdictBadge(sc){var v=verdict(sc);var cls=sc>=70?'verdict-winning':(sc>=40?'verdict-neutral':'verdict-losing');return '<span class="verdict '+cls+'">'+v+'</span>';}
+function fmtMoney(n){return n==null?'—':'$'+Number(n).toFixed(2);}
+function renderSaasSummary(){var el=document.getElementById('saasSummary');if(!el)return;if(!lastRows.length){el.innerHTML='<div class="empty"><b>No research yet</b><p class="muted">Run a search in Product Research and real summary metrics from that search will appear here. Nothing here is estimated or invented before a search runs.</p><button onclick="showTab(\'research\',null)">Go to Product Research</button></div>';return;}
+var sellers={};var fbSum=0,fbN=0;lastRows.forEach(function(r){if(r.item.seller)sellers[r.item.seller]=1;if(r.item.feedbackScore!=null){fbSum+=Number(r.item.feedbackScore);fbN++;}});
+var w=loadWatch();var wCount=(w.products?w.products.length:0)+(w.sellers?w.sellers.length:0);
+var avg=avgPriceOf(lastRows);
+el.innerHTML='<div class="stats">'
++'<div class="stat"><b>'+lastTotal.toLocaleString()+'</b><span>Total listings <span class="badge badge-fact">FACT</span></span></div>'
++'<div class="stat"><b>'+fmtMoney(avg)+'</b><span>Average product price <span class="badge badge-calc">CALCULATED</span></span></div>'
++'<div class="stat"><b>'+Object.keys(sellers).length.toLocaleString()+'</b><span>Active sellers <span class="badge badge-calc">CALCULATED</span></span></div>'
++'<div class="stat"><b>'+(fbN?Math.round(fbSum/fbN).toLocaleString():'—')+'</b><span>Average feedback <span class="badge badge-calc">CALCULATED</span></span></div>'
++'<div class="stat"><b>'+lastRows.length.toLocaleString()+'</b><span>Products analyzed <span class="badge badge-calc">CALCULATED</span></span></div>'
++'<div class="stat"><b>'+wCount.toLocaleString()+'</b><span>Saved watchlist items <span class="badge badge-fact">FACT</span></span></div></div>'
++'<p class="muted" style="margin-top:10px">From your last search'+(lastQuery?' \u201c'+esc(lastQuery)+'\u201d ('+esc(lastMarket)+')':'')+'. FACT = eBay field as returned; CALCULATED = computed by this tool from those listings.</p>';}
 </script>
-
-<script type="importmap">{"imports":{"three":"./three.module.js"}}</script>
-<script type="module" id="hsq-3d-scene">
-// HSQ ECOMMERCE — Signature 3D Brand Animation (preview only, dashboard hero).
-// Independent from all business logic: it reads no listings, no prices, no
-// user data, and it never touches search, watchlist, profit or scorer code.
-// All geometry is procedural (Three.js core primitives + canvas textures).
-// No external 3D assets, no unlicensed assets, no fabricated sales figures:
-// panels and the laptop screen show tool NAMES and abstract lines/bars only,
-// with no numbers, no axes values and no statistics of any kind.
-import * as THREE from 'three';
-
-const wrap = document.getElementById('hsq3d-wrap');
-const canvas = document.getElementById('hsq3d-canvas');
-const fallback = document.getElementById('hsq3d-fallback');
-const pauseBtn = document.getElementById('hsq3d-pause');
-const motionBtn = document.getElementById('hsq3d-motion');
-const hideBtn = document.getElementById('hsq3d-hide');
-if (!wrap || !canvas) { /* hero not present; nothing to do */ }
-else {
-  const store = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
-  };
-  let paused = store.get('hsq_3d_paused', '0') === '1';
-  let reduced = store.get('hsq_3d_reduced', '0') === '1' || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  let hidden = store.get('hsq_3d_hidden', '0') === '1';
-  let renderer = null, scene = null, camera = null, raf = 0, started = false, visible = true, inView = true;
-  let laptop = null, products = [], panels = [], pulses = [], particles = null, platform = null, brandPlane = null;
-  let mouseX = 0, mouseY = 0, smX = 0, smY = 0;
-  let startTime = 0;
-  const PALETTES = {
-    dark: { bg: 0x0B1220, platform: 0x1A2A44, laptop: 0xC0C5CE, accent: 0x3B82F6, glass: 0.20, light: 1.0 },
-    light: { bg: 0xF8FAFC, platform: 0xE2E8F0, laptop: 0xE5E7EB, accent: 0x2563EB, glass: 0.38, light: 1.25 },
-  };
-  let themeName = (document.documentElement.getAttribute('data-theme') === 'light') ? 'light' : 'dark';
-  let cur = null; // lerped palette (THREE.Color objects)
-
-  function showFallback(msg) {
-    if (canvas) canvas.style.display = 'none';
-    if (fallback) fallback.style.display = 'block';
-    if (msg && fallback) { const p = fallback.querySelector('p'); if (p) p.textContent = msg; }
-  }
-  function syncButtons() {
-    if (pauseBtn) pauseBtn.textContent = paused ? 'Resume animation' : 'Pause animation';
-    if (motionBtn) motionBtn.textContent = reduced ? 'Full motion' : 'Reduce motion';
-    if (hideBtn) hideBtn.textContent = hidden ? 'Show 3D scene' : 'Hide 3D scene';
-  }
-  function canvasTexture(w, h, draw) {
-    const c = document.createElement('canvas'); c.width = w; c.height = h;
-    draw(c.getContext('2d'), w, h);
-    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; t.colorSpace = THREE.SRGBColorSpace;
-    return t;
-  }
-  function screenTexture() {
-    const dark = themeName === 'dark';
-    return canvasTexture(1024, 640, (g, w, h) => {
-      g.fillStyle = dark ? '#0B1220' : '#FFFFFF'; g.fillRect(0, 0, w, h);
-      g.fillStyle = dark ? '#111C2E' : '#F1F5F9'; g.fillRect(0, 0, w, 84);
-      g.fillStyle = dark ? '#3B82F6' : '#2563EB'; g.font = '800 34px system-ui, sans-serif'; g.textBaseline = 'middle';
-      g.fillText('HSQ ECOMMERCE', 32, 44);
-      const rows = ['Product Research', 'Market Insights', 'Competitor Analysis', 'Profit Calculator', 'Supplier Finder'];
-      rows.forEach((label, i) => {
-        const y = 130 + i * 98;
-        g.fillStyle = dark ? '#1A2A44' : '#F1F5F9'; g.beginPath(); g.roundRect(32, y, w - 64, 72, 14); g.fill();
-        g.fillStyle = ['#3B82F6', '#22C55E', '#F59E0B', '#8B5CF6', '#0EA5E9'][i];
-        g.beginPath(); g.arc(66, y + 36, 12, 0, Math.PI * 2); g.fill();
-        g.fillStyle = dark ? '#E6EAF2' : '#0F172A'; g.font = '600 30px system-ui, sans-serif';
-        g.fillText(label, 96, y + 38);
-        g.fillStyle = dark ? '#3B82F6' : '#2563EB';
-        for (let b = 0; b < 4; b++) { g.fillRect(700 + b * 52, y + 52 - (b + 1) * 10, 34, (b + 1) * 10); }
-      });
-    });
-  }
-  function keyboardTexture() {
-    const dark = themeName === 'dark';
-    return canvasTexture(512, 320, (g, w, h) => {
-      g.fillStyle = dark ? '#9AA3B2' : '#D1D5DB'; g.fillRect(0, 0, w, h);
-      for (let r = 0; r < 4; r++) for (let c = 0; c < 10; c++) {
-        g.fillStyle = dark ? '#2A3648' : '#FFFFFF';
-        g.beginPath(); g.roundRect(12 + c * 50, 12 + r * 76, 40, 60, 8); g.fill();
-      }
-    });
-  }
-  function panelTexture(title) {
-    const dark = themeName === 'dark';
-    return canvasTexture(512, 288, (g, w, h) => {
-      g.clearRect(0, 0, w, h);
-      g.fillStyle = dark ? 'rgba(17,28,46,0.85)' : 'rgba(255,255,255,0.85)';
-      g.beginPath(); g.roundRect(4, 4, w - 8, h - 8, 20); g.fill();
-      g.fillStyle = dark ? '#3B82F6' : '#2563EB'; g.font = '800 30px system-ui, sans-serif';
-      g.fillText(title, 28, 52);
-      g.strokeStyle = dark ? '#3B82F6' : '#2563EB'; g.lineWidth = 5; g.beginPath();
-      const pts = [[28, 200], [110, 150], [190, 175], [270, 110], [350, 135], [430, 80], [484, 100]];
-      pts.forEach((p, i) => { if (i === 0) g.moveTo(p[0], p[1]); else g.lineTo(p[0], p[1]); });
-      g.stroke();
-      g.fillStyle = dark ? '#3B82F6' : '#2563EB';
-      pts.forEach((p) => { g.beginPath(); g.arc(p[0], p[1], 7, 0, Math.PI * 2); g.fill(); });
-    });
-  }
-  function brandTexture() {
-    return canvasTexture(1024, 220, (g, w, h) => {
-      g.clearRect(0, 0, w, h);
-      const grad = g.createLinearGradient(0, 0, w, 0);
-      grad.addColorStop(0, '#E5E7EB'); grad.addColorStop(0.5, '#FFFFFF'); grad.addColorStop(1, '#3B82F6');
-      g.fillStyle = grad; g.font = '900 92px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.fillText('HSQ ECOMMERCE', w / 2, h / 2);
-      g.fillStyle = '#3B82F6'; g.fillRect(w / 2 - 180, h - 28, 360, 6);
-    });
-  }
-  function std(color, metal, rough, extra) {
-    return new THREE.MeshStandardMaterial(Object.assign({ color, metalness: metal, roughness: rough }, extra || {}));
-  }
-  function build() {
-    scene = new THREE.Scene();
-    const pal = PALETTES[themeName];
-    scene.background = new THREE.Color(pal.bg);
-    cur = { bg: new THREE.Color(pal.bg), platform: new THREE.Color(pal.platform), accent: new THREE.Color(pal.accent), laptop: new THREE.Color(pal.laptop) };
-    camera = new THREE.PerspectiveCamera(44, 1, 0.1, 100);
-    camera.position.set(0, 3.4, 9.5);
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x1A2A44, 0.5); scene.add(hemi);
-    const key = new THREE.DirectionalLight(0xffffff, 1.4 * pal.light); key.position.set(4, 8, 5); key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024); scene.add(key);
-    const rim = new THREE.PointLight(pal.accent, 18, 20); rim.position.set(-4, 3, -3); scene.add(rim);
-    scene.userData.lights = { key, rim, hemi };
-    // Platform
-    platform = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.25, 64), std(pal.platform, 0.6, 0.5));
-    platform.position.y = -0.95; platform.receiveShadow = true; scene.add(platform);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(3.35, 0.02, 8, 96), new THREE.MeshBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.8 }));
-    ring.rotation.x = Math.PI / 2; ring.position.y = -0.82; scene.add(ring);
-    // Laptop
-    laptop = new THREE.Group();
-    const base = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 2.2), std(pal.laptop, 0.9, 0.35));
-    base.castShadow = true; laptop.add(base);
-    const kb = new THREE.Mesh(new THREE.PlaneGeometry(3.1, 1.7), new THREE.MeshStandardMaterial({ map: keyboardTexture(), roughness: 0.6, metalness: 0.2 }));
-    kb.rotation.x = -Math.PI / 2; kb.position.set(0, 0.07, 0.1); laptop.add(kb);
-    const screenGroup = new THREE.Group(); screenGroup.position.set(0, 0.06, -1.1); screenGroup.rotation.x = -0.38;
-    const screenBody = new THREE.Mesh(new THREE.BoxGeometry(3.4, 2.1, 0.08), std(pal.laptop, 0.9, 0.35));
-    screenBody.position.y = 1.05; screenBody.castShadow = true; screenGroup.add(screenBody);
-    const screenFace = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.9), new THREE.MeshStandardMaterial({ map: screenTexture(), roughness: 0.25, metalness: 0.1, emissive: 0xffffff, emissiveMap: screenTexture(), emissiveIntensity: 0.35 }));
-    screenFace.position.set(0, 1.05, 0.05); screenGroup.add(screenFace);
-    laptop.add(screenGroup);
-    laptop.position.y = 0.35; scene.add(laptop);
-    scene.userData.screenFace = screenFace; scene.userData.screenBody = screenBody; scene.userData.base = base;
-    // Brand plane above the laptop
-    brandPlane = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 0.95), new THREE.MeshStandardMaterial({ map: brandTexture(), transparent: true, roughness: 0.3, metalness: 0.6 }));
-    brandPlane.position.set(0, 3.1, -0.6); brandPlane.rotation.x = -0.08; scene.add(brandPlane);
-    // Floating products (procedural, original geometry)
-    function product(builder, x, y, z, phase) {
-      const g = new THREE.Group(); builder(g); g.position.set(x, y, z); g.userData = { baseY: y, phase };
-      scene.add(g); products.push(g); return g;
-    }
-    const darkMat = std(0x1F2937, 0.4, 0.5), accentMat = std(pal.accent, 0.6, 0.4);
-    product((g) => { // headphones: half-torus arc, cups at the arc ends
-      const band = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.11, 12, 32, Math.PI), darkMat); g.add(band);
-      const cupL = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.18, 24), darkMat); cupL.position.set(-0.55, 0, 0); cupL.rotation.z = Math.PI / 2; g.add(cupL);
-      const cupR = cupL.clone(); cupR.position.x = 0.55; g.add(cupR);
-      const glow = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.03, 8, 32, Math.PI), accentMat); g.add(glow);
-    }, -3.3, 1.3, 0.4, 0);
-    product((g) => { // smartwatch
-      const body = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.7, 0.18), darkMat); g.add(body);
-      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.45, 0.55), new THREE.MeshStandardMaterial({ color: pal.accent, roughness: 0.2, metalness: 0.3, emissive: pal.accent, emissiveIntensity: 0.4 })); face.position.z = 0.1; g.add(face);
-      const bandT = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.5, 0.08), std(0x374151, 0.2, 0.7)); bandT.position.y = 0.58; g.add(bandT);
-      const bandB = bandT.clone(); bandB.position.y = -0.58; g.add(bandB);
-    }, 3.2, 1.1, -0.4, 1.1);
-    product((g) => { // compact gadget
-      const body = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.45, 0.12), std(pal.laptop, 0.8, 0.4)); g.add(body);
-      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.33), new THREE.MeshStandardMaterial({ color: 0x0EA5E9, roughness: 0.2, emissive: 0x0EA5E9, emissiveIntensity: 0.3 })); face.position.z = 0.07; g.add(face);
-    }, -2.5, 0.1, 1.4, 2.0);
-    product((g) => { // home accessory (vase)
-      const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.32, 0.7, 24), std(0xE5E7EB, 0.1, 0.6)); g.add(vase);
-      const rimT = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.03, 8, 24), accentMat); rimT.rotation.x = Math.PI / 2; rimT.position.y = 0.35; g.add(rimT);
-    }, 2.7, 0.1, 0.9, 2.7);
-    product((g) => { // soft collectible toy (abstract plush, matte)
-      const bodyM = std(0xE8CFC0, 0.0, 0.9);
-      const body = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 18), bodyM); g.add(body);
-      const earL = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), bodyM); earL.position.set(-0.3, 0.36, 0); g.add(earL);
-      const earR = earL.clone(); earR.position.x = 0.3; g.add(earR);
-      const eyeM = std(0x1F2937, 0.1, 0.4);
-      const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), eyeM); eyeL.position.set(-0.15, 0.08, 0.38); g.add(eyeL);
-      const eyeR = eyeL.clone(); eyeR.position.x = 0.15; g.add(eyeR);
-    }, -1.9, 2.0, -1.3, 3.4);
-    product((g) => { // packaging
-      const box = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.5, 0.5), std(0xD6C9A8, 0.0, 0.8)); g.add(box);
-      const tape = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.12, 0.52), accentMat); g.add(tape);
-    }, 2.1, -0.3, 1.5, 4.1);
-    // Glass panels (tool names + abstract lines only, no figures)
-    const panelDefs = [
-      ['PRODUCT RESEARCH', -3.2, 2.3, -1.0], ['MARKET INTELLIGENCE', 3.3, 2.4, -1.0],
-      ['PROFIT ANALYSIS', -3.3, 0.2, -1.2], ['SUPPLIER MATCH', 3.4, 0.3, -1.2],
-      ['COMPETITOR RESEARCH', 0, 3.5, -1.6],
-    ];
-    panelDefs.forEach(([title, x, y, z]) => {
-      const tex = panelTexture(title);
-      const mat = new THREE.MeshStandardMaterial({ map: tex, transparent: true, opacity: 1, roughness: 0.15, metalness: 0.1, side: THREE.DoubleSide });
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.96), mat);
-      mesh.position.set(x, y, z); mesh.userData = { title, tex, mat };
-      scene.add(mesh); panels.push(mesh);
-      const border = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.7, 0.96, 0.01)), new THREE.LineBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.6 }));
-      border.position.copy(mesh.position); scene.add(border);
-    });
-    // Data pathways (thin electric-blue lines, laptop -> panels/products)
-    const lineMat = new THREE.LineBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.45 });
-    function pathway(x, y, z) {
-      const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0.4, 0), new THREE.Vector3(x / 2, (0.4 + y) / 2 + 0.4, z / 2), new THREE.Vector3(x, y, z)]);
-      const line = new THREE.Line(geo, lineMat); scene.add(line); return line;
-    }
-    panelDefs.forEach(([, x, y, z]) => pathway(x, y, z));
-    products.forEach((p) => pathway(p.position.x, p.position.y, p.position.z));
-    // Pulses along two pathways
-    for (let i = 0; i < 2; i++) {
-      const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), new THREE.MeshBasicMaterial({ color: pal.accent }));
-      scene.add(pulse); pulses.push(pulse);
-    }
-    // Ambient particles (subtle, capped at 90)
-    const pGeo = new THREE.BufferGeometry(); const pPos = new Float32Array(90 * 3);
-    for (let i = 0; i < 90; i++) {
-      const r = 4 + Math.random() * 3, a = Math.random() * Math.PI * 2;
-      pPos[i * 3] = Math.cos(a) * r; pPos[i * 3 + 1] = (Math.random() - 0.5) * 5 + 1; pPos[i * 3 + 2] = Math.sin(a) * r;
-    }
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: pal.accent, size: 0.035, transparent: true, opacity: 0.5 }));
-    scene.add(particles);
-    scene.userData.lineMat = lineMat; scene.userData.ring = ring;
-    // Full-screen overlay: shift the entire scene right on wide screens so the
-    // laptop clears the text column (world units, applied to the group only).
-    const sceneGroup = new THREE.Group();
-    [...scene.children].forEach((o) => sceneGroup.add(o));
-    scene.add(sceneGroup);
-    scene.userData.sceneGroup = sceneGroup;
-    resize();
-  }
-  function resize() {
-    if (!renderer || !camera) return;
-    const w = wrap.clientWidth || 800, h = wrap.clientHeight || 440;
-    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-  }
-  function applyTheme() {
-    themeName = (document.documentElement.getAttribute('data-theme') === 'light') ? 'light' : 'dark';
-    // Palette lerp happens in the loop; panel/screen textures regenerate here.
-    if (!scene) return;
-    panels.forEach((m) => { const t = panelTexture(m.userData.title); m.userData.tex.dispose(); m.userData.tex = t; m.material.map = t; m.material.needsUpdate = true; });
-    const sf = scene.userData.screenFace;
-    if (sf) { const t = screenTexture(); sf.material.map.dispose(); sf.material.emissiveMap.dispose(); sf.material.map = t; sf.material.emissiveMap = t; sf.material.needsUpdate = true; }
-    const kb = laptop ? laptop.children[1] : null;
-    if (kb && kb.material.map) { const t = keyboardTexture(); kb.material.map.dispose(); kb.material.map = t; kb.material.needsUpdate = true; }
-  }
-  function renderFrame(now) {
-    const t = (now - startTime) / 1000;
-    const phase = ((t % 12) / 12) * Math.PI * 2; // seamless 12-second loop
-    const pal = PALETTES[themeName];
-    // Smooth theme lerp
-    cur.bg.lerp(new THREE.Color(pal.bg), 0.08); cur.platform.lerp(new THREE.Color(pal.platform), 0.08);
-    cur.accent.lerp(new THREE.Color(pal.accent), 0.08); cur.laptop.lerp(new THREE.Color(pal.laptop), 0.08);
-    scene.background = cur.bg;
-    if (scene.userData.sceneGroup) scene.userData.sceneGroup.position.x = wrap.clientWidth > 900 ? 1.8 : 0;
-    if (platform) platform.material.color.copy(cur.platform);
-    if (scene.userData.screenBody) scene.userData.screenBody.material.color.copy(cur.laptop);
-    if (scene.userData.base) scene.userData.base.material.color.copy(cur.laptop);
-    if (scene.userData.lineMat) scene.userData.lineMat.color.copy(cur.accent);
-    if (scene.userData.ring) scene.userData.ring.material.color.copy(cur.accent);
-    if (scene.userData.lights) { scene.userData.lights.key.intensity = 1.4 * pal.light; scene.userData.lights.rim.color.copy(cur.accent); }
-    // Camera: gentle orbit + mouse parallax (lerped)
-    smX += (mouseX - smX) * 0.05; smY += (mouseY - smY) * 0.05;
-    const ang = Math.sin(phase) * 0.35 + smX * 0.25;
-    const radius = 10.2, height = 3.4 + Math.sin(phase * 2) * 0.3 + smY * -0.4;
-    camera.position.set(Math.sin(ang) * radius, height, Math.cos(ang) * radius);
-    camera.lookAt(0, 0.9, 0);
-    // Laptop float (6s period divides the 12s loop)
-    if (laptop) laptop.position.y = 0.35 + Math.sin(t * Math.PI / 3) * 0.08;
-    products.forEach((p) => {
-      const ph = p.userData.phase;
-      p.position.y = p.userData.baseY + Math.sin(t * Math.PI / 3 + ph) * 0.12;
-      p.rotation.y = Math.sin(t * Math.PI / 6 + ph) * 0.25;
-    });
-    panels.forEach((m, i) => { m.position.y += Math.sin(t * Math.PI / 3 + i * 1.3) * 0.0015; });
-    if (particles) particles.rotation.y = t * 0.02;
-    pulses.forEach((pulse, i) => {
-      const tt = ((t * 0.25 + i * 0.5) % 1);
-      const target = panels[i % panels.length];
-      pulse.position.set(target.position.x * tt, 0.4 + (target.position.y - 0.4) * tt, target.position.z * tt);
-    });
-    renderer.render(scene, camera);
-  }
-  function loop(now) {
-    if (!started || !renderer || paused || reduced || !visible || !inView) { raf = 0; return; }
-    renderFrame(now);
-    raf = requestAnimationFrame(loop);
-  }
-  function startLoop() {
-    if (!started || !renderer || raf || paused || reduced) return;
-    if (!startTime) startTime = performance.now();
-    raf = requestAnimationFrame(loop);
-  }
-  function renderOnce() {
-    if (!renderer || !started) return;
-    if (!startTime) startTime = performance.now();
-    renderFrame(startTime + 3000); // settled composition for reduced motion
-  }
-  function dispose() {
-    if (raf) cancelAnimationFrame(raf); raf = 0;
-    if (scene) scene.traverse((o) => {
-      if (o.geometry) o.geometry.dispose();
-      if (o.material) { const ms = Array.isArray(o.material) ? o.material : [o.material]; ms.forEach((m) => { if (m.map) m.map.dispose(); if (m.emissiveMap) m.emissiveMap.dispose(); m.dispose(); }); }
-    });
-    if (renderer) { renderer.dispose(); /* NOTE: no forceContextLoss here — a
-      force-lost canvas cannot reliably host a second WebGLRenderer, which broke
-      Hide -> Show re-init in browser testing. dispose() frees the resources. */ }
-    renderer = null; scene = null; camera = null; laptop = null; products = []; panels = []; pulses = []; particles = null; platform = null; brandPlane = null; started = false; window.__hsq3dReady = false;
-  }
-  function init() {
-    if (started || hidden) return;
-    try {
-      build();
-      started = true; window.__hsq3dReady = true;
-      if (canvas) canvas.style.display = 'block';
-      if (fallback) fallback.style.display = 'none';
-      resize();
-      if (reduced) renderOnce(); else startLoop();
-    } catch (e) {
-      showFallback('3D scene unavailable here (WebGL or the 3D library could not load). Research tools above work normally.');
-    }
-  }
-  function maybeInit() {
-    if (started || hidden) return;
-    const rect = wrap.getBoundingClientRect();
-    const vis = wrap.offsetParent !== null && rect.height > 0 && rect.top < window.innerHeight && rect.bottom > 0;
-    if (vis) init();
-  }
-  // Lazy load: poll for visibility (dashboard tab may start hidden) + viewport observer
-  const poll = setInterval(() => { if (started) { clearInterval(poll); return; } maybeInit(); }, 600);
-  setTimeout(maybeInit, 1200);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); }).observe(wrap);
-  }
-  document.addEventListener('visibilitychange', () => { visible = !document.hidden; if (visible) startLoop(); });
-  wrap.addEventListener('mousemove', (e) => {
-    const r = wrap.getBoundingClientRect();
-    mouseX = ((e.clientX - r.left) / Math.max(1, r.width)) * 2 - 1;
-    mouseY = ((e.clientY - r.top) / Math.max(1, r.height)) * 2 - 1;
-  });
-  wrap.addEventListener('mouseleave', () => { mouseX = 0; mouseY = 0; });
-  window.addEventListener('resize', resize);
-  if ('MutationObserver' in window) {
-    new MutationObserver(() => applyTheme()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  }
-  // Controls
-  if (pauseBtn) pauseBtn.addEventListener('click', () => {
-    paused = !paused; store.set('hsq_3d_paused', paused ? '1' : '0'); syncButtons();
-    if (!paused && started && !reduced) startLoop();
-  });
-  if (motionBtn) motionBtn.addEventListener('click', () => {
-    reduced = !reduced; store.set('hsq_3d_reduced', reduced ? '1' : '0'); syncButtons();
-    if (started) { if (reduced) { if (raf) cancelAnimationFrame(raf); raf = 0; renderOnce(); } else startLoop(); }
-  });
-  if (hideBtn) hideBtn.addEventListener('click', () => {
-    hidden = !hidden; store.set('hsq_3d_hidden', hidden ? '1' : '0'); syncButtons();
-    if (hidden) { dispose(); if (canvas) canvas.style.display = 'none'; if (fallback) fallback.style.display = 'none'; }
-    else { if (canvas) canvas.style.display = 'block'; maybeInit(); }
-  });
-  syncButtons();
-  if (hidden) { if (canvas) canvas.style.display = 'none'; }
-  window.__hsq3d = { init, dispose, isReady: () => started };
-}
-
-</script>
-<script>(function(){ // Static fallback if the 3D module never becomes ready (offline CDN, no WebGL, blocked script)
-  function fb(){ var c=document.getElementById('hsq3d-canvas'), f=document.getElementById('hsq3d-fallback');
-    if(!c||!f) return; if(window.__hsq3dReady) return;
-    try{ if(localStorage.getItem('hsq_3d_hidden')==='1') return; }catch(e){}
-    c.style.display='none'; f.style.display='block'; }
-  setTimeout(fb, 8000); })();</script>
 </body>
 </html>
