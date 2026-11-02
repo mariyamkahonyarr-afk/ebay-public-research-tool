@@ -34,7 +34,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .ctx{flex:1;min-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px}
 .ctx b{font-size:13px}
 .ctx span{color:var(--muted)}
-.layout{max-width:1280px;margin:0 auto;padding:20px}
+/* DESKTOP-FIRST (HSQ requirement, 2 Nov 2026): optimised for 1366x768, 1440x900, 1920x1080. Mobile stays basic only — no mobile-first redesign. */
+.layout{max-width:1600px;margin:0 auto;padding:20px 24px}
+@media(min-width:1920px){.layout{max-width:1720px;padding:24px 32px}.stats{grid-template-columns:repeat(7,1fr)}}
+@media(max-width:1440px){.layout{max-width:1360px;padding:20px}}
+@media(max-width:1366px){.sidebar{width:240px;flex-basis:240px}.layout{padding:16px}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .card h2{margin:0 0 6px;font-size:18px}
 .muted{color:var(--muted);font-size:13px}
