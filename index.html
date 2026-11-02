@@ -11,7 +11,7 @@
 @keyframes floatIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(900px 500px at 15% -10%,#1e3a8a66,transparent 60%),radial-gradient(800px 500px at 90% 0%,#7c3aed44,transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));min-height:100vh;overflow-x:hidden}
-header{padding:30px 20px 22px;background:linear-gradient(120deg,#0b2a6b,#1e1b4b,#0f766e);background-size:200% 200%;animation:aurora 12s ease infinite;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.55)}
+header{padding:30px 20px 22px;background:linear-gradient(120deg,#0b2a6b,#1e1b4b,#0f766e);background-size:200% 200%;animation:aurora 24s ease-in-out infinite;border-bottom:1px solid rgba(255,255,255,.2);box-shadow:0 20px 50px rgba(0,0,0,.55)}
 .hwrap{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 header h1{margin:0;font-size:32px;letter-spacing:1px;text-shadow:0 4px 0 rgba(0,0,0,.4)}
 header p{margin:6px 0 0;color:#cbd5e1;font-size:13px;letter-spacing:1.5px}
@@ -52,10 +52,18 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 .kw{display:inline-block;margin:4px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);cursor:pointer;font-size:12px}
 @media(max-width:800px){header h1{font-size:26px}th{font-size:10px}td{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px}
+.badge-fact{background:#14532d;color:#bbf7d0;border:1px solid #22c55e}
+.badge-est{background:#78350f;color:#fde68a;border:1px solid #f59e0b}
+.badge-calc{background:#1e3a8a;color:#bfdbfe;border:1px solid #60a5fa}
+body.bg-off header{animation:none}
+body.bg-off{background:linear-gradient(180deg,var(--bg1),var(--bg2))}
+@media(max-width:640px){.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}.tab{flex:0 0 auto}.tablewrap{overflow-x:auto}table{min-width:640px}}
+.scorer select{min-width:0;flex:none}
 </style>
 </head>
 <body>
-<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets &nbsp;•&nbsp; ZIK-STYLE TOOLS IN ONE PAGE</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div></div></header>
+<header><div class="hwrap"><div><h1>MARKET INTELLIGENCE</h1><p>LIVE eBay RESEARCH &nbsp;•&nbsp; All + 8 eBay markets &nbsp;•&nbsp; ZIK-STYLE TOOLS IN ONE PAGE</p></div><div class="marketpill">ebay &nbsp; All + 8 eBay markets</div><button id="bgToggle" onclick="toggleBg()" style="box-shadow:none">Background: On</button></div></header>
 <div class="tabs" id="tabbar">
 <button class="tab active" onclick="showTab('research',this)">Research</button>
 <button class="tab" onclick="showTab('explorer',this)">Explorer</button>
@@ -72,6 +80,7 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <button class="tab" onclick="showTab('watchlist',this)">Watchlist</button>
 <button class="tab" onclick="showTab('store',this)">Store</button>
 <button class="tab" onclick="showTab('profit',this)">Profit</button>
+<button class="tab" onclick="showTab('scorer',this)">Winner Scorer</button>
 <button class="tab" onclick="showTab('notes',this)">Notes</button>
 </div>
 <div class="layout"><main>
@@ -79,7 +88,7 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <div id="tab-research">
 <div class="card">
 <h2>Product Research — Live Listings</h2>
-<p class="muted">Live eBay listings only. Sold history, sell-through and successful-listing rates are NOT shown as eBay figures, because the live listings API does not return them for a search. Do one search first — every other tab below works from that search's results.</p>
+<p class="muted">Live eBay listings only. Sold history, sell-through and successful-listing rates are NOT shown as eBay figures, because the live listings API does not return them for a search. Do one search first — every other tab below works from that search's results.</p><p><span class="badge badge-fact">FACT</span> eBay listing fields as returned &nbsp; <span class="badge badge-est">ESTIMATE</span> sold quantity, seller revenue — eBay calls sold quantity an estimate &nbsp; <span class="badge badge-calc">CALCULATED</span> tool scores, profit, margin — formula shown, never eBay data. Missing = Not specified, never 0 and never invented.</p>
 <div class="row">
 <input id="q" placeholder="Search a product, e.g. wireless earbuds">
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
@@ -250,7 +259,7 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 <div><label>eBay selling price (USD)</label><input id="supSell" type="number" step="0.01"></div>
 <div><label>Supplier price you found (USD)</label><input id="supCost" type="number" step="0.01"></div>
 <div><label>Shipping (USD)</label><input id="supShip" type="number" step="0.01" value="3"></div>
-<div><label>eBay fee %</label><input id="supFee" type="number" step="0.01" value="13.25"></div>
+<div><label>eBay fee %</label><input id="supFee" type="number" step="0.01" value="13.6"></div>
 </div>
 <button style="margin-top:14px" onclick="calcSupplier()">Calculate margin + ROI</button>
 <div id="supOut" style="font-weight:900;margin-top:12px"></div>
@@ -282,7 +291,16 @@ a{color:#7dd3fc;text-decoration:none;font-weight:700}
 </div></div>
 
 <!-- PROFIT -->
-<div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.25"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
+<div id="tab-profit" style="display:none"><div class="card"><h2>Profit Calculator</h2><div class="profit"><div><label>Selling price (USD)</label><input id="sell" type="number" step="0.01" value="29.99"></div><div><label>Supplier cost (USD)</label><input id="cost" type="number" step="0.01" value="6.50"></div><div><label>Shipping (USD)</label><input id="ship" type="number" step="0.01" value="3"></div><div><label>eBay fee %</label><input id="fee" type="number" step="0.01" value="13.6"></div></div><button style="margin-top:14px" onclick="calcProfit()">Calculate profit</button><div id="profitOut" style="font-weight:900;margin-top:12px"></div></div></div>
+
+<!-- WINNER SCORER -->
+<div id="tab-scorer" style="display:none"><div class="card scorer"><h2>Winner Scorer — 18-point checklist (research report §1.14)</h2>
+<p class="muted">Score each row 0 = fail/unknown, 1 = acceptable, 2 = strong. Unknown = 0, never assume good. Tick HARD FAIL if that row is a hard fail (branded/VeRO, negative margin, no verifiable supplier, 15+ day untracked delivery, fragile/liquid) — any hard fail = Kill, whatever the total. Decision: 30–36 Scale, 22–29 Keep &amp; improve, under 22 Kill. This is a researcher checklist, not eBay data.</p>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>CHECK</th><th>SCORE (0 / 1 / 2)</th><th>HARD FAIL?</th></tr></thead><tbody id="scorerRows"></tbody></table></div>
+<div class="row"><button onclick="calcScorer()">Calculate score</button><button onclick="resetScorer()">Reset</button></div>
+<div id="scorerOut" style="font-weight:900;margin-top:12px"></div>
+<p class="muted">Rows: 1 Sold history 30d · 2 STR-units · 3 STR-listings · 4 Market concentration · 5 Saturation · 6 Price point · 7 Margin after fee + landed cost · 8 Delivery verified · 9 Weight/size/damage · 10 Variations · 11 Seasonality/trend · 12 Problem solved · 13 Repeat/bundle · 14 Return risk · 15 VeRO/IP · 16 Supplier verified · 17 Backup supplier · 18 Live test signal (7–10 days).</p>
+</div></div>
 
 <!-- NOTES -->
 <div id="tab-notes" style="display:none"><div class="card"><h2>What this tool shows — and what it does not</h2>
@@ -364,7 +382,7 @@ function simpleTable(tbodyId, rows, withScore){
 }
 /* State + tabs */
 var lastRows=[]; var lastQuery=''; var lastMarket='ALL'; var lastTotal=0;
-var ALL_TABS=['research','explorer','competitor','category','market','trending','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','notes'];
+var ALL_TABS=['research','explorer','competitor','category','market','trending','title','bulk','turbo','autopilot','top','supplier','watchlist','store','profit','scorer','notes'];
 function showTab(id,btn){ALL_TABS.forEach(function(t){var el=document.getElementById('tab-'+t); if(el) el.style.display=(t===id?'block':'none');}); document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');}); if(btn) btn.classList.add('active'); if(id==='watchlist') renderWatchlist(); if(id==='autopilot') renderAutopilot();}
 function needSearch(){return lastRows.length===0;}
 function clearFilters(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';document.getElementById('conditionText').value='';document.getElementById('filterNote').textContent='Filters cleared.';}
@@ -562,7 +580,7 @@ function runTop(){
   rows.slice(0,50).forEach(function(row,i){var c=rowCells(row,null); html+='<tr><td>'+(i+1)+'</td><td>'+c.img+'</td><td>'+c.title+'</td><td class="price">'+c.price+'</td><td>'+c.seller+'</td><td>'+c.sales+'</td><td>'+c.fb+'</td><td><span class="pill">'+esc(c.market)+'</span></td><td>'+c.link+'</td></tr>';});
   document.getElementById('topResults').innerHTML=html||'<tr><td colspan="9">No rows.</td></tr>';
 }
-function calcSupplier(){var sell=parseFloat(document.getElementById('supSell').value)||0; var cost=parseFloat(document.getElementById('supCost').value)||0; var ship=parseFloat(document.getElementById('supShip').value)||0; var feePct=parseFloat(document.getElementById('supFee').value)||0; var fee=sell*feePct/100; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('supOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+') — supplier price typed by you, not a live supplier API price.';}
+function perOrderFee(sell){return sell<=10?0.30:0.40;} function feeBreakdown(sell,feePct){var pct=sell*feePct/100; var per=perOrderFee(sell); return {pct:pct,per:per,total:pct+per};} function calcSupplier(){var sell=parseFloat(document.getElementById('supSell').value)||0; var cost=parseFloat(document.getElementById('supCost').value)||0; var ship=parseFloat(document.getElementById('supShip').value)||0; var feePct=parseFloat(document.getElementById('supFee').value)||0; var f=feeBreakdown(sell,feePct); var fee=f.total; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('supOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (eBay fee $'+fee.toFixed(2)+' = '+feePct+'% $'+f.pct.toFixed(2)+' + per-order $'+f.per.toFixed(2)+') — supplier price typed by you, not a live supplier API price.';}
 function runStore(){
   var name=document.getElementById('storeSeller').value.trim();
   if(!name){document.getElementById('storeStatus').textContent='Type a seller username first.'; return;}
@@ -571,7 +589,7 @@ function runStore(){
   document.getElementById('storeStats').innerHTML='<div class="stat"><b>'+agg.count+'</b><span>Listings in search</span></div><div class="stat"><b>'+(agg.avg!=null?('$'+agg.avg.toFixed(2)):'Not specified')+'</b><span>Average price</span></div><div class="stat"><b>'+(agg.sales!=null?agg.sales.toLocaleString()+' (est.)':'Not specified')+'</b><span>Total sales (est.)</span></div><div class="stat"><b>'+(agg.feedback!=null?Number(agg.feedback).toLocaleString():'Not specified')+'</b><span>Feedback score</span></div>';
   document.getElementById('storeStatus').textContent = agg.count ? 'Snapshot from your last search. Full-store data is not available.' : 'Seller not found in your last search.';
 }
-function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0; var cost=parseFloat(document.getElementById('cost').value)||0; var ship=parseFloat(document.getElementById('ship').value)||0; var feePct=parseFloat(document.getElementById('fee').value)||0; var fee=sell*feePct/100; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (fee $'+fee.toFixed(2)+')';}
+function calcProfit(){var sell=parseFloat(document.getElementById('sell').value)||0; var cost=parseFloat(document.getElementById('cost').value)||0; var ship=parseFloat(document.getElementById('ship').value)||0; var feePct=parseFloat(document.getElementById('fee').value)||0; var f=feeBreakdown(sell,feePct); var fee=f.total; var profit=sell-cost-ship-fee; var margin=sell?profit/sell*100:0; var roi=(cost+ship+fee)?profit/(cost+ship+fee)*100:0; document.getElementById('profitOut').textContent='Profit: $'+profit.toFixed(2)+' · Margin: '+margin.toFixed(2)+'% · ROI: '+roi.toFixed(2)+'% (eBay fee $'+fee.toFixed(2)+' = '+feePct+'% $'+f.pct.toFixed(2)+' + per-order $'+f.per.toFixed(2)+')';} function toggleBg(){var on=document.body.classList.toggle('bg-off'); var b=document.getElementById('bgToggle'); if(b) b.textContent=document.body.classList.contains('bg-off')?'Background: Off':'Background: On'; try{localStorage.setItem('ebay_bg_off', document.body.classList.contains('bg-off')?'1':'0');}catch(e){}} (function(){try{if(localStorage.getItem('ebay_bg_off')==='1'){document.body.classList.add('bg-off');}}catch(e){}})(); function buildScorer(){var rows=['1 Sold history (30d)','2 STR-units (sold units / listings)','3 STR-listings (% with 1+ sale)','4 Market concentration','5 Saturation','6 Price point','7 Margin after fee + landed cost','8 Delivery verified to buyer country','9 Weight / size / damage','10 Variations','11 Seasonality / trend','12 Problem solved','13 Repeat / bundle','14 Return risk','15 VeRO / IP','16 Supplier verified (sample passed)','17 Backup supplier','18 Live test signal (7-10 days)']; var html=''; rows.forEach(function(r,i){html+='<tr><td>'+(i+1)+'</td><td>'+r+'</td><td><select id="sc'+i+'"><option value="0">0 — fail / unknown</option><option value="1">1 — acceptable</option><option value="2">2 — strong</option></select></td><td><input type="checkbox" id="hf'+i+'" style="min-width:0;flex:none"></td></tr>';}); var el=document.getElementById('scorerRows'); if(el) el.innerHTML=html;} function calcScorer(){var total=0; var hard=false; for(var i=0;i<18;i++){total+=parseInt(document.getElementById('sc'+i).value||'0',10); if(document.getElementById('hf'+i).checked) hard=true;} var verdict=hard?'🔴 KILL — hard fail overrides total':(total>=30?'🟢 SCALE candidate':(total>=22?'⚪ KEEP & improve — fix weakest 2 rows first':'🔴 KILL')); document.getElementById('scorerOut').textContent='Total: '+total+' / 36 — '+verdict;} function resetScorer(){for(var i=0;i<18;i++){document.getElementById('sc'+i).value='0'; document.getElementById('hf'+i).checked=false;} document.getElementById('scorerOut').textContent='';} document.addEventListener('DOMContentLoaded', buildScorer);
 </script>
 </body>
 </html>
