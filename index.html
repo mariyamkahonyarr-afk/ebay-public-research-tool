@@ -178,7 +178,7 @@ td img{width:48px;height:48px;object-fit:cover;border-radius:10px;display:block}
 <select id="market"><option value="ALL">All + 8 markets</option><option value="US">US</option><option value="UK">UK</option><option value="DE">Germany</option><option value="AU">Australia</option><option value="CA">Canada</option><option value="FR">France</option><option value="IT">Italy</option><option value="ES">Spain</option></select>
 <select id="limit"><option value="20">20 listings per market</option><option value="10">10 listings per market</option><option value="25">25 listings per market</option><option value="50">50 listings per market</option></select>
 <button onclick="doSearch()">Search</button>
-<button onclick="resetWinners()" title="Clear filters and load a fresh set of auto winning products" style="background:#0f766e">↻ New Winners</button>
+<button onclick="resetWinners()" title="Load a fresh set of auto winning products (your variation and condition filters are kept)" style="background:#0f766e">↻ New Winners</button>
 </div>
 <div class="row">
 <input id="priceMin" type="number" placeholder="Min price (optional)">
@@ -777,8 +777,8 @@ function runStore(){
 var WINNER_QUERIES=['best selling trending','wireless charger','home organizer','car accessories','kitchen gadget','pet supplies'];
 var winnerIdx=0; var autoWinners=false;
 function hasVariation(title){return /\b(size|colour|color|red|blue|black|white|green|pink|purple|yellow|small|medium|large|xl|xxl|xs|pack of|set of)\b/i.test(String(title||''));}
-function loadWinners(next){if(next){winnerIdx=(winnerIdx+1)%WINNER_QUERIES.length;} autoWinners=true; document.getElementById('q').value=WINNER_QUERIES[winnerIdx]; document.getElementById('market').value='US'; document.getElementById('limit').value='50'; document.getElementById('priceMin').value=''; document.getElementById('priceMax').value=''; document.getElementById('conditionText').value=''; doSearch();}
-function resetWinners(){var vf=document.getElementById('variationFilter'); if(vf) vf.value='all'; loadWinners(true);}
+function loadWinners(next){if(next){winnerIdx=(winnerIdx+1)%WINNER_QUERIES.length;} autoWinners=true; document.getElementById('q').value=WINNER_QUERIES[winnerIdx]; document.getElementById('market').value='US'; document.getElementById('limit').value='50'; document.getElementById('priceMin').value=''; document.getElementById('priceMax').value=''; /* FIX 2026-11-02: conditionText is NOT cleared any more — the user's condition choice survives New Winners */ doSearch();}
+function resetWinners(){ /* FIX 2026-11-02: variationFilter is NOT forced to 'all' any more — the user's variation choice survives New Winners */ loadWinners(true);}
 var _resFiltered=[]; var _resAvg=null; var _resSellerSales={}; var _resSellerHas={}; var _resPage=1;
 function renderResearchPage(){
   var sizeEl=document.getElementById('pageSize'); var size=sizeEl?parseInt(sizeEl.value,10):20;
